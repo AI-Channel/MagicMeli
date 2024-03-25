@@ -1,12 +1,9 @@
 <template>
-  <img src="/src/assets/graphs/Synth.png" />
+  <div class="fixed inset-0 -z-50 m-auto bg-cover bg-no-repeat xl:bg-center" id="background"></div>
 </template>
 
-<style lang="scss" scoped>
-@import '/src/assets/styles/mixins.scss';
-
-img {
-  @include PageCenter;
-  z-index: -1;
+<style scoped>
+#background {
+  background-image: url('/src/assets/graphs/Synth.png');
 }
 </style>
