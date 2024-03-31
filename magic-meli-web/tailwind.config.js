@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       colors:{
-        mainColorDark:'#4D23CF',
+        themeViolet:'#4D23CF',
       },
       screens: {
         '4k': '2560px'

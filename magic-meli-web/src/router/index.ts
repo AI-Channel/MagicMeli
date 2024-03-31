@@ -5,28 +5,48 @@ const router = createRouter({
     {
       path: '/article',
       meta: {
-        showMenu: true
+        showMenu: 'article',
+        title: 'Article List'
       },
       name: 'article',
-      component: () => import('@/views/ArticleView.vue'),
+      component: () => import('@/views/ArticleListView.vue'),
       children: [
+        {
+          path: 'being-popular',
+          meta: {
+            showMenu: false,
+            title: 'Being Popular'
+          },
+          name: 'being popular',
+          component: () => import('@/components/BeingPopular.vue')
+        },
         {
           path: 'icon',
           meta: {
-            showMenu: false
+            showMenu: false,
+            title: 'Icon Test'
           },
           name: 'icon',
           component: () => import('@/components/IconTest.vue')
         },
         {
-          path: 'cyberpunk',
+          path: 'never-fade-away',
           meta: {
-            showMenu: false
+            showMenu: false,
+            title: 'Never Fade Away'
           },
-          name: 'cyberpunk',
-          component: () => import('@/components/ArticleTest.vue')
+          name: 'never fade away',
+          component: () => import('@/components/NeverFadeAway.vue')
         }
       ]
+    },
+    {
+      path: '/gallery',
+      meta: {
+        title: 'Gallery'
+      },
+      name: 'gallery',
+      component: () => import('@/views/GalleryView.vue')
     }
   ]
 })

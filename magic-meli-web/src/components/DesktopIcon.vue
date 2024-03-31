@@ -12,7 +12,7 @@ const props = defineProps<{
     <div class="flex justify-center">
       <slot></slot>
     </div>
-    <p class="text-center font-zpix subpixel-antialiased">{{ props.title }}</p>
+    <p class="text-center font-Dinkie subpixel-antialiased">{{ props.title }}</p>
   </div>
 </template>
 

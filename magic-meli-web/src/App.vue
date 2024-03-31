@@ -4,8 +4,9 @@ import IconArticle from './components/icons/IconArticle.vue'
 import IconProfile from './components/icons/IconProfile.vue'
 import IconInvader from './components/icons/IconInvader.vue'
 import IconSetting from './components/icons/IconSetting.vue'
+import IconPicture from './components/icons/IconPicture.vue'
 import WindowSimulation from './components/WindowSimulation.vue'
-import { useWindowStore } from './stores/showWindow'
+import { useWindowStore } from './stores/store'
 const store = useWindowStore()
 </script>
 
@@ -24,13 +25,16 @@ const store = useWindowStore()
     <DesktopIcon title="设置" @click="store.isOpen = true">
       <IconSetting :width="64" :height="64" />
     </DesktopIcon>
-    <RouterLink :to="{ name: 'cyberpunk' }" class="m-auto">
-      <DesktopIcon title="机托邦" @click="store.isOpen = true">
-        <IconInvader :width="64" :height="64" />
+    <DesktopIcon title="机托邦" @click="store.isOpen = true">
+      <IconInvader :width="64" :height="64" />
+    </DesktopIcon>
+    <RouterLink :to="{ name: 'gallery' }" class="m-auto">
+      <DesktopIcon title="相册" @click="store.isOpen = true">
+        <IconPicture :width="64" :height="64" />
       </DesktopIcon>
     </RouterLink>
-    <WindowSimulation title="测试标题">
-      <RouterView name="root"></RouterView>
+
+    <WindowSimulation>
       <RouterView></RouterView>
     </WindowSimulation>
   </div>
