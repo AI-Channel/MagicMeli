@@ -1,5 +1,18 @@
+<script setup lang="ts">
+const props = defineProps<{
+  width?: number
+  height?: number
+}>()
+</script>
+
 <template>
-  <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" shape-rendering="crispEdges">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    :width="props.width"
+    :height="props.height"
+    viewBox="0 0 64 64"
+    shape-rendering="crispEdges"
+  >
     <path
       fill="#6366F1"
       d="M8 0h1v1H8zM9 0h1v1H9zM10 0h1v1h-1zM11 0h1v1h-1zM12 0h1v1h-1zM13 0h1v1h-1zM14 0h1v1h-1zM15 0h1v1h-1zM16 0h1v1h-1zM17 0h1v1h-1zM18 0h1v1h-1zM19 0h1v1h-1zM20 0h1v1h-1zM21 0h1v1h-1z"
