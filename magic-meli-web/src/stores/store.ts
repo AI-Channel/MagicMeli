@@ -2,14 +2,12 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useWindowStore = defineStore('window', () => {
-  const isOpen = ref(false)
-  const isActive = ref(false)
+  const isMaximized = ref(false)
   function WindowResize() {
-    isActive.value = !isActive.value
+    isMaximized.value = !isMaximized.value
   }
   function WindowClose() {
-    isOpen.value = false
-    isActive.value = false
+    isMaximized.value = false
   }
-  return { isOpen, WindowClose, isActive, WindowResize}
+  return { WindowClose, isMaximized, WindowResize }
 })

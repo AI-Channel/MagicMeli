@@ -1,10 +1,10 @@
 <script setup lang="ts">
-interface routeItem {
+interface ArticleItem {
   name: string
   title: string
   brief?: string
 }
-let routeItems: routeItem[] = [
+let ArticleList: ArticleItem[] = [
   {
     name: 'never fade away',
     title: 'Never Fade Away',
@@ -22,21 +22,24 @@ let routeItems: routeItem[] = [
     brief: 'Test of icons'
   }
 ]
+function GetArticleList() {
+  return ArticleList
+}
 </script>
+
 <template>
-  <div v-show="$route.meta.showMenu == 'article'">
+  <div>
     <RouterLink
-      v-for="(item, key) in routeItems"
-      class=" hover:text-violet-500"
+      v-for="(item, key) in GetArticleList()"
+      class="hover:text-fuchsia-500"
       :key="key"
       :to="{ name: item.name }"
     >
       <h1>{{ item.title }}</h1>
-      <div class="line-clamp-2 max-w-[750px]">{{ item.brief }}</div>
+      <div class="line-clamp-2 max-w-screen-xl">{{ item.brief }}</div>
       <hr />
     </RouterLink>
   </div>
-  <RouterView></RouterView>
 </template>
 
 <style scoped></style>

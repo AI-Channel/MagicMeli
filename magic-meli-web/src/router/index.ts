@@ -3,18 +3,26 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: '/',
+      redirect: '/home'
+    },
+    {
+      path: '/home',
+      component: () => import('@/App.vue')
+    },
+    {
       path: '/article',
       meta: {
-        showMenu: 'article',
+        isSecondary: 'article',
         title: 'Article List'
       },
       name: 'article',
-      component: () => import('@/views/ArticleListView.vue'),
+      component: () => import('@/views/ArticleView.vue'),
       children: [
         {
           path: 'being-popular',
           meta: {
-            showMenu: false,
+            isSecondary: false,
             title: 'Being Popular'
           },
           name: 'being popular',
@@ -23,7 +31,7 @@ const router = createRouter({
         {
           path: 'icon',
           meta: {
-            showMenu: false,
+            isSecondary: false,
             title: 'Icon Test'
           },
           name: 'icon',
@@ -32,7 +40,7 @@ const router = createRouter({
         {
           path: 'never-fade-away',
           meta: {
-            showMenu: false,
+            isSecondary: false,
             title: 'Never Fade Away'
           },
           name: 'never fade away',

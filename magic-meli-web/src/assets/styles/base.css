@@ -23,14 +23,10 @@ body {
   background-size: cover;
   min-height: 100vh;
   max-width: 100vh;
+  font-size: 1.1rem;
+  font-size: 18px;
   max-height: 100vh;
   box-sizing: border-box;
   font-family: 'Microsoft Yahei', sans-serif;
-}
-a.header-anchor{
-  opacity: 0;
-  margin-left: -1rem;
-}
-a.header-anchor:hover{
-  opacity: 100%;
+  scroll-behavior: smooth;
 }

@@ -6,13 +6,16 @@
 
 @layer base {
   h1 {
-    @apply text-2xl;
+    @apply text-3xl;
   }
   h2 {
-    @apply text-xl;
+    @apply text-2xl;
   }
   h3 {
-    @apply text-lg;
+    @apply text-xl;
+  }
+  ol {
+    @apply list-decimal;
   }
 }
 #app {
@@ -20,7 +23,9 @@
   margin: 0 auto;
   font-weight: normal;
 }
-
 hr {
   margin: 1rem;
+}
+.header-anchor:hover {
+  color: #d946ef;
 }

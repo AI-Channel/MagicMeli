@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start":"vite",
+    "start": "vite",
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
@@ -14,8 +14,11 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@mdit/plugin-footnote": "^0.8.0",
+    "@mdit/plugin-mark": "^0.8.0",
     "@mdit/plugin-sub": "^0.8.0",
     "@mdit/plugin-sup": "^0.8.0",
+    "@mdit/plugin-tasklist": "^0.8.0",
     "markdown-it": "^14.1.0",
     "markdown-it-anchor": "^8.6.7",
     "pinia": "^2.1.7",

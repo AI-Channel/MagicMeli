@@ -5,10 +5,19 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@mdit/plugin-footnote':
+    specifier: ^0.8.0
+    version: 0.8.0(markdown-it@14.1.0)
+  '@mdit/plugin-mark':
+    specifier: ^0.8.0
+    version: 0.8.0(markdown-it@14.1.0)
   '@mdit/plugin-sub':
     specifier: ^0.8.0
     version: 0.8.0(markdown-it@14.1.0)
   '@mdit/plugin-sup':
+    specifier: ^0.8.0
+    version: 0.8.0(markdown-it@14.1.0)
+  '@mdit/plugin-tasklist':
     specifier: ^0.8.0
     version: 0.8.0(markdown-it@14.1.0)
   markdown-it:
@@ -161,7 +170,7 @@ packages:
     optional: true
 
   /@esbuild/darwin-arm64@0.19.12:
-    resolution: {integrity: sha512-B6IeSgZgtEzGC42jsI+YYu9Z3HKRxp8ZT3cqhvliEHovq8HSX2YX8lNocDn79gCKJXOSaEot9MVYky7AKjCs8g==, tarball: https://registry.npmmirror.com/@esbuild/darwin-arm64/-/darwin-arm64-0.19.12.tgz}
+    resolution: {integrity: sha512-B6IeSgZgtEzGC42jsI+YYu9Z3HKRxp8ZT3cqhvliEHovq8HSX2YX8lNocDn79gCKJXOSaEot9MVYky7AKjCs8g==}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [darwin]
@@ -179,7 +188,7 @@ packages:
     optional: true
 
   /@esbuild/freebsd-arm64@0.19.12:
-    resolution: {integrity: sha512-4aRvFIXmwAcDBw9AueDQ2YnGmz5L6obe5kmPT8Vd+/+x/JMVKCgdcRwH6APrbpNXsPz+K653Qg8HB/oXvXVukA==, tarball: https://registry.npmmirror.com/@esbuild/freebsd-arm64/-/freebsd-arm64-0.19.12.tgz}
+    resolution: {integrity: sha512-4aRvFIXmwAcDBw9AueDQ2YnGmz5L6obe5kmPT8Vd+/+x/JMVKCgdcRwH6APrbpNXsPz+K653Qg8HB/oXvXVukA==}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [freebsd]
@@ -224,7 +233,7 @@ packages:
     optional: true
 
   /@esbuild/linux-loong64@0.19.12:
-    resolution: {integrity: sha512-LiXdXA0s3IqRRjm6rV6XaWATScKAXjI4R4LoDlvO7+yQqFdlr1Bax62sRwkVvRIrwXxvtYEHHI4dm50jAXkuAA==, tarball: https://registry.npmmirror.com/@esbuild/linux-loong64/-/linux-loong64-0.19.12.tgz}
+    resolution: {integrity: sha512-LiXdXA0s3IqRRjm6rV6XaWATScKAXjI4R4LoDlvO7+yQqFdlr1Bax62sRwkVvRIrwXxvtYEHHI4dm50jAXkuAA==}
     engines: {node: '>=12'}
     cpu: [loong64]
     os: [linux]
@@ -233,7 +242,7 @@ packages:
     optional: true
 
   /@esbuild/linux-mips64el@0.19.12:
-    resolution: {integrity: sha512-fEnAuj5VGTanfJ07ff0gOA6IPsvrVHLVb6Lyd1g2/ed67oU1eFzL0r9WL7ZzscD+/N6i3dWumGE1Un4f7Amf+w==, tarball: https://registry.npmmirror.com/@esbuild/linux-mips64el/-/linux-mips64el-0.19.12.tgz}
+    resolution: {integrity: sha512-fEnAuj5VGTanfJ07ff0gOA6IPsvrVHLVb6Lyd1g2/ed67oU1eFzL0r9WL7ZzscD+/N6i3dWumGE1Un4f7Amf+w==}
     engines: {node: '>=12'}
     cpu: [mips64el]
     os: [linux]
@@ -278,7 +287,7 @@ packages:
     optional: true
 
   /@esbuild/netbsd-x64@0.19.12:
-    resolution: {integrity: sha512-3ltjQ7n1owJgFbuC61Oj++XhtzmymoCihNFgT84UAmJnxJfm4sYCiSLTXZtE00VWYpPMYc+ZQmB6xbSdVh0JWA==, tarball: https://registry.npmmirror.com/@esbuild/netbsd-x64/-/netbsd-x64-0.19.12.tgz}
+    resolution: {integrity: sha512-3ltjQ7n1owJgFbuC61Oj++XhtzmymoCihNFgT84UAmJnxJfm4sYCiSLTXZtE00VWYpPMYc+ZQmB6xbSdVh0JWA==}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [netbsd]
@@ -305,7 +314,7 @@ packages:
     optional: true
 
   /@esbuild/win32-arm64@0.19.12:
-    resolution: {integrity: sha512-URgtR1dJnmGvX864pn1B2YUYNzjmXkuJOIqG2HdU62MVS4EHpU2946OZoTMnRUHklGtJdJZ33QfzdjGACXhn1A==, tarball: https://registry.npmmirror.com/@esbuild/win32-arm64/-/win32-arm64-0.19.12.tgz}
+    resolution: {integrity: sha512-URgtR1dJnmGvX864pn1B2YUYNzjmXkuJOIqG2HdU62MVS4EHpU2946OZoTMnRUHklGtJdJZ33QfzdjGACXhn1A==}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [win32]
@@ -429,6 +438,29 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
+  /@mdit/plugin-footnote@0.8.0(markdown-it@14.1.0):
+    resolution: {integrity: sha512-AaX1rfkJwq9vLX+H/a+XQ3ZxahOXrnMLr5dVZfNdazjqdDEJ7Cc/A7UFtLfOM19F2w3EgvcHR1gbINxIVDn/eg==}
+    engines: {node: '>= 18'}
+    peerDependencies:
+      markdown-it: ^14.0.0
+    dependencies:
+      '@types/markdown-it': 13.0.7
+      markdown-it: 14.1.0
+    dev: false
+
+  /@mdit/plugin-mark@0.8.0(markdown-it@14.1.0):
+    resolution: {integrity: sha512-1hImu8FskIZ9dumWD2VIyB5USyVGwGY2IuaPxYO25tFvMZkhu4rYBjkSK8x+vXExwp94OLzFUlGgVl94S+nw9w==}
+    engines: {node: '>= 18'}
+    peerDependencies:
+      markdown-it: ^14.0.0
+    peerDependenciesMeta:
+      markdown-it:
+        optional: true
+    dependencies:
+      '@types/markdown-it': 13.0.7
+      markdown-it: 14.1.0
+    dev: false
+
   /@mdit/plugin-sub@0.8.0(markdown-it@14.1.0):
     resolution: {integrity: sha512-oqCcmJVJykESgNJ4fFmDKKxRRQddwkXWIT4PjF83XSeXHxTOz8gMfke/V1mE7BAfKKCLP4io8HbrYfvIiOTZ4A==}
     engines: {node: '>= 18'}
@@ -444,6 +476,19 @@ packages:
 
   /@mdit/plugin-sup@0.8.0(markdown-it@14.1.0):
     resolution: {integrity: sha512-5/uE2lONNjCgGDXC8jZ265tzefjUNQNakmK4PSCI4D5jD80xFrxc6MKh70VLCOL8Xk6COK/K9f0SAU2lwa97Tg==, tarball: https://registry.npmmirror.com/@mdit/plugin-sup/-/plugin-sup-0.8.0.tgz}
+    engines: {node: '>= 18'}
+    peerDependencies:
+      markdown-it: ^14.0.0
+    peerDependenciesMeta:
+      markdown-it:
+        optional: true
+    dependencies:
+      '@types/markdown-it': 13.0.7
+      markdown-it: 14.1.0
+    dev: false
+
+  /@mdit/plugin-tasklist@0.8.0(markdown-it@14.1.0):
+    resolution: {integrity: sha512-vfOTZdXIL/jk/ConUqCODI5WuqgB9qiBGc+wIa7UMhe73KcpwFeGFJVQZm9AvjhXDDYqznJxSMVRP/TN7TxVVw==}
     engines: {node: '>= 18'}
     peerDependencies:
       markdown-it: ^14.0.0
@@ -477,7 +522,7 @@ packages:
     dev: true
 
   /@pkgjs/parseargs@0.11.0:
-    resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==, tarball: https://registry.npmmirror.com/@pkgjs/parseargs/-/parseargs-0.11.0.tgz}
+    resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
     requiresBuild: true
     dev: true
@@ -513,7 +558,7 @@ packages:
     optional: true
 
   /@rollup/rollup-darwin-x64@4.12.1:
-    resolution: {integrity: sha512-opjWJ4MevxeA8FhlngQWPBOvVWYNPFkq6/25rGgG+KOy0r8clYwL1CFd+PGwRqqMFVQ4/Qd3sQu5t7ucP7C/Uw==, tarball: https://registry.npmmirror.com/@rollup/rollup-darwin-x64/-/rollup-darwin-x64-4.12.1.tgz}
+    resolution: {integrity: sha512-opjWJ4MevxeA8FhlngQWPBOvVWYNPFkq6/25rGgG+KOy0r8clYwL1CFd+PGwRqqMFVQ4/Qd3sQu5t7ucP7C/Uw==}
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
@@ -1463,7 +1508,7 @@ packages:
     dev: true
 
   /fsevents@2.3.3:
-    resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==, tarball: https://registry.npmmirror.com/fsevents/-/fsevents-2.3.3.tgz}
+    resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
     requiresBuild: true
@@ -2579,7 +2624,7 @@ packages:
     dev: true
 
   /wrap-ansi@7.0.0:
-    resolution: {integrity: sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==, tarball: https://registry.npmmirror.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz}
+    resolution: {integrity: sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==}
     engines: {node: '>=10'}
     dependencies:
       ansi-styles: 4.3.0

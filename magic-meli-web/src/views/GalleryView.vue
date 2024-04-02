@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import VueEasyLightbox from 'vue-easy-lightbox'
 import { ref } from 'vue'
+import WindowContainer from '@/components/WindowContainer.vue'
 
 const visibleRef = ref(false)
 const indexRef = ref<number>()
@@ -23,24 +24,26 @@ const onHide = () => (visibleRef.value = false)
 </script>
 
 <template>
-  <div class="m-auto max-w-full columns-sm overflow-auto select-none">
-    <img
-      v-for="(img, index) in imgsRef"
-      class="py-2"
-      :key="index"
-      :alt="'img' + index"
-      @click="onShow(index)"
-      :src="img"
-    />
-    <vueEasyLightbox
-      :visible="visibleRef"
-      :imgs="imgsRef"
-      :index="indexRef"
-      :loop="true"
-      @hide="onHide"
-    >
-    </vueEasyLightbox>
-  </div>
+  <WindowContainer>
+    <div class="m-auto max-w-full select-none columns-sm overflow-auto">
+      <img
+        v-for="(img, index) in imgsRef"
+        class="py-2"
+        :key="index"
+        :alt="'img' + index"
+        @click="onShow(index)"
+        :src="img"
+      />
+      <vueEasyLightbox
+        :visible="visibleRef"
+        :imgs="imgsRef"
+        :index="indexRef"
+        :loop="true"
+        @hide="onHide"
+      >
+      </vueEasyLightbox>
+    </div>
+  </WindowContainer>
 </template>
 
 <style scoped></style>
