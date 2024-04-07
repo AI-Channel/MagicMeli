@@ -26,16 +26,16 @@ const router = createRouter({
             title: 'Being Popular'
           },
           name: 'being popular',
-          component: () => import('@/components/BeingPopular.vue')
+          component: () => import('@/components/articles/BeingPopular.vue')
         },
         {
-          path: 'icon',
+          path: 'scp-3999',
           meta: {
             isSecondary: false,
-            title: 'Icon Test'
+            title: 'SCP 3999'
           },
-          name: 'icon',
-          component: () => import('@/components/IconTest.vue')
+          name: 'scp 3999',
+          component: () => import('@/components/articles/SCP3999.vue')
         },
         {
           path: 'never-fade-away',
@@ -44,7 +44,7 @@ const router = createRouter({
             title: 'Never Fade Away'
           },
           name: 'never fade away',
-          component: () => import('@/components/NeverFadeAway.vue')
+          component: () => import('@/components/articles/NeverFadeAway.vue')
         }
       ]
     },
@@ -55,6 +55,14 @@ const router = createRouter({
       },
       name: 'gallery',
       component: () => import('@/views/GalleryView.vue')
+    },
+    {
+      path: '/setting',
+      meta: {
+        title: 'Setting'
+      },
+      name: 'setting',
+      component: () => import('@/views/SettingView.vue')
     }
   ]
 })

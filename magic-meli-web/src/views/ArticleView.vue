@@ -10,7 +10,9 @@ const isShowList = computed<Boolean>(() => {
 </script>
 <template>
   <WindowContainer>
-    <ArticleList v-if="isShowList" />
+    <KeepAlive>
+      <ArticleList v-if="isShowList" />
+    </KeepAlive>
     <RouterView></RouterView>
   </WindowContainer>
 </template>

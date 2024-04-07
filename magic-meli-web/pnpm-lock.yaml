@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@mdit/plugin-footnote':
+  '@mdit/plugin-align':
     specifier: ^0.8.0
     version: 0.8.0(markdown-it@14.1.0)
   '@mdit/plugin-mark':
@@ -20,12 +20,30 @@ dependencies:
   '@mdit/plugin-tasklist':
     specifier: ^0.8.0
     version: 0.8.0(markdown-it@14.1.0)
+  '@types/markdown-it-container':
+    specifier: ^2.0.9
+    version: 2.0.9
+  '@types/markdown-it-footnote':
+    specifier: ^3.0.4
+    version: 3.0.4
   markdown-it:
     specifier: ^14.1.0
     version: 14.1.0
   markdown-it-anchor:
     specifier: ^8.6.7
     version: 8.6.7(@types/markdown-it@13.0.7)(markdown-it@14.1.0)
+  markdown-it-container:
+    specifier: ^4.0.0
+    version: 4.0.0
+  markdown-it-footnote:
+    specifier: ^4.0.0
+    version: 4.0.0
+  markdown-it-multimd-table:
+    specifier: ^4.2.3
+    version: 4.2.3
+  markdown-it-sup:
+    specifier: ^2.0.0
+    version: 2.0.0
   pinia:
     specifier: ^2.1.7
     version: 2.1.7(typescript@5.3.3)(vue@3.4.21)
@@ -438,11 +456,28 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /@mdit/plugin-footnote@0.8.0(markdown-it@14.1.0):
-    resolution: {integrity: sha512-AaX1rfkJwq9vLX+H/a+XQ3ZxahOXrnMLr5dVZfNdazjqdDEJ7Cc/A7UFtLfOM19F2w3EgvcHR1gbINxIVDn/eg==}
+  /@mdit/plugin-align@0.8.0(markdown-it@14.1.0):
+    resolution: {integrity: sha512-OJPYzSdmT0UZj/QTvnKYE4GelAL0OD8bNIPxpidXbFd3IqYv/8+xMjT6XeR+R3oZEvtbYSc2e1MmO5fo3DopJA==}
     engines: {node: '>= 18'}
     peerDependencies:
       markdown-it: ^14.0.0
+    peerDependenciesMeta:
+      markdown-it:
+        optional: true
+    dependencies:
+      '@mdit/plugin-container': 0.8.0(markdown-it@14.1.0)
+      '@types/markdown-it': 13.0.7
+      markdown-it: 14.1.0
+    dev: false
+
+  /@mdit/plugin-container@0.8.0(markdown-it@14.1.0):
+    resolution: {integrity: sha512-uWK3t0CWssintcmT5PTJVhAwbstcD+SrtijQKs6BhLRtGGgHJ9mOf0ybGjlJhn4077yFFTHmaCIT3K+n5ZVjPg==}
+    engines: {node: '>= 18'}
+    peerDependencies:
+      markdown-it: ^14.0.0
+    peerDependenciesMeta:
+      markdown-it:
+        optional: true
     dependencies:
       '@types/markdown-it': 13.0.7
       markdown-it: 14.1.0
@@ -475,7 +510,7 @@ packages:
     dev: false
 
   /@mdit/plugin-sup@0.8.0(markdown-it@14.1.0):
-    resolution: {integrity: sha512-5/uE2lONNjCgGDXC8jZ265tzefjUNQNakmK4PSCI4D5jD80xFrxc6MKh70VLCOL8Xk6COK/K9f0SAU2lwa97Tg==, tarball: https://registry.npmmirror.com/@mdit/plugin-sup/-/plugin-sup-0.8.0.tgz}
+    resolution: {integrity: sha512-5/uE2lONNjCgGDXC8jZ265tzefjUNQNakmK4PSCI4D5jD80xFrxc6MKh70VLCOL8Xk6COK/K9f0SAU2lwa97Tg==}
     engines: {node: '>= 18'}
     peerDependencies:
       markdown-it: ^14.0.0
@@ -655,6 +690,18 @@ packages:
 
   /@types/linkify-it@3.0.5:
     resolution: {integrity: sha512-yg6E+u0/+Zjva+buc3EIb+29XEg4wltq7cSmd4Uc2EE/1nUVmxyzpX6gUXD0V8jIrG0r7YeOGVIbYRkxeooCtw==}
+
+  /@types/markdown-it-container@2.0.9:
+    resolution: {integrity: sha512-pW2W5ibThEXN/wKXTCsORMRJ0zKdFae/v+/n2YV8p6L/1gWQKIaW9KovmckuNV+v9u6yInMV1cXtfmDj+Q52NA==}
+    dependencies:
+      '@types/markdown-it': 13.0.7
+    dev: false
+
+  /@types/markdown-it-footnote@3.0.4:
+    resolution: {integrity: sha512-XJ6n+v+2u+2gmYLSHcxyoNT/YrgrKvHuDJQlykFjuxCQCr86P2/fx1V6/0lcKxv5cSIlCaJ6sUcNS3zDI7I+LA==}
+    dependencies:
+      '@types/markdown-it': 13.0.7
+    dev: false
 
   /@types/markdown-it@13.0.7:
     resolution: {integrity: sha512-U/CBi2YUUcTHBt5tjO2r5QV/x0Po6nsYwQU4Y04fBS6vfoImaiZ6f8bi3CjTCxBPQSO1LMyUqkByzi8AidyxfA==, tarball: https://registry.npmmirror.com/@types/markdown-it/-/markdown-it-13.0.7.tgz}
@@ -1782,6 +1829,22 @@ packages:
     dependencies:
       '@types/markdown-it': 13.0.7
       markdown-it: 14.1.0
+    dev: false
+
+  /markdown-it-container@4.0.0:
+    resolution: {integrity: sha512-HaNccxUH0l7BNGYbFbjmGpf5aLHAMTinqRZQAEQbMr2cdD3z91Q6kIo1oUn1CQndkT03jat6ckrdRYuwwqLlQw==}
+    dev: false
+
+  /markdown-it-footnote@4.0.0:
+    resolution: {integrity: sha512-WYJ7urf+khJYl3DqofQpYfEYkZKbmXmwxQV8c8mO/hGIhgZ1wOe7R4HLFNwqx7TjILbnC98fuyeSsin19JdFcQ==}
+    dev: false
+
+  /markdown-it-multimd-table@4.2.3:
+    resolution: {integrity: sha512-KepCr2OMJqm7IT6sOIbuqHGe+NERhgy66XMrc5lo6dHW7oaPzMDtYwR1EGwK16/blb6mCSg4jqityOe0o/H7HA==}
+    dev: false
+
+  /markdown-it-sup@2.0.0:
+    resolution: {integrity: sha512-5VgmdKlkBd8sgXuoDoxMpiU+BiEt3I49GItBzzw7Mxq9CxvnhE/k09HFli09zgfFDRixDQDfDxi0mgBCXtaTvA==}
     dev: false
 
   /markdown-it@14.1.0:

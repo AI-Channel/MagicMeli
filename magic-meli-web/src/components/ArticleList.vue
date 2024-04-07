@@ -1,44 +1,39 @@
 <script setup lang="ts">
-interface ArticleItem {
-  name: string
-  title: string
-  brief?: string
-}
-let ArticleList: ArticleItem[] = [
-  {
-    name: 'never fade away',
-    title: 'Never Fade Away',
-    brief: "Jonny Silverhand's adventure"
-  },
-  {
-    name: 'being popular',
-    title: 'Being Popular',
-    brief:
-      '作者 Paul Graham 不但是硅谷的【技术大牛】，还是硅谷的【创业教父】。对许多问题（软件开发、企业管理、创业、艺术...），他都有独到见解。他的代表作是《黑客与画家》（俺的网盘上有电子版）。本文就出自此书，洋文标题是：《Being Popular》。文中描绘了作者心目中理想的编程语言，供大伙儿参考。虽然这篇是2001年发表，距今超过10年。但是，好的文章是不会随时间流逝而贬值滴。'
-  },
-  {
-    name: 'icon',
-    title: 'Icon Test',
-    brief: 'Test of icons'
-  }
-]
-function GetArticleList() {
-  return ArticleList
-}
+import { GetArticleList } from '@/scripts/articleInfo'
+import { useTagStore } from '@/stores/store'
+
+const store = useTagStore()
 </script>
 
 <template>
   <div>
-    <RouterLink
+    <div
       v-for="(item, key) in GetArticleList()"
-      class="hover:text-fuchsia-500"
+      class="font-Dinkie hover:text-activeFuchsia dark:hover:text-indigo-400"
       :key="key"
-      :to="{ name: item.name }"
+      v-show="store.IsAllCheckedTagsIn(item.tags)"
     >
-      <h1>{{ item.title }}</h1>
+      <RouterLink :to="{ name: item.name }"
+        ><h1>{{ item.title }}</h1></RouterLink
+      >
+      <span
+        v-for="tag in item.tags?.value"
+        :key="tag"
+        @click="
+          store.checkedTags.has(tag) ? store.checkedTags.delete(tag) : store.checkedTags.add(tag)
+        "
+        class="mx-1 cursor-pointer select-none rounded-sm p-1 hover:bg-activeFuchsia hover:text-themeViolet dark:hover:bg-indigo-400 dark:hover:text-darkViolet"
+        :class="{
+          'bg-activeFuchsia': store.TagIsChecked(tag),
+          'dark:bg-indigo-400': store.TagIsChecked(tag),
+          'text-themeViolet': store.TagIsChecked(tag),
+          'dark:text-darkViolet': store.TagIsChecked(tag)
+        }"
+        >{{ '#' + tag }}</span
+      >
       <div class="line-clamp-2 max-w-screen-xl">{{ item.brief }}</div>
       <hr />
-    </RouterLink>
+    </div>
   </div>
 </template>
 

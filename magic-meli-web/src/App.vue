@@ -4,7 +4,13 @@ import IconArticle from './components/icons/IconArticle.vue'
 import IconProfile from './components/icons/IconProfile.vue'
 import IconInvader from './components/icons/IconInvader.vue'
 import IconSetting from './components/icons/IconSetting.vue'
-import IconPicture from './components/icons/IconPicture.vue'
+import { onMounted } from 'vue'
+import { SetTheme } from './scripts/libs'
+import IconGallery from './components/icons/IconGallery.vue'
+onMounted(() => {
+  const storedTheme = localStorage.getItem('theme')
+  if (typeof storedTheme == 'string') SetTheme(storedTheme)
+})
 </script>
 
 <template>
@@ -19,15 +25,17 @@ import IconPicture from './components/icons/IconPicture.vue'
         <IconArticle :width="64" :height="64" />
       </DesktopIconContainer>
     </RouterLink>
-    <DesktopIconContainer title="设置">
-      <IconSetting :width="64" :height="64" />
-    </DesktopIconContainer>
+    <RouterLink :to="{ name: 'setting' }" class="m-auto">
+      <DesktopIconContainer title="设置">
+        <IconSetting :width="64" :height="64" />
+      </DesktopIconContainer>
+    </RouterLink>
     <DesktopIconContainer title="机托邦">
       <IconInvader :width="64" :height="64" />
     </DesktopIconContainer>
     <RouterLink :to="{ name: 'gallery' }" class="m-auto">
       <DesktopIconContainer title="相册">
-        <IconPicture :width="64" :height="64" />
+        <IconGallery :width="64" :height="64" />
       </DesktopIconContainer>
     </RouterLink>
     <RouterView></RouterView>

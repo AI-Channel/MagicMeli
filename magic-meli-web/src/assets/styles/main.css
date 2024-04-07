@@ -5,6 +5,9 @@
 @tailwind utilities;
 
 @layer base {
+  body {
+    @apply bg-cho dark:bg-synth;
+  }
   h1 {
     @apply text-3xl;
   }
@@ -13,6 +16,9 @@
   }
   h3 {
     @apply text-xl;
+  }
+  h4 {
+    @apply text-lg;
   }
   ol {
     @apply list-decimal;
@@ -27,5 +33,5 @@ hr {
   margin: 1rem;
 }
 .header-anchor:hover {
-  color: #d946ef;
+  color: var(--active-fuschia);
 }

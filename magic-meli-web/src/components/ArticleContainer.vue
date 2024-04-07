@@ -8,8 +8,21 @@ const props = defineProps<{
 <template>
   <div
     v-html="GetRender(props.source)"
-    class="m-auto flex max-w-[750px] flex-wrap space-y-6 leading-7"
+    class="m-auto max-w-[750px] space-y-6 font-Fusion leading-7"
   ></div>
 </template>
 
-<style scoped></style>
+<style scoped>
+:deep(a) {
+  color: #eaa0e8;
+}
+:deep(a):hover {
+  text-decoration: underline;
+}
+:deep(.header-anchor) {
+  color: #4d23cf;
+}
+:deep(.header-anchor):hover {
+  text-decoration: none;
+}
+</style>

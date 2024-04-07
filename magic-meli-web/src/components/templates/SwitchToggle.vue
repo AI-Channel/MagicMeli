@@ -1,0 +1,17 @@
+<script setup lang="ts">
+const props = defineProps<{
+  isChecked?: boolean
+}>()
+</script>
+
+<template>
+  <input
+    class="peer relative h-6 w-12 cursor-pointer appearance-none rounded-xl bg-themeFuchsia transition-colors after:absolute after:left-0 after:top-0 after:h-6 after:w-6 after:rounded-full after:bg-violet-500 after:transition-all checked:bg-fuchsia-200 checked:after:left-6 checked:after:bg-violet-500 hover:bg-fuchsia-200 after:hover:bg-indigo-600 checked:hover:bg-fuchsia-300 checked:after:hover:bg-indigo-600 focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-slate-200 disabled:after:bg-slate-300"
+    type="checkbox"
+    value=""
+    id="id-c01"
+    :checked="props.isChecked"
+  />
+</template>
+
+<style scoped></style>

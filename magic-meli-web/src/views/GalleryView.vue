@@ -28,7 +28,8 @@ const onHide = () => (visibleRef.value = false)
     <div class="m-auto max-w-full select-none columns-sm overflow-auto">
       <img
         v-for="(img, index) in imgsRef"
-        class="py-2"
+        class="h-auto max-w-full py-2"
+        loading="lazy"
         :key="index"
         :alt="'img' + index"
         @click="onShow(index)"
