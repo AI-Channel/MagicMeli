@@ -20,7 +20,7 @@ const store = useWindowStore()
     </p>
     <div class="flex h-full space-x-1">
       <IconMinimize :width="24" :height="24" />
-      <IconMaximize @click="store.WindowResize()" :width="24" :height="24" />
+      <IconMaximize @click="store.WindowResize()" :width="24" :height="24" class="cursor-pointer" />
       <RouterLink to="/home">
         <IconClose :width="24" :height="24" @click="store.WindowClose()" />
       </RouterLink>

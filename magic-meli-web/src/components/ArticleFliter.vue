@@ -8,7 +8,12 @@ const store = useTagStore()
 
 <template>
   <div>
-    <IconFliter :width="24" :height="24" @click="isFliterShow = !isFliterShow" />
+    <IconFliter
+      :width="24"
+      :height="24"
+      @click="isFliterShow = !isFliterShow"
+      class="cursor-pointer"
+    />
     <form
       class="absolute right-1 flex flex-col border border-themeViolet bg-themeFuchsia p-2 dark:bg-darkWindowFuchsia"
       v-show="isFliterShow"

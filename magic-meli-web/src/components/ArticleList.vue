@@ -9,7 +9,7 @@ const store = useTagStore()
   <div>
     <div
       v-for="(item, key) in GetArticleList()"
-      class="font-Dinkie hover:text-activeFuchsia dark:hover:text-indigo-400"
+      class="font-Dinkie hover:text-activeFuchsia dark:text-darkViolet dark:hover:text-indigo-400"
       :key="key"
       v-show="store.IsAllCheckedTagsIn(item.tags)"
     >

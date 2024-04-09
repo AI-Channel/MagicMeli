@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { GetRender } from '@/scripts/mdRenderer'
 const props = defineProps<{
-  source: string
+  source: string | undefined
 }>()
 </script>
 
 <template>
   <div
-    v-html="GetRender(props.source)"
+    v-html="GetRender(typeof props.source == 'undefined' ? '' : props.source)"
     class="m-auto max-w-[750px] space-y-6 font-Fusion leading-7"
   ></div>
 </template>

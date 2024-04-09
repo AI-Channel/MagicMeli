@@ -45,6 +45,15 @@ const router = createRouter({
           },
           name: 'never fade away',
           component: () => import('@/components/articles/NeverFadeAway.vue')
+        },
+        {
+          path: 'markdown-editor-test',
+          meta: {
+            isSecondary: false,
+            title: 'Markdown Editor'
+          },
+          name: 'markdown editor',
+          component: () => import('@/components/articles/MarkdownEditor.vue')
         }
       ]
     },
