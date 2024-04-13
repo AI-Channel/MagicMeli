@@ -1,0 +1,39 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
+}
+html {
+  --active-fuschia: #eaa0e8;
+  --theme-fuschia: #f7e1fb;
+  --theme-violet: #4d23cf;
+  --theme-cyan: #90f4e4;
+  --window-fuschia: #fff8ff;
+}
+@font-face {
+  font-family: 'Dinkie';
+  src: url(/src/assets/fonts/DinkieBitmap-9px.ttf);
+}
+
+@font-face {
+  font-family: 'zpix';
+  src: url(/src/assets/fonts/zpix.ttf);
+}
+@font-face {
+  font-family: 'FusionPixel';
+  src: url(/src/assets/fonts/fusion-pixel-12px-monospaced-zh_hans.ttf);
+}
+body {
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+  min-height: 100vh;
+  max-width: 100vh;
+  font-size: 18px;
+  max-height: 100vh;
+  box-sizing: border-box;
+  font-family: 'Microsoft Yahei', sans-serif, 'Inconsolata';
+  scroll-behavior: smooth;
+}
