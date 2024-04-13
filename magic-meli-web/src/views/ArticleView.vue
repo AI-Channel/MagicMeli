@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import ArticleList from '@/components/ArticleList.vue'
-import WindowContainer from '@/components/WindowContainer.vue'
+import WindowContainer from '@/components/window/WindowContainer.vue'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 const router = useRoute()
 const isShowList = computed<Boolean>(() => {
-  return router.meta.isSecondary === router.name ? true : false
+  return router.meta.isListPageCheck === router.name ? true : false
 })
 </script>
 <template>
   <WindowContainer>
     <KeepAlive>
-      <ArticleList v-if="isShowList" />
+      <ArticleList :show-mode="$route.name" v-if="isShowList" />
     </KeepAlive>
     <RouterView></RouterView>
   </WindowContainer>

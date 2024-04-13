@@ -6,7 +6,7 @@
 
 @layer base {
   body {
-    @apply bg-cho dark:bg-synth;
+    @apply bg-dreamcore dark:bg-synth;
   }
   h1 {
     @apply text-3xl;
@@ -30,8 +30,19 @@
   font-weight: normal;
 }
 hr {
-  margin: 1rem;
+  --tw-space-y-reverse: 0;
+  margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
 }
 .header-anchor:hover {
   color: var(--active-fuschia);
+}
+.markdown-body p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 16px;
 }

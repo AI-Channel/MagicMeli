@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import WindowContainer from '@/components/WindowContainer.vue'
+import WindowContainer from '@/components/window/WindowContainer.vue'
 import SwitchToggle from '@/components/templates/SwitchToggle.vue'
-import { SwitchTheme, GetTheme } from '@/scripts/libs'
+import { switchTheme, getTheme } from '@/scripts/libs'
 </script>
 
 <template>
@@ -9,8 +9,8 @@ import { SwitchTheme, GetTheme } from '@/scripts/libs'
     <div>
       <div class="relative flex flex-wrap items-center">
         <SwitchToggle
-          :is-checked="GetTheme() === 'dark' ? true : false"
-          @click="SwitchTheme"
+          :is-checked="getTheme() === 'dark' ? true : false"
+          @click="switchTheme"
           id="isDark"
         />
         <label

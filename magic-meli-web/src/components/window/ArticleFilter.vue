@@ -1,22 +1,22 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import IconFliter from './icons/IconFliter.vue'
-import { useTagStore } from '@/stores/store'
-let isFliterShow = ref<boolean>(false)
-const store = useTagStore()
+import IconFilter from '@/components/icons/IconFilter.vue'
+import { useArticleStore } from '@/stores/store'
+let isFilterShow = ref<boolean>(false)
+const store = useArticleStore()
 </script>
 
 <template>
   <div>
-    <IconFliter
+    <IconFilter
       :width="24"
       :height="24"
-      @click="isFliterShow = !isFliterShow"
+      @click="isFilterShow = !isFilterShow"
       class="cursor-pointer"
     />
     <form
-      class="absolute right-1 flex flex-col border border-themeViolet bg-themeFuchsia p-2 dark:bg-darkWindowFuchsia"
-      v-show="isFliterShow"
+      class="absolute right-1 flex max-h-64 flex-col overflow-y-auto border border-themeViolet bg-themeFuchsia p-2 dark:bg-darkWindowFuchsia"
+      v-show="isFilterShow"
       ref="dropdownMenu"
     >
       <label

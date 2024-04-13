@@ -1,57 +1,48 @@
 import MarkdownIt from 'markdown-it'
-import { sub } from '@mdit/plugin-sub'
-import { sup } from '@mdit/plugin-sup'
-import anchor from 'markdown-it-anchor'
+import VMdEditor from '@kangc/v-md-editor'
+import VMdPreview from '@kangc/v-md-editor/lib/preview'
+import githubTheme from '@kangc/v-md-editor/lib/theme/github.js'
+import createHljsTheme from '@kangc/v-md-editor/lib/theme/hljs'
+import createTipPlugin from '@kangc/v-md-editor/lib/plugins/tip/index'
+import createEmojiPlugin from '@kangc/v-md-editor/lib/plugins/emoji/index'
+import createAlignPlugin from '@kangc/v-md-editor/lib/plugins/align'
+import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index'
+import createCopyCodePlugin from '@kangc/v-md-editor/lib/plugins/copy-code/index'
+import createKatexPlugin from '@kangc/v-md-editor/lib/plugins/katex/cdn'
+
+import '@kangc/v-md-editor/lib/plugins/mermaid/mermaid.css'
+import '@kangc/v-md-editor/lib/theme/style/github.css'
+import '@kangc/v-md-editor/lib/style/base-editor.css'
+import '@kangc/v-md-editor/lib/style/preview.css'
+import '@kangc/v-md-editor/lib/plugins/tip/tip.css'
+import '@kangc/v-md-editor/lib/plugins/emoji/emoji.css'
+import '@kangc/v-md-editor/lib/plugins/copy-code/copy-code.css'
 import { mark } from '@mdit/plugin-mark'
-import footnote from 'markdown-it-footnote'
-import { tasklist } from '@mdit/plugin-tasklist'
-import container from 'markdown-it-container'
-import { align } from '@mdit/plugin-align'
-import multimd_table_plugin from 'markdown-it-multimd-table'
 
-const markdown = new MarkdownIt({
-  breaks: true,
-  linkify: true,
-  typographer: true
+import hljs from 'highlight.js'
+
+const hljsTheme = createHljsTheme({
+  Hljs: hljs
 })
-  .use(sub)
-  .use(sup)
-  .use(mark)
-  .use(footnote)
-  .use(tasklist)
-  .use(container, 'spoiler', {
-    validate: function (params: string) {
-      return params.trim().match(/^spoiler\s+(.*)$/)
-    },
 
-    render: function (
-      tokens: {
-        [x: string]: {
-          info: any
-          nesting: number
-        }
-      },
-      idx: string | number
-    ) {
-      const m = tokens[idx].info.trim().match(/^spoiler\s+(.*)$/)
-      if (tokens[idx].nesting === 1) {
-        return '<details><summary>' + markdown.utils.escapeHtml(m[1]) + '</summary>\n'
-      } else {
-        return '</details>\n'
-      }
-    }
-  })
-  .use(align)
-  .use(multimd_table_plugin, {
-    multiline: false,
-    rowspan: false,
-    headerless: false,
-    multibody: true,
-    aotolabel: true
-  })
-  .use(anchor, { permalink: anchor.permalink.headerLink() })
+hljsTheme.extend((md: MarkdownIt) => {
+  md.set({ html: true, breaks: true, linkify: true, typographer: true }).use(mark)
+})
 
-function GetRender(source: string) {
-  return markdown.render(source)
-}
-export { GetRender }
+VMdEditor.use(githubTheme, { Hljs: hljs })
+VMdPreview.vMdParser.theme(hljsTheme)
+
+VMdEditor.use(createTipPlugin())
+VMdEditor.use(createAlignPlugin())
+VMdEditor.use(createEmojiPlugin())
+VMdEditor.use(createLineNumbertPlugin())
+VMdEditor.use(createCopyCodePlugin())
+VMdEditor.use(createKatexPlugin())
+
+VMdPreview.use(createTipPlugin())
+VMdPreview.use(createAlignPlugin())
+VMdPreview.use(createLineNumbertPlugin())
+VMdPreview.use(createCopyCodePlugin())
+VMdPreview.use(createKatexPlugin())
+
+export { VMdEditor, VMdPreview }

@@ -16,7 +16,7 @@ export default {
       },
       backgroundImage: {
         synth: "url('/src/assets/graphs/Synth.png')",
-        cho: "url('/src/assets/graphs/Yamikawa.png')"
+        dreamcore: "url('/src/assets/graphs/Dreamcore.jpg')"
       },
       screens: {
         '4k': '2560px'

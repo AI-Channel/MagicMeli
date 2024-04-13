@@ -1,27 +1,28 @@
 import { ref, type Ref } from 'vue'
 import { defineStore } from 'pinia'
-import { GetAllTags } from '@/scripts/articleInfo'
+import { Article, getAllTags } from '@/scripts/articleInfo'
 import { isSubsetOf } from '@/scripts/libs'
 
 export const useWindowStore = defineStore('window', () => {
   const isMaximized = ref(false)
-  function WindowResize() {
+  function windowResize() {
     isMaximized.value = !isMaximized.value
   }
-  function WindowClose() {
+  function windowClose() {
     isMaximized.value = false
   }
-  return { WindowClose, isMaximized, WindowResize }
+  return { windowClose, isMaximized, windowResize }
 })
 
-export const useTagStore = defineStore('tag', () => {
-  const articleTags = GetAllTags()
+export const useArticleStore = defineStore('article', () => {
+  const atricleContent = ''
+  const articleTags = getAllTags()
   const checkedTags: Ref<Set<string>> = ref(new Set())
-  function TagIsChecked(tag: string) {
-    return checkedTags.value.has(tag)
+  function isAllCheckedTagsIn(tags: Set<string> | undefined) {
+    return isSubsetOf(checkedTags.value, tags)
   }
-  function IsAllCheckedTagsIn(tags: Ref<Set<string>> | undefined) {
-    return isSubsetOf(checkedTags.value, tags?.value)
+  function isDeleted(article: Article) {
+    return article._isDeleted.value
   }
-  return { articleTags, checkedTags, TagIsChecked, IsAllCheckedTagsIn }
+  return { articleTags, checkedTags, atricleContent, isAllCheckedTagsIn, isDeleted }
 })

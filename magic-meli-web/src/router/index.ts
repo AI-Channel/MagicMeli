@@ -13,7 +13,7 @@ const router = createRouter({
     {
       path: '/article',
       meta: {
-        isSecondary: 'article',
+        isListPageCheck: 'article',
         title: 'Article List'
       },
       name: 'article',
@@ -22,7 +22,6 @@ const router = createRouter({
         {
           path: 'being-popular',
           meta: {
-            isSecondary: false,
             title: 'Being Popular'
           },
           name: 'being popular',
@@ -31,7 +30,6 @@ const router = createRouter({
         {
           path: 'scp-3999',
           meta: {
-            isSecondary: false,
             title: 'SCP 3999'
           },
           name: 'scp 3999',
@@ -40,30 +38,31 @@ const router = createRouter({
         {
           path: 'never-fade-away',
           meta: {
-            isSecondary: false,
             title: 'Never Fade Away'
           },
           name: 'never fade away',
           component: () => import('@/components/articles/NeverFadeAway.vue')
-        },
-        {
-          path: 'markdown-editor-test',
-          meta: {
-            isSecondary: false,
-            title: 'Markdown Editor'
-          },
-          name: 'markdown editor',
-          component: () => import('@/components/articles/MarkdownEditor.vue')
         }
       ]
     },
     {
       path: '/gallery',
       meta: {
+        isListPageCheck: 'gallery',
         title: 'Gallery'
       },
       name: 'gallery',
-      component: () => import('@/views/GalleryView.vue')
+      component: () => import('@/views/GalleryView.vue'),
+      children: [
+        {
+          path: 'fanart',
+          meta: {
+            title: 'Fanart'
+          },
+          name: 'fanart',
+          component: () => import('@/components/galleries/FanArt.vue')
+        }
+      ]
     },
     {
       path: '/setting',
@@ -72,6 +71,23 @@ const router = createRouter({
       },
       name: 'setting',
       component: () => import('@/views/SettingView.vue')
+    },
+    {
+      path: '/markdown-editor',
+      meta: {
+        title: 'Markdown Editor'
+      },
+      name: 'markdown editor',
+      component: () => import('@/components/MarkdownEditor.vue')
+    },
+    {
+      path: '/recycle-bin',
+      meta: {
+        isListPageCheck: 'recycle',
+        title: 'Recycle Bin'
+      },
+      name: 'recycle',
+      component: () => import('@/views/RecycleView.vue')
     }
   ]
 })
