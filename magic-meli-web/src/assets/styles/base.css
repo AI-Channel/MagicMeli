@@ -5,13 +5,7 @@
   margin: 0;
   font-weight: normal;
 }
-html {
-  --active-fuschia: #eaa0e8;
-  --theme-fuschia: #f7e1fb;
-  --theme-violet: #4d23cf;
-  --theme-cyan: #90f4e4;
-  --window-fuschia: #fff8ff;
-}
+
 @font-face {
   font-family: 'Dinkie';
   src: url(/src/assets/fonts/DinkieBitmap-9px.ttf);
@@ -23,7 +17,7 @@ html {
 }
 @font-face {
   font-family: 'FusionPixel';
-  src: url(/src/assets/fonts/fusion-pixel-12px-monospaced-zh_hans.ttf);
+  src: url(/src/assets/fonts/fusion-pixel-12px-proportional.ttc);
 }
 body {
   background-repeat: no-repeat;

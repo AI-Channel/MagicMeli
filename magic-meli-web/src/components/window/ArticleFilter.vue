@@ -22,10 +22,15 @@ const store = useArticleStore()
       <label
         v-for="item in store.articleTags"
         :key="item"
-        class="label flex cursor-pointer place-content-between items-center text-themeViolet dark:text-darkViolet"
+        class="label flex cursor-pointer appearance-none place-content-between items-center gap-x-3 text-themeViolet dark:text-darkViolet"
       >
         <span class="label-text" :for="item">{{ item }}</span>
-        <input type="checkbox" class="checkbox" v-model="store.checkedTags" :value="item" />
+        <input
+          type="checkbox"
+          class="checkbox text-themeViolet focus:ring-themeViolet dark:text-darkViolet dark:focus:ring-darkViolet"
+          v-model="store.checkedTags"
+          :value="item"
+        />
       </label>
     </form>
   </div>

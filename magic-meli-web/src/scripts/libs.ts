@@ -40,4 +40,18 @@ function shuffle(arr: any) {
   }
   return arr
 }
-export { switchTheme, getTheme, setTheme, union, intersection, difference, isSubsetOf, shuffle }
+
+function titleToUpperCase(str: string) {
+  return str.toLowerCase().replace(/( |^)[a-z]/g, (i) => i.toUpperCase())
+}
+export {
+  switchTheme,
+  getTheme,
+  setTheme,
+  union,
+  intersection,
+  difference,
+  isSubsetOf,
+  shuffle,
+  titleToUpperCase
+}
