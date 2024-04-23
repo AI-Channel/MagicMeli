@@ -12,7 +12,7 @@ const isShowList = computed<Boolean>(() => {
 
 <template>
   <WindowContainer>
-    <div class="m-2 flex flex-wrap justify-start gap-7" v-if="isShowList">
+    <div class="flex flex-wrap justify-start gap-7" v-if="isShowList">
       <RouterLink :to="{ name: 'fanart' }">
         <DesktopIconContainer :title="'Fanart'">
           <IconFolder :width="64" :height="64" />

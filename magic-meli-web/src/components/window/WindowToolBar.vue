@@ -12,7 +12,9 @@ import IconBackward from '@/components/icons/IconBackward.vue'
       <IconBackward :width="24" :height="24" @click="$router.back" class="cursor-pointer" />
     </div>
     <BreadcrumbNav />
-    <ArticleFilter v-if="$route.name === 'article' || $route.name === 'recycle'" />
+    <ArticleFilter
+      v-if="$route.name === 'articles' || $route.name === 'recycle' || $route.name === 'test'"
+    />
   </div>
 </template>
 

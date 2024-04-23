@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import WindowHeadBar from './WindowHeadBar.vue'
-
-import Vue3DraggableResizable from 'vue3-draggable-resizable'
-import 'vue3-draggable-resizable/dist/Vue3DraggableResizable.css'
 import { useWindowStore } from '@/stores/store'
 import { ref } from 'vue'
+import Vue3DraggableResizable from 'vue3-draggable-resizable'
+import 'vue3-draggable-resizable/dist/Vue3DraggableResizable.css'
 import WindowToolBar from './WindowToolBar.vue'
+
 const store = useWindowStore()
 let initialize = {
   initW: ref(window.innerWidth / 2),
@@ -31,7 +31,7 @@ let initialize = {
     <WindowHeadBar :title="$route.meta.title" />
     <WindowToolBar />
     <div
-      class="h-full max-w-full overflow-auto border-[2px] border-themeViolet bg-windowFuchsia p-2 text-themeViolet dark:border-darkViolet dark:bg-darkWindowFuchsia dark:text-darkViolet"
+      class="h-full max-w-full overflow-auto border-[2px] border-themeViolet bg-windowFuchsia p-2  dark:border-darkViolet dark:bg-darkWindowFuchsia"
     >
       <slot></slot>
     </div>

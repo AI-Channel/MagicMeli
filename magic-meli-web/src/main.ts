@@ -6,6 +6,7 @@ import { VMdEditor, VMdPreview } from './scripts/mdRenderer'
 
 import App from './App.vue'
 import router from './router'
+import axios from '@/scripts/axiosinstance'
 
 const app = createApp(App)
 
@@ -15,3 +16,4 @@ app.use(VMdEditor)
 app.use(VMdPreview)
 
 app.mount('#app')
+app.config.globalProperties.$axios = axios

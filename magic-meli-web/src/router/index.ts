@@ -10,41 +10,25 @@ const router = createRouter({
       path: '/home',
       component: () => import('@/App.vue')
     },
-    {
-      path: '/article',
-      meta: {
-        isListPageCheck: 'article',
-        title: 'Article List'
-      },
-      name: 'article',
-      component: () => import('@/views/ArticleView.vue'),
-      children: [
-        {
-          path: 'being-popular',
-          meta: {
-            title: 'Being Popular'
-          },
-          name: 'being popular',
-          component: () => import('@/components/articles/BeingPopular.vue')
-        },
-        {
-          path: 'scp-3999',
-          meta: {
-            title: 'SCP 3999'
-          },
-          name: 'scp 3999',
-          component: () => import('@/components/articles/SCP3999.vue')
-        },
-        {
-          path: 'never-fade-away',
-          meta: {
-            title: 'Never Fade Away'
-          },
-          name: 'never fade away',
-          component: () => import('@/components/articles/NeverFadeAway.vue')
-        }
-      ]
-    },
+    // {
+    //   path: '/articles',
+    //   meta: {
+    //     isListPageCheck: 'articles',
+    //     title: 'Article List'
+    //   },
+    //   name: 'articles',
+    //   component: () => import('@/views/ArticleView.vue'),
+    //   children: [
+    //     {
+    //       path: ':name',
+    //       name: 'article',
+    //       meta: {
+    //         title: 'Article'
+    //       },
+    //       component: () => import('@/components/articles/ArticleContainer.vue')
+    //     }
+    //   ]
+    // },
     {
       path: '/gallery',
       meta: {
@@ -88,6 +72,33 @@ const router = createRouter({
       },
       name: 'recycle',
       component: () => import('@/views/RecycleView.vue')
+    },
+    {
+      path: '/login',
+      meta: {
+        title: 'Login'
+      },
+      name: 'login',
+      component: () => import('@/views/LoginView.vue')
+    },
+    {
+      path: '/articles',
+      meta: {
+        isListPageCheck: 'articles',
+        title: 'Article List'
+      },
+      name: 'articles',
+      component: () => import('@/views/ArticleView.vue'),
+      children: [
+        {
+          path: ':id',
+          name: 'article',
+          meta: {
+            title: 'Article'
+          },
+          component: () => import('@/components/articles/ArticleContainer.vue')
+        }
+      ]
     }
   ]
 })
