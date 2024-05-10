@@ -1,0 +1,69 @@
+@tailwind components;
+
+@layer components {
+  .article {
+    @apply text-pretty;
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    blockquote,
+    hr,
+    table,
+    div {
+      @apply mb-4;
+    }
+    h1,
+    h2,
+    h3,
+    h4 {
+      a {
+        @apply opacity-0;
+      }
+    }
+    h1:hover,
+    h2:hover,
+    h3:hover,
+    h4:hover {
+      a {
+        @apply opacity-100;
+      }
+    }
+    h1 {
+      @apply text-4xl;
+    }
+    th,
+    tr,
+    td {
+      @apply border border-themeViolet p-2 dark:border-darkViolet;
+    }
+    th,
+    blockquote {
+      @apply bg-themeFuchsia dark:bg-darkThemeFuchsia;
+    }
+    blockquote {
+      @apply m-4 border border-dashed border-themeViolet p-4;
+    }
+    hr {
+      @apply border-themeViolet dark:border-darkViolet;
+    }
+    a {
+      @apply text-activeFuchsia hover:underline hover:underline-offset-2 dark:text-indigo-400;
+    }
+    .header-anchor {
+      @apply float-left -ml-3 pr-2;
+    }
+    div[class*='v-md-pre-wrapper-'].line-numbers-mode {
+      @apply bg-themeFuchsia relative py-5 dark:bg-darkThemeFuchsia;
+      pre {
+        @apply pl-20 
+      }
+      .line-numbers-wrapper{
+        @apply absolute top-0 w-14 text-center leading-8 select-none py-5 m-auto border-r border-violet-200 text-base text-violet-400
+      }
+    }
+  }
+}
