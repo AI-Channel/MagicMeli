@@ -4,10 +4,25 @@ import axios, {
   type InternalAxiosRequestConfig
 } from 'axios'
 
+export interface ArticleMeta {
+  id: number
+  name: string
+  isDeleted: boolean
+  timeLastModified: number
+  category: string
+  author?: string
+  tags?: string[]
+  brief?: string
+}
+export interface ArticleContent {
+  id: number
+  name: string
+  content?: string
+}
+
 enum baseURL {
   mock = 'https://magic-meli-12722872.mocker.coding.io',
-  dataBase = 'http://localhost:5000',
-  elysia = 'http://localhost:3000'
+  dataBase = 'http://localhost:5000'
 }
 const instance: AxiosInstance = axios.create({
   baseURL: baseURL.dataBase,

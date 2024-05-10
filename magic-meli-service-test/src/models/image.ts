@@ -1,9 +1,8 @@
 export interface ImageMeta {
-  id?: string
+  id: string
   title: string
-  description: string
-  uploadDate?: string
+  uploadDate: string
 }
 export interface Image extends ImageMeta {
-  imageDataBase64: string
+  imageBase64: string
 }

@@ -1,6 +1,6 @@
 import type { Article, ArticleMeta } from '@/models/article'
-import instance from './axiosInstance'
-import { union } from '../scripts/libs'
+import instance from './axiosinstance'
+import { union } from './libs'
 
 export async function getArticleById(id: number): Promise<Article> {
   const response = await instance.get<Article>(`/article/${id}`)

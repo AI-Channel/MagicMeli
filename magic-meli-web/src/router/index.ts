@@ -10,6 +10,25 @@ const router = createRouter({
       path: '/home',
       component: () => import('@/App.vue')
     },
+    // {
+    //   path: '/articles',
+    //   meta: {
+    //     isListPageCheck: 'articles',
+    //     title: 'Article List'
+    //   },
+    //   name: 'articles',
+    //   component: () => import('@/views/ArticleView.vue'),
+    //   children: [
+    //     {
+    //       path: ':name',
+    //       name: 'article',
+    //       meta: {
+    //         title: 'Article'
+    //       },
+    //       component: () => import('@/components/articles/ArticleContainer.vue')
+    //     }
+    //   ]
+    // },
     {
       path: '/gallery',
       meta: {
