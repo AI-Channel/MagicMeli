@@ -1,0 +1,10 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+[remote "origin"]
+	url = https://e.coding.net/g-csoj7483/magic-meli/MagicMeli.git
+	fetch = +refs/heads/*:refs/remotes/origin/*

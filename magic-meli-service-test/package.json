@@ -1,0 +1,24 @@
+{
+  "name": "magic-meli-service-test",
+  "version": "1.0.50",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "bun run --watch src/index.ts",
+    "format": "prettier --write src/"
+  },
+  "dependencies": {
+    "@elysiajs/eden": "^1.0.12",
+    "@elysiajs/swagger": "^1.0.5",
+    "elysia": "latest"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.2.0",
+    "bun-types": "latest",
+    "eslint": "^9.2.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "globals": "^15.1.0",
+    "prettier": "^3.2.5",
+    "typescript-eslint": "^7.8.0"
+  },
+  "module": "src/index.js"
+}
