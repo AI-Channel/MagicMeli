@@ -31,7 +31,7 @@ let initialize = {
     <WindowHeadBar :title="$route.meta.title" />
     <WindowToolBar />
     <div
-      class="h-full max-w-full overflow-auto border-[2px] border-themeViolet bg-windowFuchsia p-2  dark:border-darkViolet dark:bg-darkWindowFuchsia"
+      class="h-full max-w-full overflow-auto border-[2px] border-themeViolet bg-windowFuchsia p-2 dark:border-darkViolet dark:bg-darkWindowFuchsia"
     >
       <slot></slot>
     </div>

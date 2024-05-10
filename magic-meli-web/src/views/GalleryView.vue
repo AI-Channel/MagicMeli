@@ -4,10 +4,12 @@ import WindowContainer from '@/components/window/WindowContainer.vue'
 import IconFolder from '@/components/icons/IconFolder.vue'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { getImageList } from '@/requests/image'
 const router = useRoute()
 const isShowList = computed<Boolean>(() => {
   return router.meta.isListPageCheck === router.name ? true : false
 })
+console.log(getImageList())
 </script>
 
 <template>

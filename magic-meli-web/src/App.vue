@@ -3,16 +3,16 @@ import { onMounted } from 'vue'
 import DesktopIconContainer from './components/DesktopIconContainer.vue'
 import IconArticle from './components/icons/IconArticle.vue'
 import IconFolderOpen from './components/icons/IconFolderOpen.vue'
-import IconInvader from './components/icons/IconInvader.vue'
 import IconNewArticle from './components/icons/IconNewArticle.vue'
 import IconProfile from './components/icons/IconProfile.vue'
 import IconRecycleBin from './components/icons/IconRecycleBin.vue'
 import IconSetting from './components/icons/IconSetting.vue'
 import { setTheme } from './scripts/libs'
+import { RouterLink } from 'vue-router'
 
 onMounted(() => {
-  const storedTheme = localStorage.getItem('theme')
-  if (typeof storedTheme == 'string') setTheme(storedTheme)
+  const storedTheme = localStorage.getItem('theme') ?? 'light'
+  setTheme(storedTheme)
 })
 </script>
 

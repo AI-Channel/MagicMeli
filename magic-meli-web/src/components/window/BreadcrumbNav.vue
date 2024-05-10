@@ -16,7 +16,7 @@ let navName = computed(() => {
 
 <template>
   <p
-    class="w-full bg-windowFuchsia px-2 text-themeViolet dark:bg-darkWindowFuchsia dark:text-darkViolet"
+    class="w-full bg-windowFuchsia px-2 text-themeViolet dark:bg-darkWindowFuchsia dark:text-darkViolet text-nowrap overflow-clip"
   >
     <RouterLink to="/home">
       <span class="hover:text-activeFuchsia dark:hover:text-indigo-400">Windose:</span>

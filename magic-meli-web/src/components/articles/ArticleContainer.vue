@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getArticleById } from '@/scripts/article'
+import { getArticleById } from '@/requests/article'
 import VMdPreview from '@kangc/v-md-editor/lib/preview'
 import { onMounted, ref, type Ref } from 'vue'
 import { useRoute } from 'vue-router'

@@ -7,7 +7,7 @@ import {
   getDelArticleList,
   hardDelArticleById,
   revertArticleById
-} from '@/scripts/article'
+} from '@/requests/article'
 import { onMounted, ref, type Ref } from 'vue'
 import StatusBar from './StatusBar.vue'
 import TagsNav from './TagsNav.vue'
@@ -72,7 +72,6 @@ async function hardDelete(id: number) {
       />
     </li>
   </ul>
-
 </template>
 
 <style scoped></style>
