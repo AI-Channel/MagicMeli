@@ -28,14 +28,7 @@ const shuffledImages = shuffle(props.images)
       @click="onShow(index)"
       :src="img.src"
     />
-    <VueEasyLightbox
-      :visible="visibleRef"
-      :imgs="shuffledImages"
-      :index="indexRef"
-      :loop="true"
-      @hide="onHide"
-    >
-    </VueEasyLightbox>
+    <VueEasyLightbox :visible="visibleRef" :imgs="shuffledImages" :index="indexRef" :loop="true" @hide="onHide"> </VueEasyLightbox>
   </div>
 </template>
 

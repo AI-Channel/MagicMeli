@@ -57,12 +57,12 @@
       @apply float-left -ml-3 pr-2;
     }
     div[class*='v-md-pre-wrapper-'].line-numbers-mode {
-      @apply bg-themeFuchsia relative py-5 dark:bg-darkThemeFuchsia;
+      @apply relative bg-themeFuchsia py-5 dark:bg-darkThemeFuchsia;
       pre {
-        @apply pl-20 
+        @apply pl-20;
       }
-      .line-numbers-wrapper{
-        @apply absolute top-0 w-14 text-center leading-8 select-none py-5 m-auto border-r border-violet-200 text-base text-violet-400
+      .line-numbers-wrapper {
+        @apply absolute top-0 m-auto w-14 select-none border-r border-violet-200 py-5 text-center text-base leading-8 text-violet-400;
       }
     }
   }

@@ -43,6 +43,10 @@ const fanartImages: Ref<imgObj[]> = ref([
   {
     src: '/src/assets/graphs/Rebecca-Swimsuit.jpg',
     title: ''
+  },
+  {
+    src: 'http://localhost:5000/image/079e7569-59ad-4e5b-9795-d1d99f9c7dc6/raw',
+    title: 'test'
   }
 ])
 function getImages(imageSet: string) {

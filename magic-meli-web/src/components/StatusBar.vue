@@ -16,20 +16,8 @@ const props = defineProps<{
     <RouterLink :to="{ name: 'markdown editor', query: { id: articleId } }">
       <IconEdit :width="24" :height="24" />
     </RouterLink>
-    <IconReturn
-      v-if="props.showMode === 'recycle'"
-      :width="24"
-      :height="24"
-      class="cursor-pointer"
-      @click="$emit('revert')"
-    />
-    <IconHardDelete
-      v-if="props.showMode === 'recycle'"
-      :width="24"
-      :height="24"
-      class="cursor-pointer"
-      @click="$emit('hardDelete')"
-    />
+    <IconReturn v-if="props.showMode === 'recycle'" :width="24" :height="24" class="cursor-pointer" @click="$emit('revert')" />
+    <IconHardDelete v-if="props.showMode === 'recycle'" :width="24" :height="24" class="cursor-pointer" @click="$emit('hardDelete')" />
     <IconDelete v-else :width="24" :height="24" class="cursor-pointer" @click="$emit('delete')" />
   </div>
 </template>

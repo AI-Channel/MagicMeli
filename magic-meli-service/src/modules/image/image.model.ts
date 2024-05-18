@@ -1,8 +1,3 @@
-export interface ImageMeta {
-  id: string
-  title: string
-  uploadDate: string
-}
-export interface Image extends ImageMeta {
-  imageBase64: string
-}
+import Elysia, { t } from 'elysia'
+
+export const ImageModel = new Elysia().model({ 'image.transfer': t.Object({ title: t.String(), imageLink: t.String() }) })
