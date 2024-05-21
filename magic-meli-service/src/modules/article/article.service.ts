@@ -25,8 +25,8 @@ export class ArticleService {
   private db = new Database('MagicMeli.db')
   private defalutTagObj: tagsObject = { id: 0, tag: 'error' }
 
-  getArticleById(id: number) {
-    const article: ArticleDto | null = this.db.query<ArticleDto, number>(`SELECT * FROM article WHERE id == $param;`).get(id)
+  getArticleById = (id: number) => {
+    const article: ArticleDto | null = this.db.query<ArticleDto, number>(`SELECT * FROM article WHERE id == $param`).get(id)
     if (article == null) return null
     else article.tags = this.getArticleTagsById(id)
     return article
@@ -34,7 +34,20 @@ export class ArticleService {
 
   getAriticleList() {
     const articleList = this.db
-      .query<ArticleMetaDto, null>(`SELECT id,title,summary,author,category,isDeleted,isPublished,updateTime FROM article`)
+      .query<
+        ArticleMetaDto,
+        null
+      >(`SELECT id,title,summary,author,category,isDeleted,isPublished,updateTime FROM article WHERE isDeleted==0 ORDER BY id`)
+      .all(null)
+    for (const article of articleList) {
+      article.tags = this.getArticleTagsById(article.id ?? 0)
+    }
+    return articleList
+  }
+
+  getDeletedArticleList() {
+    const articleList = this.db
+      .query<ArticleMetaDto, null>(`SELECT id,title,summary,author,category,isDeleted,isPublished,updateTime FROM article WHERE isDeleted==1`)
       .all(null)
     for (const article of articleList) {
       article.tags = this.getArticleTagsById(article.id ?? 0)
@@ -57,8 +70,11 @@ export class ArticleService {
       $updateTime: new Date().toISOString(),
       $isPublished: article.isPublished ?? false
     })
-    this.updateAllTags(article.id, article.tags)
-    if (echo) echo.tags = this.getArticleTagsById(echo.id ?? 0)
+    if (echo) {
+      this.updateAllTags(echo.id, article.tags)
+      echo.tags = this.getArticleTagsById(echo.id ?? 0)
+    }
+    this.tagGarbageCollection()
     return echo
   }
 
@@ -114,7 +130,7 @@ export class ArticleService {
   tagGarbageCollection = this.db.transaction((tag: string) => {
     this.db
       .prepare(
-        `DELETE FROM tags WHERE tag=(SELECT tags.tag FROM articleHasTags RIGHT JOIN tags ON articleHasTags.tagId == tags.id WHERE articleId is null)`
+        `DELETE FROM tags WHERE tag=(SELECT DISTINCT tags.tag FROM articleHasTags RIGHT JOIN tags ON articleHasTags.tagId == tags.id WHERE articleId is null)`
       )
       .run(tag)
   })
@@ -153,10 +169,10 @@ export class ArticleService {
 
   private insertTagMap = this.db.transaction((articleId: number, tagName: string) => {
     let thisTagObj = this.getTagByTagName(tagName) ?? this.defalutTagObj
-    if (thisTagObj == null) {
+    if (thisTagObj.id == 0) {
       thisTagObj = this.insertTag(tagName)
     }
-    this.db.prepare(`INSERT INTO articleHasTags (articleId,tagId) VALUES ($articleId,$tagId)`).run(articleId, thisTagObj.id)
+    this.db.prepare(`INSERT INTO articleHasTags (articleId,tagId) VALUES ($articleId,$tagId)`).run({ $articleId: articleId, $tagId: thisTagObj.id })
   })
 
   private updateAllTags = this.db.transaction((articleId: number, tags: string[]) => {
@@ -167,4 +183,13 @@ export class ArticleService {
     for (const tag of tagsNeedtoDel) this.deleteTagMap(articleId, tag)
     for (const tag of tagsNeedToAdd) this.insertTagMap(articleId, tag)
   })
+
+  getAllCategories() {
+    const categories = this.db.query(`SELECT DISTINCT category FROM article ORDER BY category`).values()
+    const outputArray = []
+    for (const item of categories) {
+      outputArray.push(...item)
+    }
+    return outputArray
+  }
 }

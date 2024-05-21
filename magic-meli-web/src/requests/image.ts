@@ -1,6 +1,5 @@
 import type { Image, ImageMeta } from '@/models/image'
 import instance from './axiosInstance'
-import type { FileWithHandle } from 'browser-fs-access'
 
 export async function getImageById(id: string): Promise<Image> {
   const response = await instance.get<Image>(`/image/${id}`)

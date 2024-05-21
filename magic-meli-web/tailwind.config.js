@@ -32,8 +32,8 @@ export default {
         Yahei: ['Microsoft Yahei', '微软雅黑', 'sans-serif'],
         zpix: ['zpix', 'sans-serif'],
         Fusion: ['FusionPixel']
-      }
+      },
     }
   },
-  plugins: [forms]
+  plugins: [forms({ strategy: 'class' })]
 }

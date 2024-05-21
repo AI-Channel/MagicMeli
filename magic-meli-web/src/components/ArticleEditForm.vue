@@ -19,16 +19,17 @@ const article = defineModel<Article>({
       <input
         id="title"
         type="text"
-        class="h-fit w-full whitespace-pre-wrap break-words py-1 focus:ring-themeViolet dark:focus:ring-darkViolet"
+        class="form-input my-auto h-fit w-full whitespace-pre-wrap break-words py-1 focus:ring-themeViolet dark:focus:ring-darkViolet"
         placeholder="文章标题"
         v-model.trim="article.title"
+        required
       />
     </label>
     <label class="row-span-4 flex h-full">
       <span class="m-auto min-w-20">简介:</span>
       <textarea
         id="summary"
-        class="w-full whitespace-pre-wrap break-words focus:ring-themeViolet dark:focus:ring-darkViolet"
+        class="form-textarea my-auto h-full w-full whitespace-pre-wrap break-words focus:ring-themeViolet dark:focus:ring-darkViolet"
         placeholder="文章简介"
         v-model="article.summary"
       ></textarea>
@@ -37,25 +38,27 @@ const article = defineModel<Article>({
       <span class="m-auto min-w-20">作者：</span>
       <input
         id="title"
-        class="h-fit w-full whitespace-pre-wrap break-words py-1 focus:ring-themeViolet dark:focus:ring-darkViolet"
+        class="form-input my-auto h-fit w-full whitespace-pre-wrap break-words py-1 focus:ring-themeViolet dark:focus:ring-darkViolet"
         placeholder="文章作者"
         v-model.trim="article.author"
+        required
       />
     </label>
     <label class="flex content-center">
       <span class="m-auto min-w-20">分类：</span>
       <input
         id="title"
-        class="h-fit w-full whitespace-pre-wrap break-words py-1 focus:ring-themeViolet dark:focus:ring-darkViolet"
+        class="form-input my-auto h-fit w-full whitespace-pre-wrap break-words py-1 focus:ring-themeViolet dark:focus:ring-darkViolet"
         placeholder="文章分类"
         v-model.trim="article.category"
+        required
       />
     </label>
     <label class="flex content-center">
       <span class="m-auto min-w-20">标签：</span>
       <Vue3TagsInput
         v-model:tags="article.tags"
-        class="h-fit w-full"
+        class="form-input my-auto h-fit w-full py-1"
         @on-tags-changed="
           (tags: string[]) => {
             article.tags = tags

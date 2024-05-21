@@ -1,18 +1,17 @@
 <script setup lang="ts">
 import type { Article } from '@/models/article'
+import type { Image } from '@/models/image'
 import { getArticleById, newArticle, updateArticle } from '@/requests/article'
+import { uploadImageBase64 } from '@/requests/image'
 import VMdEditor from '@kangc/v-md-editor'
+import type { FileWithHandle } from 'browser-fs-access'
 import { defineAsyncComponent, onMounted, ref, type Ref } from 'vue'
 import { useRoute } from 'vue-router'
 import WindowContainer from './window/WindowContainer.vue'
-import type { FileWithHandle } from 'browser-fs-access'
-import { uploadImageBase64 } from '@/requests/image'
-import type { Image } from '@/models/image'
 
 const ArticleEditForm = defineAsyncComponent(() => import('@/components/ArticleEditForm.vue'))
 
 const route = useRoute()
-const leftToolbar = 'undo redo clear|h bold italic strikethrough quote|ul ol table hr|link image code|tip emoji save image'
 let articleEcho: Article
 
 let article: Ref<Article> = ref({
@@ -28,13 +27,51 @@ let article: Ref<Article> = ref({
   updateTime: new Date().toISOString()
 })
 
+const customToolbar = {
+  save: {
+    name: 'save',
+    icon: 'v-md-icon-save',
+    title: (editor: { langConfig: { save: { toolbar: any } } }) => `${editor.langConfig.save.toolbar}（Ctrl+S）`,
+    menus: [
+      {
+        name: 'saveDraft',
+        text: '保存草稿',
+        action() {
+          saveDraft()
+        }
+      },
+      {
+        name: 'saveArticle',
+        text: '保存文章',
+        action(editor: { save: () => void }) {
+          editor.save()
+        }
+      }
+    ]
+  }
+}
+
 onMounted(async () => {
   if ((Number(route.query.id) ?? 0) != 0) {
     article.value = await getArticleById(Number(route.query.id))
+    if (article.value.isPublished) article.value.isPublished = true
+    else article.value.isPublished = false
   }
 })
 
+async function saveDraft() {
+  article.value.isPublished = false
+  if (article.value.id == 0) {
+    articleEcho = await newArticle(article.value)
+  } else {
+    articleEcho = await updateArticle(article.value)
+  }
+  alert('保存草稿成功')
+  return articleEcho
+}
+
 async function saveArticle() {
+  article.value.isPublished = true
   if (article.value.id == 0) {
     articleEcho = await newArticle(article.value)
   } else {
@@ -70,7 +107,8 @@ function handleUploadImage(event: Event, insertImage: any, files: FileWithHandle
     <ArticleEditForm v-model="article" />
     <VMdEditor
       v-model="article.content"
-      :left-toolbar="leftToolbar"
+      left-toolbar="undo redo clear|h bold italic strikethrough quote|ul ol table hr|link image code|tip emoji save"
+      :toolbar="customToolbar"
       @save="saveArticle()"
       :disabled-menus="[]"
       height="100%"

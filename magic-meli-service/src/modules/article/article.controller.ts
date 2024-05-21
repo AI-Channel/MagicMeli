@@ -4,18 +4,21 @@ import { ArticleService } from './article.service'
 
 export const ArticleController = new Elysia({ prefix: '/article' })
   .use(ArticleModel)
-  .decorate({ Service: new ArticleService() })
+  .decorate({ ArticleService: new ArticleService() })
+  .get('/test', ({ ArticleService }) => {
+    return ArticleService.getAllCategories()
+  })
   .get(
     '/:id',
-    ({ Service, params: { id } }) => {
-      return Service.getArticleById(id)
+    ({ ArticleService, params: { id } }) => {
+      return ArticleService.getArticleById(id)
     },
     { params: t.Object({ id: t.Numeric() }) }
   )
   .delete(
     '/:id',
-    ({ Service, params: { id } }) => {
-      return Service.deleteArticleById(id)
+    ({ ArticleService, params: { id } }) => {
+      return ArticleService.deleteArticleById(id)
     },
     {
       params: t.Object({ id: t.Numeric() })
@@ -23,8 +26,8 @@ export const ArticleController = new Elysia({ prefix: '/article' })
   )
   .put(
     '/:id/revert',
-    ({ Service, params: { id } }) => {
-      return Service.revertArticleById(id)
+    ({ ArticleService, params: { id } }) => {
+      return ArticleService.revertArticleById(id)
     },
     {
       params: t.Object({ id: t.Numeric() })
@@ -32,20 +35,23 @@ export const ArticleController = new Elysia({ prefix: '/article' })
   )
   .delete(
     '/:id/hard-delete',
-    ({ Service, params: { id } }) => {
-      return Service.hardDelArticleById(id)
+    ({ ArticleService, params: { id } }) => {
+      return ArticleService.hardDelArticleById(id)
     },
     {
       params: t.Object({ id: t.Numeric() })
     }
   )
-  .get('/list', ({ Service }) => {
-    return Service.getAriticleList()
+  .get('/list', ({ ArticleService }) => {
+    return ArticleService.getAriticleList()
+  })
+  .get('deleted-article-list', ({ ArticleService }) => {
+    return ArticleService.getDeletedArticleList()
   })
   .post(
     '/new',
-    ({ Service, body: newArticle }) => {
-      return Service.insertArticle(newArticle)
+    ({ ArticleService, body: newArticle }) => {
+      return ArticleService.insertArticle(newArticle)
     },
     {
       body: 'article.new'
@@ -53,8 +59,8 @@ export const ArticleController = new Elysia({ prefix: '/article' })
   )
   .put(
     '/update',
-    ({ Service, body: newArticle }) => {
-      return Service.updateArticle(newArticle)
+    ({ ArticleService, body: newArticle }) => {
+      return ArticleService.updateArticle(newArticle)
     },
     {
       body: 'article.update'

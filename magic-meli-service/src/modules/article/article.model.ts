@@ -22,7 +22,7 @@ export const ArticleModel = new Elysia({ name: 'Model.Article' }).model({
     content: t.String(),
     category: t.String(),
     tags: t.Array(t.String()),
-    isPublised: t.Boolean()
+    isPublished: t.Boolean()
   }),
   'article.update': t.Object({
     id: t.Integer(),

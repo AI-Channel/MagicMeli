@@ -9,6 +9,7 @@ import IconRecycleBin from './components/icons/IconRecycleBin.vue'
 import IconSetting from './components/icons/IconSetting.vue'
 import { setTheme } from './scripts/libs'
 import { RouterLink } from 'vue-router'
+import IconDraft from './components/icons/IconDraft.vue'
 
 onMounted(() => {
   const storedTheme = localStorage.getItem('theme') ?? 'light'
@@ -35,6 +36,9 @@ onMounted(() => {
         <IconRecycleBin :width="64" :height="64" />
       </DesktopIconContainer>
     </RouterLink>
+    <DesktopIconContainer title="草稿">
+      <IconDraft :width="64" :height="64" />
+    </DesktopIconContainer>
     <RouterLink :to="{ name: 'markdown editor', query: { id: 0 } }" class="m-auto">
       <DesktopIconContainer title="新文章">
         <IconNewArticle :width="64" :height="64" />
@@ -50,6 +54,7 @@ onMounted(() => {
         <IconFolderOpen :width="64" :height="64" />
       </DesktopIconContainer>
     </RouterLink>
+
     <RouterView></RouterView>
   </main>
 </template>

@@ -4,18 +4,18 @@ import { ImageService } from './image.service'
 
 export const imageController = new Elysia({ prefix: '/image' })
   .use(ImageModel)
-  .decorate({ Service: new ImageService() })
+  .decorate({ ImageService: new ImageService() })
   .get(
     '/:id',
-    ({ Service, params: { id } }) => {
-      return Service.getImageById(id)
+    ({ ImageService, params: { id } }) => {
+      return ImageService.getImageById(id)
     },
     {
       params: t.Object({
-        id: t.Integer()
+        id: t.Numeric()
       })
     }
   )
-  .get('/list', ({ Service }) => {
-    return Service.getImageList()
+  .get('/list', ({ ImageService }) => {
+    return ImageService.getImageList()
   })

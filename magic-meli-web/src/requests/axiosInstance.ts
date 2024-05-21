@@ -3,10 +3,10 @@ import axios, { type AxiosInstance, type AxiosResponse, type InternalAxiosReques
 enum baseURL {
   mock = 'https://magic-meli-12722872.mocker.coding.io',
   dataBase = 'http://localhost:5000',
-  elysia = 'http://localhost:3000'
+  elysia = 'http://localhost:5939'
 }
 const instance: AxiosInstance = axios.create({
-  baseURL: baseURL.dataBase,
+  baseURL: baseURL.elysia,
   timeout: 5000,
   withCredentials: false
 })
