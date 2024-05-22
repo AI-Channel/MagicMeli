@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ArticleMeta } from '@/models/article'
-import { delArticleById, getAllTags, getArticleList, getDelArticleList, hardDelArticleById, revertArticleById } from '@/requests/article'
+import { updateArticleStatusById, getAllTags, hardDelArticleById, getArticleListByStatus } from '@/requests/article'
 import { onMounted, ref, type Ref } from 'vue'
 import StatusBar from './StatusBar.vue'
 import TagsNav from './TagsNav.vue'
@@ -15,8 +15,7 @@ const props = defineProps<{
 }>()
 
 onMounted(async () => {
-  if (props.showMode === 'article') articleList.value = await getArticleList()
-  else if (props.showMode === 'recycle') articleList.value = await getDelArticleList()
+  if (props.showMode) articleList.value = await getArticleListByStatus(props.showMode)
   store.articleTags = await getAllTags()
 })
 
@@ -24,7 +23,7 @@ async function hardDelete(id: number) {
   if (confirm('确定要永久删除此文章吗？')) {
     await hardDelArticleById(id)
   }
-  articleList.value = await getDelArticleList()
+  articleList.value = await getArticleListByStatus('deleted')
 }
 </script>
 
@@ -51,17 +50,30 @@ async function hardDelete(id: number) {
         :show-mode="props.showMode"
         @delete="
           async () => {
-            await delArticleById(item.id)
-            articleList = await getArticleList()
+            await updateArticleStatusById(item.id, 'delete')
+            if ($props.showMode == 'article') articleList = await getArticleListByStatus('article')
+            else if ($props.showMode == 'draft') articleList = await getArticleListByStatus('draft')
           }
         "
         @revert="
           async () => {
-            await revertArticleById(item.id)
-            articleList = await getDelArticleList()
+            await updateArticleStatusById(item.id, 'revert')
+            articleList = await getArticleListByStatus('deleted')
           }
         "
         @hard-delete="hardDelete(item.id)"
+        @publish="
+          async () => {
+            await updateArticleStatusById(item.id, 'publish')
+            articleList = await getArticleListByStatus('draft')
+          }
+        "
+        @unpublish="
+          async () => {
+            await updateArticleStatusById(item.id, 'unpublish')
+            articleList = await getArticleListByStatus('article')
+          }
+        "
       />
     </li>
   </ul>

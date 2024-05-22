@@ -4,6 +4,8 @@ import IconDelete from './icons/IconDelete.vue'
 import IconEdit from './icons/IconEdit.vue'
 import IconHardDelete from './icons/IconHardDelete.vue'
 import IconReturn from './icons/IconReturn.vue'
+import IconPublish from './icons/IconPublish.vue'
+import IconUnpublish from './icons/IconUnpublish.vue'
 
 const props = defineProps<{
   articleId: number
@@ -16,9 +18,11 @@ const props = defineProps<{
     <RouterLink :to="{ name: 'markdown editor', query: { id: articleId } }">
       <IconEdit :width="24" :height="24" />
     </RouterLink>
-    <IconReturn v-if="props.showMode === 'recycle'" :width="24" :height="24" class="cursor-pointer" @click="$emit('revert')" />
-    <IconHardDelete v-if="props.showMode === 'recycle'" :width="24" :height="24" class="cursor-pointer" @click="$emit('hardDelete')" />
-    <IconDelete v-else :width="24" :height="24" class="cursor-pointer" @click="$emit('delete')" />
+    <IconPublish v-if="props.showMode === 'draft'" :width="24" :height="24" class="cursor-pointer" @click="$emit('publish')" />
+    <IconReturn v-if="props.showMode === 'deleted'" :width="24" :height="24" class="cursor-pointer" @click="$emit('revert')" />
+    <IconHardDelete v-if="props.showMode === 'deleted'" :width="24" :height="24" class="cursor-pointer" @click="$emit('hardDelete')" />
+    <IconUnpublish v-if="props.showMode === 'article'" :width="24" :height="24" class="cursor-pointer" @click="$emit('unpublish')" />
+    <IconDelete v-if="props.showMode !== 'deleted'" :width="24" :height="24" class="cursor-pointer" @click="$emit('delete')" />
   </div>
 </template>
 

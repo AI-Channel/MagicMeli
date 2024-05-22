@@ -11,7 +11,7 @@ const isShowList = computed<Boolean>(() => {
 <template>
   <WindowContainer>
     <KeepAlive>
-      <ArticleList :show-mode="'deleted'" v-if="isShowList" />
+      <ArticleList :show-mode="'draft'" v-if="isShowList" />
     </KeepAlive>
     <RouterView></RouterView>
   </WindowContainer>

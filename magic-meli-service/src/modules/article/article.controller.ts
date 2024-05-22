@@ -15,26 +15,18 @@ export const ArticleController = new Elysia({ prefix: '/article' })
     },
     { params: t.Object({ id: t.Numeric() }) }
   )
+  .put(
+    '/:id',
+    ({ ArticleService, params: { id }, query: { status } }) => {
+      return ArticleService.updateArticleStatusById(id, status)
+    },
+    {
+      params: t.Object({ id: t.Numeric() }),
+      query: t.Object({ status: t.String() })
+    }
+  )
   .delete(
     '/:id',
-    ({ ArticleService, params: { id } }) => {
-      return ArticleService.deleteArticleById(id)
-    },
-    {
-      params: t.Object({ id: t.Numeric() })
-    }
-  )
-  .put(
-    '/:id/revert',
-    ({ ArticleService, params: { id } }) => {
-      return ArticleService.revertArticleById(id)
-    },
-    {
-      params: t.Object({ id: t.Numeric() })
-    }
-  )
-  .delete(
-    '/:id/hard-delete',
     ({ ArticleService, params: { id } }) => {
       return ArticleService.hardDelArticleById(id)
     },
@@ -42,12 +34,13 @@ export const ArticleController = new Elysia({ prefix: '/article' })
       params: t.Object({ id: t.Numeric() })
     }
   )
-  .get('/list', ({ ArticleService }) => {
-    return ArticleService.getAriticleList()
-  })
-  .get('deleted-article-list', ({ ArticleService }) => {
-    return ArticleService.getDeletedArticleList()
-  })
+  .get(
+    '/list',
+    ({ ArticleService, query: { status } }) => {
+      return ArticleService.getAriticleList(status)
+    },
+    { query: t.Object({ status: t.String() }) }
+  )
   .post(
     '/new',
     ({ ArticleService, body: newArticle }) => {

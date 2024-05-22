@@ -37,7 +37,7 @@ const customToolbar = {
         name: 'saveDraft',
         text: '保存草稿',
         action() {
-          saveDraft()
+          saveArticle(false)
         }
       },
       {
@@ -52,32 +52,21 @@ const customToolbar = {
 }
 
 onMounted(async () => {
-  if ((Number(route.query.id) ?? 0) != 0) {
+  if (Number(route.query.id)) {
     article.value = await getArticleById(Number(route.query.id))
     if (article.value.isPublished) article.value.isPublished = true
     else article.value.isPublished = false
   }
 })
 
-async function saveDraft() {
-  article.value.isPublished = false
+async function saveArticle(isPublished: boolean) {
+  article.value.isPublished = isPublished
   if (article.value.id == 0) {
     articleEcho = await newArticle(article.value)
   } else {
     articleEcho = await updateArticle(article.value)
   }
-  alert('保存草稿成功')
-  return articleEcho
-}
-
-async function saveArticle() {
-  article.value.isPublished = true
-  if (article.value.id == 0) {
-    articleEcho = await newArticle(article.value)
-  } else {
-    articleEcho = await updateArticle(article.value)
-  }
-  alert('保存成功')
+  isPublished ? alert('保存成功') : alert('保存草稿成功')
   return articleEcho
 }
 
@@ -109,7 +98,7 @@ function handleUploadImage(event: Event, insertImage: any, files: FileWithHandle
       v-model="article.content"
       left-toolbar="undo redo clear|h bold italic strikethrough quote|ul ol table hr|link image code|tip emoji save"
       :toolbar="customToolbar"
-      @save="saveArticle()"
+      @save="saveArticle(true)"
       :disabled-menus="[]"
       height="100%"
       :include-level="[2, 3, 4]"

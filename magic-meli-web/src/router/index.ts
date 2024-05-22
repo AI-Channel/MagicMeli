@@ -55,6 +55,15 @@ const router = createRouter({
       component: () => import('@/views/RecycleView.vue')
     },
     {
+      path: '/draft-box',
+      meta: {
+        isListPageCheck: 'draft',
+        title: 'Draft Box'
+      },
+      name: 'draft',
+      component: () => import('@/views/DraftView.vue')
+    },
+    {
       path: '/login',
       meta: {
         title: 'Login'

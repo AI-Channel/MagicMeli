@@ -36,9 +36,11 @@ onMounted(() => {
         <IconRecycleBin :width="64" :height="64" />
       </DesktopIconContainer>
     </RouterLink>
-    <DesktopIconContainer title="草稿">
-      <IconDraft :width="64" :height="64" />
-    </DesktopIconContainer>
+    <RouterLink :to="{ name: 'draft' }" class="m-auto"
+      ><DesktopIconContainer title="草稿箱">
+        <IconDraft :width="64" :height="64" />
+      </DesktopIconContainer>
+    </RouterLink>
     <RouterLink :to="{ name: 'markdown editor', query: { id: 0 } }" class="m-auto">
       <DesktopIconContainer title="新文章">
         <IconNewArticle :width="64" :height="64" />

@@ -32,22 +32,26 @@ export class ArticleService {
     return article
   }
 
-  getAriticleList() {
+  getAriticleList(mode: string) {
+    let queryCondition = ''
+    switch (mode) {
+      case 'article':
+        queryCondition = `isDeleted == 0 AND isPublished == 1`
+        break
+      case 'deleted':
+        queryCondition = `isDeleted == 1`
+        break
+      case 'draft':
+        queryCondition = `isDeleted == 0 AND isPublished == 0`
+        break
+      default:
+        throw console.warn('Invalid list status!')
+    }
     const articleList = this.db
       .query<
         ArticleMetaDto,
         null
-      >(`SELECT id,title,summary,author,category,isDeleted,isPublished,updateTime FROM article WHERE isDeleted==0 ORDER BY id`)
-      .all(null)
-    for (const article of articleList) {
-      article.tags = this.getArticleTagsById(article.id ?? 0)
-    }
-    return articleList
-  }
-
-  getDeletedArticleList() {
-    const articleList = this.db
-      .query<ArticleMetaDto, null>(`SELECT id,title,summary,author,category,isDeleted,isPublished,updateTime FROM article WHERE isDeleted==1`)
+      >(`SELECT id,title,summary,author,category,isDeleted,isPublished,updateTime FROM article WHERE ${queryCondition} ORDER BY id`)
       .all(null)
     for (const article of articleList) {
       article.tags = this.getArticleTagsById(article.id ?? 0)
@@ -78,20 +82,28 @@ export class ArticleService {
     return echo
   }
 
-  deleteArticleById(id: number) {
-    const del = this.db.prepare<ArticleDto, number>(`UPDATE article SET isDeleted=true WHERE id==$id`)
-    del.run(id)
-    const article: ArticleDto | null = this.db.query<ArticleDto, number>(`SELECT * FROM article WHERE id == $param;`).get(id)
-    if (article) article.tags = this.getArticleTagsById(id)
-    return article
-  }
-
-  revertArticleById(id: number) {
-    const revert = this.db.prepare<ArticleDto, number>(`UPDATE article SET isDeleted=false WHERE id==$id`)
-    revert.run(id)
-    const article: ArticleDto | null = this.db.query<ArticleDto, number>(`SELECT * FROM article WHERE id == $param;`).get(id)
-    if (article) article.tags = this.getArticleTagsById(id)
-    return article
+  updateArticleStatusById(id: number, mode: string) {
+    let dbHandle = ''
+    switch (mode) {
+      case 'delete':
+        dbHandle = `isDeleted = true`
+        break
+      case 'revert':
+        dbHandle = `isDeleted = false`
+        break
+      case 'publish':
+        dbHandle = `isPublished = true`
+        break
+      case 'unpublish':
+        dbHandle = `isPublished = false`
+        break
+      default:
+        throw console.warn('Invalid update mode!')
+    }
+    const updateTime = new Date().toISOString()
+    return this.db
+      .prepare<ArticleDto, SQLQueryBindings>(`UPDATE article SET ${dbHandle},updateTime = $time WHERE id==$id RETURNING *`)
+      .get({ $id: id, $time: updateTime })
   }
 
   updateArticle(article: ArticleDto) {
@@ -125,6 +137,15 @@ export class ArticleService {
 
   getTagsList() {
     return this.db.query<tagsObject, null>(`SELECT id,tag FROM tags`).all(null)
+  }
+
+  getAllCategories() {
+    const categories = this.db.query(`SELECT DISTINCT category FROM article ORDER BY category`).values()
+    const outputArray = []
+    for (const item of categories) {
+      outputArray.push(...item)
+    }
+    return outputArray
   }
 
   tagGarbageCollection = this.db.transaction((tag: string) => {
@@ -183,13 +204,4 @@ export class ArticleService {
     for (const tag of tagsNeedtoDel) this.deleteTagMap(articleId, tag)
     for (const tag of tagsNeedToAdd) this.insertTagMap(articleId, tag)
   })
-
-  getAllCategories() {
-    const categories = this.db.query(`SELECT DISTINCT category FROM article ORDER BY category`).values()
-    const outputArray = []
-    for (const item of categories) {
-      outputArray.push(...item)
-    }
-    return outputArray
-  }
 }
