@@ -16,6 +16,7 @@ export const useWindowStore = defineStore('window', () => {
 })
 
 export const useArticleStore = defineStore('article', () => {
+  const status: string = ''
   const articleTags: Array<string> = ['']
   const checkedTags: Ref<Set<string>> = ref(new Set())
 
@@ -24,8 +25,18 @@ export const useArticleStore = defineStore('article', () => {
   }
 
   return {
+    status,
     articleTags,
     checkedTags,
     isAllCheckedTagsIn
   }
+})
+
+export const useUserStore = defineStore('user', () => {
+  const token: Ref<string | false> = ref('')
+  const isVerified: Ref<boolean> = ref(false)
+  function setToken(Tokenvalue: string | false) {
+    token.value = Tokenvalue
+  }
+  return { token, isVerified , setToken}
 })

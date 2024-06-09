@@ -4,7 +4,7 @@ import IconClose from '@/components/icons/IconClose.vue'
 import IconMaximize from '@/components/icons/IconMaximize.vue'
 import IconMinimize from '@/components/icons/IconMinimize.vue'
 const props = defineProps<{
-  title: any
+  title: string
 }>()
 const store = useWindowStore()
 </script>

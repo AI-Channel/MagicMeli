@@ -13,7 +13,9 @@ const article = defineModel<Article>({
 </script>
 
 <template>
-  <form class="my-2 grid grid-cols-2 grid-rows-4 gap-2 font-Fusion text-themeViolet dark:text-darkViolet">
+  <form
+    class="my-2 mb-3 grid grid-cols-2 grid-rows-4 gap-2 border-b border-themeViolet pb-3 font-Fusion text-themeViolet dark:border-darkViolet dark:text-darkViolet"
+  >
     <label class="flex content-center">
       <span class="m-auto min-w-20">标题：</span>
       <input

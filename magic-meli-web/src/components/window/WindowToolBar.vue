@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import ArticleFilter from './ArticleFilter.vue'
 import BreadcrumbNav from './BreadcrumbNav.vue'
 import IconBackward from '@/components/icons/IconBackward.vue'
 import ImageUpload from './ImageUpload.vue'
-const FilterShowCase = new Set(['articles', 'recycle'])
+import { defineAsyncComponent } from 'vue'
+import { useArticleStore } from '@/stores/store'
+const FilterShowCase = new Set(['articles', 'deleted', 'draft'])
 const ImageUploadShowCase = new Set(['fanart'])
+const ArticleFilter = defineAsyncComponent(() => import('@/components/window/ArticleFilter.vue'))
+
+const store = useArticleStore()
 </script>
 
 <template>
@@ -15,7 +19,7 @@ const ImageUploadShowCase = new Set(['fanart'])
       <IconBackward :width="24" :height="24" @click="$router.back" class="cursor-pointer" />
     </div>
     <BreadcrumbNav />
-    <ArticleFilter v-show="FilterShowCase.has($route.name?.toString() ?? '')" />
+    <ArticleFilter v-show="FilterShowCase.has($route.name?.toString() ?? '') && store.articleTags.length > 0" />
     <ImageUpload v-show="ImageUploadShowCase.has($route.name?.toString() ?? '')" />
   </div>
 </template>

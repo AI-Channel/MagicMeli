@@ -57,13 +57,34 @@
       @apply float-left -ml-3 pr-2;
     }
     div[class*='v-md-pre-wrapper-'].line-numbers-mode {
-      @apply relative bg-themeFuchsia py-5 dark:bg-darkThemeFuchsia;
+      @apply relative rounded bg-themeFuchsia py-5 dark:bg-darkThemeFuchsia;
       pre {
         @apply pl-20;
       }
       .line-numbers-wrapper {
         @apply absolute top-0 m-auto w-14 select-none border-r border-violet-200 py-5 text-center text-base leading-8 text-violet-400;
       }
+    }
+  }
+}
+.v-md-editor-preview {
+  .header-anchor {
+    @apply float-left -ml-3 pr-2;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    a {
+      @apply opacity-0;
+    }
+  }
+  h1:hover,
+  h2:hover,
+  h3:hover,
+  h4:hover {
+    a {
+      @apply opacity-100;
     }
   }
 }

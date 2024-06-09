@@ -8,10 +8,15 @@
   },
   "dependencies": {
     "@elysiajs/cors": "^1.0.2",
-    "@elysiajs/eden": "^1.0.12",
+    "@elysiajs/jwt": "^1.0.2",
     "@elysiajs/swagger": "^1.0.5",
+    "@types/crypto-js": "^4.2.2",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/uuid": "^9.0.8",
+    "crypto-js": "^4.2.0",
     "elysia": "latest",
-    "simple-flakeid": "^0.0.5"
+    "simple-flakeid": "^0.0.5",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.2.0",

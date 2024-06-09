@@ -10,8 +10,12 @@ import IconSetting from './components/icons/IconSetting.vue'
 import { setTheme } from './scripts/libs'
 import { RouterLink } from 'vue-router'
 import IconDraft from './components/icons/IconDraft.vue'
-
-onMounted(() => {
+import { useUserStore } from './stores/store'
+import { tokenVerify } from './requests/user'
+const userStore = useUserStore()
+onMounted(async () => {
+  userStore.setToken(localStorage.getItem('token') ?? false)
+  userStore.isVerified = 'id' in await tokenVerify()
   const storedTheme = localStorage.getItem('theme') ?? 'light'
   setTheme(storedTheme)
 })
@@ -31,7 +35,7 @@ onMounted(() => {
         <IconArticle :width="64" :height="64" />
       </DesktopIconContainer>
     </RouterLink>
-    <RouterLink :to="{ name: 'recycle' }" class="m-auto">
+    <RouterLink :to="{ name: 'deleted' }" class="m-auto">
       <DesktopIconContainer title="回收站">
         <IconRecycleBin :width="64" :height="64" />
       </DesktopIconContainer>

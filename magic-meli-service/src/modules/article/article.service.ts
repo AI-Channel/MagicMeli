@@ -18,12 +18,13 @@ interface ArticleDto extends ArticleMetaDto {
 interface tagsObject {
   id: number
   tag: string
+  refCount: number
 }
 
 export class ArticleService {
   private tempArticleHasTagsTable = `SELECT articleId,tags.tag FROM articleHasTags JOIN tags WHERE articleHasTags.tagId == tags.id`
   private db = new Database('MagicMeli.db')
-  private defalutTagObj: tagsObject = { id: 0, tag: 'error' }
+  private defalutTagObj: tagsObject = { id: 0, tag: 'error', refCount: 0 }
 
   getArticleById = (id: number) => {
     const article: ArticleDto | null = this.db.query<ArticleDto, number>(`SELECT * FROM article WHERE id == $param`).get(id)
@@ -34,19 +35,25 @@ export class ArticleService {
 
   getAriticleList(mode: string) {
     let queryCondition = ''
-    switch (mode) {
-      case 'article':
-        queryCondition = `isDeleted == 0 AND isPublished == 1`
-        break
-      case 'deleted':
-        queryCondition = `isDeleted == 1`
-        break
-      case 'draft':
-        queryCondition = `isDeleted == 0 AND isPublished == 0`
-        break
-      default:
-        throw console.warn('Invalid list status!')
+    try {
+      switch (mode) {
+        case 'article':
+          queryCondition = `isDeleted == 0 AND isPublished == 1`
+          break
+        case 'deleted':
+          queryCondition = `isDeleted == 1`
+          break
+        case 'draft':
+          queryCondition = `isDeleted == 0 AND isPublished == 0`
+          break
+        default:
+          throw new Error('Invalid list status!')
+      }
+    } catch (error: any) {
+      console.warn(error)
+      return error as string
     }
+
     const articleList = this.db
       .query<
         ArticleMetaDto,
@@ -59,7 +66,7 @@ export class ArticleService {
     return articleList
   }
 
-  insertArticle(article: ArticleDto) {
+  insertArticle = this.db.transaction((article: ArticleDto) => {
     const insert = this.db.prepare<ArticleDto, SQLQueryBindings>(
       `INSERT INTO article (id,title,summary,author,content,category,updateTime,isPublished)
       VALUES($id,$title,$summary,$author,$content,$category,$updateTime,$isPublished) RETURNING *`
@@ -78,35 +85,40 @@ export class ArticleService {
       this.updateAllTags(echo.id, article.tags)
       echo.tags = this.getArticleTagsById(echo.id ?? 0)
     }
-    this.tagGarbageCollection()
     return echo
-  }
+  })
 
   updateArticleStatusById(id: number, mode: string) {
     let dbHandle = ''
-    switch (mode) {
-      case 'delete':
-        dbHandle = `isDeleted = true`
-        break
-      case 'revert':
-        dbHandle = `isDeleted = false`
-        break
-      case 'publish':
-        dbHandle = `isPublished = true`
-        break
-      case 'unpublish':
-        dbHandle = `isPublished = false`
-        break
-      default:
-        throw console.warn('Invalid update mode!')
+    try {
+      switch (mode) {
+        case 'delete':
+          dbHandle = `isDeleted = true`
+          break
+        case 'revert':
+          dbHandle = `isDeleted = false`
+          break
+        case 'publish':
+          dbHandle = `isPublished = true`
+          break
+        case 'unpublish':
+          dbHandle = `isPublished = false`
+          break
+        default:
+          throw new Error('Invalid update mode!')
+      }
+    } catch (error: any) {
+      console.warn(error)
+      return error as string
     }
+
     const updateTime = new Date().toISOString()
     return this.db
       .prepare<ArticleDto, SQLQueryBindings>(`UPDATE article SET ${dbHandle},updateTime = $time WHERE id==$id RETURNING *`)
       .get({ $id: id, $time: updateTime })
   }
 
-  updateArticle(article: ArticleDto) {
+  updateArticle = this.db.transaction((article: ArticleDto) => {
     if (typeof article.id != 'number') {
       throw new Error('invalid article object')
     }
@@ -115,6 +127,7 @@ export class ArticleService {
       SET title=$title,summary=$summary,author=$author,content=$content,category=$category,updateTime=$updateTime,isPublished=$isPublished 
       WHERE id=$id RETURNING *`
     )
+
     const echo = update.get({
       $id: article.id,
       $title: article.title,
@@ -128,11 +141,11 @@ export class ArticleService {
     this.updateAllTags(article.id, article.tags)
     if (echo) echo.tags = this.getArticleTagsById(echo.id ?? 0)
     return echo
-  }
+  })
 
   hardDelArticleById(id: number) {
-    const del = this.db.prepare<null, number>(`DELETE FROM article WHERE ID == $param`)
-    del.run(id)
+    const echo = this.db.prepare<ArticleDto, number>(`DELETE FROM article WHERE ID == $param RETURNING *`).get(id)
+    if (echo) this.updateAllTags(echo.id, echo.tags)
   }
 
   getTagsList() {
@@ -160,7 +173,7 @@ export class ArticleService {
     return this.db.query<tagsObject, number>(`SELECT articleId as id,tag FROM (${this.tempArticleHasTagsTable}) WHERE articleId=$id`).all(id)
   }
 
-  private getArticleTagsById = (id: number) => {
+  private getArticleTagsById(id: number) {
     return this.tagsObjectToArray(this.getArticleTagsObjectById(id))
   }
 
@@ -172,20 +185,35 @@ export class ArticleService {
     return outputArray
   }
 
-  private getTagByTagName = (tagname: string) => {
-    return this.db.query<tagsObject, string>(`SELECT id,tag FROM tags WHERE tag == $tagname`).get(tagname)
+  private getTagByTagName(tagname: string) {
+    return this.db.query<tagsObject, string>(`SELECT * FROM tags WHERE tag == $tagname`).get(tagname)
   }
 
   private insertTag = this.db.transaction((tag: string) => {
     return this.db.prepare<tagsObject, string>(`INSERT INTO tags (tag) VALUES ($tag) RETURNING *`).get(tag) ?? this.defalutTagObj
   })
 
+  private deleteTag = this.db.transaction((tag: string) => {
+    return this.db.prepare<tagsObject, string>(`DELETE FROM tags WHERE tag = $tag RETURNING *`).get(tag) ?? this.defalutTagObj
+  })
+
   private deleteTagMap = this.db.transaction((articleId: number, tag: string) => {
-    const thisTag: tagsObject = this.getTagByTagName(tag) ?? this.defalutTagObj
-    this.db.prepare(`DELETE FROM articleHasTags WHERE articleId = $id AND tagId = $tag`).run({
-      $id: articleId,
-      $tag: thisTag.id
-    })
+    let thisTagObj: tagsObject = this.getTagByTagName(tag) ?? this.defalutTagObj
+    this.db
+      .prepare(
+        `DELETE FROM articleHasTags WHERE articleId = $id AND tagId = $tagId;
+    `
+      )
+      .run({
+        $id: articleId,
+        $tagId: thisTagObj.id
+      })
+    thisTagObj =
+      this.db.prepare<tagsObject, number>(`UPDATE tags SET refCount = refCount - 1 WHERE id = $tagId RETURNING *`).get(thisTagObj.id) ??
+      this.defalutTagObj
+    if (thisTagObj.refCount == 0) {
+      this.deleteTag(thisTagObj.tag)
+    }
   })
 
   private insertTagMap = this.db.transaction((articleId: number, tagName: string) => {
@@ -194,6 +222,7 @@ export class ArticleService {
       thisTagObj = this.insertTag(tagName)
     }
     this.db.prepare(`INSERT INTO articleHasTags (articleId,tagId) VALUES ($articleId,$tagId)`).run({ $articleId: articleId, $tagId: thisTagObj.id })
+    this.db.prepare(`UPDATE tags SET refCount = refCount + 1 WHERE id = $tagId`).run({ $tagId: thisTagObj.id })
   })
 
   private updateAllTags = this.db.transaction((articleId: number, tags: string[]) => {

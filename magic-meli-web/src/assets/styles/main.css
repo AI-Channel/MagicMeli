@@ -1,6 +1,6 @@
 @import './base.css';
 @import './meliMarkdownStyle.css';
-
+@import './highlight.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

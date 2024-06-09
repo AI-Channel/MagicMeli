@@ -28,13 +28,13 @@ let initialize = {
     class="fixed z-10 flex max-h-full max-w-full flex-col border-[2px] border-themeViolet bg-themeCyan p-1 dark:bg-darkThemeFuchsia"
     :style="store.isMaximized ? { width: 100 + '%', height: 100 + '%', top: 0, left: 0 } : {}"
   >
-    <WindowHeadBar :title="$route.meta.title" />
+    <WindowHeadBar :title="$route.meta.title as string" />
     <WindowToolBar />
-    <div
+    <article
       class="h-full max-w-full overflow-y-auto overflow-x-hidden border-[2px] border-themeViolet bg-windowFuchsia p-2 dark:border-darkViolet dark:bg-darkWindowFuchsia"
     >
       <slot></slot>
-    </div>
+    </article>
   </Vue3DraggableResizable>
 </template>
 

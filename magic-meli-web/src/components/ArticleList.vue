@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import type { ArticleMeta } from '@/models/article'
-import { updateArticleStatusById, getAllTags, hardDelArticleById, getArticleListByStatus } from '@/requests/article'
-import { onMounted, ref, type Ref } from 'vue'
+import { updateArticleStatusById, hardDelArticleById, getArticleListByStatus, getAllTagsByStatus } from '@/requests/article'
+import { onMounted, onUpdated, ref, type Ref } from 'vue'
 import StatusBar from './StatusBar.vue'
 import TagsNav from './TagsNav.vue'
 import { useArticleStore } from '@/stores/store'
 import { renderInline } from '@/scripts/mdRenderer'
+import { toast, type ToastOptions } from 'vue3-toastify'
 
 let articleList: Ref<ArticleMeta[]> = ref([])
 const store = useArticleStore()
@@ -14,16 +15,53 @@ const props = defineProps<{
   showMode: string | undefined
 }>()
 
+store.status = props.showMode ?? 'article'
+
 onMounted(async () => {
   if (props.showMode) articleList.value = await getArticleListByStatus(props.showMode)
-  store.articleTags = await getAllTags()
 })
+
+onUpdated(async () => {
+  store.articleTags = await getAllTagsByStatus(store.status)
+})
+
+async function deleteArticle(id: number) {
+  await updateArticleStatusById(id, 'delete')
+  if (props.showMode == 'article') articleList.value = await getArticleListByStatus('article')
+  else if (props.showMode == 'draft') articleList.value = await getArticleListByStatus('draft')
+  autoToast('删除成功')
+}
+
+async function revertArticle(id: number) {
+  await updateArticleStatusById(id, 'revert')
+  articleList.value = await getArticleListByStatus('deleted')
+  autoToast('恢复成功')
+}
+
+async function publishArticle(id: number) {
+  await updateArticleStatusById(id, 'publish')
+  articleList.value = await getArticleListByStatus('draft')
+  autoToast('发布成功')
+}
 
 async function hardDelete(id: number) {
   if (confirm('确定要永久删除此文章吗？')) {
     await hardDelArticleById(id)
   }
   articleList.value = await getArticleListByStatus('deleted')
+}
+
+async function unpublishArticle(id: number) {
+  await updateArticleStatusById(id, 'unpublish')
+  articleList.value = await getArticleListByStatus('article')
+  autoToast('撤销发布成功')
+}
+
+function autoToast(message: string) {
+  toast.success(message, {
+    autoClose: 1500,
+    position: toast.POSITION.TOP_CENTER
+  } as ToastOptions)
 }
 </script>
 
@@ -41,42 +79,21 @@ async function hardDelete(id: number) {
             {{ item.title }}
           </h1>
         </RouterLink>
-
         <TagsNav :tags="new Set(item.tags)" class="my-1" />
         <p class="line-clamp-3 w-3/4" v-html="renderInline(item.summary)"></p>
       </div>
       <StatusBar
         :article-id="item.id"
         :show-mode="props.showMode"
-        @delete="
-          async () => {
-            await updateArticleStatusById(item.id, 'delete')
-            if ($props.showMode == 'article') articleList = await getArticleListByStatus('article')
-            else if ($props.showMode == 'draft') articleList = await getArticleListByStatus('draft')
-          }
-        "
-        @revert="
-          async () => {
-            await updateArticleStatusById(item.id, 'revert')
-            articleList = await getArticleListByStatus('deleted')
-          }
-        "
+        @delete="deleteArticle(item.id)"
+        @revert="revertArticle(item.id)"
         @hard-delete="hardDelete(item.id)"
-        @publish="
-          async () => {
-            await updateArticleStatusById(item.id, 'publish')
-            articleList = await getArticleListByStatus('draft')
-          }
-        "
-        @unpublish="
-          async () => {
-            await updateArticleStatusById(item.id, 'unpublish')
-            articleList = await getArticleListByStatus('article')
-          }
-        "
+        @publish="publishArticle(item.id)"
+        @unpublish="unpublishArticle(item.id)"
       />
     </li>
   </ul>
+  <img id="placeholder" src="/src/assets/graphs/nothing.svg" v-if="articleList.length == 0" class="m-auto size-36 select-none opacity-60" />
 </template>
 
 <style scoped></style>

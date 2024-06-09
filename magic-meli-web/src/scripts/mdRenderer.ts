@@ -10,6 +10,8 @@ import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/
 import createCopyCodePlugin from '@kangc/v-md-editor/lib/plugins/copy-code/index'
 import createKatexPlugin from '@kangc/v-md-editor/lib/plugins/katex/cdn'
 import createMermaidPlugin from '@kangc/v-md-editor/lib/plugins/mermaid/cdn'
+import createTodoListPlugin from '@kangc/v-md-editor/lib/plugins/todo-list/index'
+import '@kangc/v-md-editor/lib/plugins/todo-list/todo-list.css'
 
 import '@kangc/v-md-editor/lib/theme/style/github.css'
 import '@kangc/v-md-editor/lib/style/base-editor.css'
@@ -51,7 +53,20 @@ hljsTheme.extend((md: MarkdownIt) => {
     .use(anchor, { permalink: anchor.permalink.linkInsideHeader({ placement: 'before' }) })
 })
 
-VMdEditor.use(githubTheme, { Hljs: hljs })
+VMdEditor.use(githubTheme, {
+  Hljs: hljs,
+  extend(md: MarkdownIt) {
+    md.set({
+      html: true,
+      breaks: true,
+      linkify: true,
+      typographer: true
+    })
+
+      .use(mark)
+      .use(anchor, { permalink: anchor.permalink.linkInsideHeader({ placement: 'before' }) })
+  }
+})
 
 VMdPreview.vMdParser.theme(hljsTheme)
 
@@ -62,6 +77,7 @@ VMdEditor.use(createTipPlugin())
   .use(createCopyCodePlugin())
   .use(createKatexPlugin())
   .use(createMermaidPlugin())
+  .use(createTodoListPlugin())
 
 VMdPreview.use(createTipPlugin())
   .use(createAlignPlugin())
@@ -70,6 +86,7 @@ VMdPreview.use(createTipPlugin())
   .use(createCopyCodePlugin())
   .use(createKatexPlugin())
   .use(createMermaidPlugin())
+  .use(createTodoListPlugin())
 
 const markdown = new MarkdownIt()
   .set({ html: true, breaks: true, linkify: true, typographer: true })

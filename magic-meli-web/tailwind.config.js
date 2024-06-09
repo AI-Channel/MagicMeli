@@ -27,12 +27,16 @@ export default {
       scale: {
         200: 2
       },
+      spacing: {
+        112: '28rem',
+        128: '32rem'
+      },
       fontFamily: {
         Dinkie: ['Dinkie', 'sans-serif'],
         Yahei: ['Microsoft Yahei', '微软雅黑', 'sans-serif'],
         zpix: ['zpix', 'sans-serif'],
         Fusion: ['FusionPixel']
-      },
+      }
     }
   },
   plugins: [forms({ strategy: 'class' })]

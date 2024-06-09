@@ -8,6 +8,7 @@ let navTitle = computed(() => {
   const filterdRoute = ref(route.matched.filter((item) => item.name))
   return filterdRoute.value.map((item: any) => item.meta.title)
 })
+
 let navName = computed(() => {
   const filterdRoute = ref(route.matched.filter((item) => item.name))
   return filterdRoute.value.map((item: any) => item.name)

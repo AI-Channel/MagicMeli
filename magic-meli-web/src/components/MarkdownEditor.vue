@@ -8,6 +8,7 @@ import type { FileWithHandle } from 'browser-fs-access'
 import { defineAsyncComponent, onMounted, ref, type Ref } from 'vue'
 import { useRoute } from 'vue-router'
 import WindowContainer from './window/WindowContainer.vue'
+import { toast, type ToastOptions } from 'vue3-toastify'
 
 const ArticleEditForm = defineAsyncComponent(() => import('@/components/ArticleEditForm.vue'))
 
@@ -66,7 +67,13 @@ async function saveArticle(isPublished: boolean) {
   } else {
     articleEcho = await updateArticle(article.value)
   }
-  isPublished ? alert('保存成功') : alert('保存草稿成功')
+  isPublished
+    ? toast.success('保存成功', {
+        position: toast.POSITION.TOP_CENTER
+      } as ToastOptions)
+    : toast.success('保存草稿成功', {
+        position: toast.POSITION.TOP_CENTER
+      } as ToastOptions)
   return articleEcho
 }
 

@@ -48,10 +48,10 @@ const router = createRouter({
     {
       path: '/recycle-bin',
       meta: {
-        isListPageCheck: 'recycle',
+        isListPageCheck: 'deleted',
         title: 'Recycle Bin'
       },
-      name: 'recycle',
+      name: 'deleted',
       component: () => import('@/views/RecycleView.vue')
     },
     {
@@ -70,6 +70,14 @@ const router = createRouter({
       },
       name: 'login',
       component: () => import('@/views/LoginView.vue')
+    },
+    {
+      path: '/register',
+      meta: {
+        title: 'Register'
+      },
+      name: 'register',
+      component: () => import('@/views/RegisterView.vue')
     },
     {
       path: '/articles',

@@ -26,3 +26,16 @@ export interface ArticleNewDto {
 export interface ArticleUpdateDto extends ArticleNewDto {
   id: number
 }
+
+export const emptyArticle: Article = {
+  id: 0,
+  title: '',
+  author: '',
+  category: '',
+  summary: '',
+  tags: [],
+  updateTime: new Date().toISOString(),
+  isDeleted: false,
+  isPublished: false,
+  content: ''
+}
