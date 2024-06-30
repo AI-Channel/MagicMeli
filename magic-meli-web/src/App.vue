@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
+import { RouterLink } from 'vue-router'
 import DesktopIconContainer from './components/DesktopIconContainer.vue'
 import IconArticle from './components/icons/IconArticle.vue'
+import IconDraft from './components/icons/IconDraft.vue'
 import IconFolderOpen from './components/icons/IconFolderOpen.vue'
-import IconInvader from './components/icons/IconInvader.vue'
 import IconNewArticle from './components/icons/IconNewArticle.vue'
 import IconProfile from './components/icons/IconProfile.vue'
 import IconRecycleBin from './components/icons/IconRecycleBin.vue'
 import IconSetting from './components/icons/IconSetting.vue'
 import { setTheme } from './scripts/libs'
 
-onMounted(() => {
-  const storedTheme = localStorage.getItem('theme')
-  if (typeof storedTheme == 'string') setTheme(storedTheme)
+onMounted(async () => {
+  const storedTheme = localStorage.getItem('theme') ?? 'light'
+  setTheme(storedTheme)
 })
 </script>
 
@@ -30,9 +31,14 @@ onMounted(() => {
         <IconArticle :width="64" :height="64" />
       </DesktopIconContainer>
     </RouterLink>
-    <RouterLink :to="{ name: 'recycle' }" class="m-auto">
+    <RouterLink :to="{ name: 'deleted' }" class="m-auto">
       <DesktopIconContainer title="回收站">
         <IconRecycleBin :width="64" :height="64" />
+      </DesktopIconContainer>
+    </RouterLink>
+    <RouterLink :to="{ name: 'draft' }" class="m-auto"
+      ><DesktopIconContainer title="草稿箱">
+        <IconDraft :width="64" :height="64" />
       </DesktopIconContainer>
     </RouterLink>
     <RouterLink :to="{ name: 'markdown editor', query: { id: 0 } }" class="m-auto">
@@ -50,6 +56,7 @@ onMounted(() => {
         <IconFolderOpen :width="64" :height="64" />
       </DesktopIconContainer>
     </RouterLink>
+
     <RouterView></RouterView>
   </main>
 </template>

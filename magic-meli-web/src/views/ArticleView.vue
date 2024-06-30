@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import ArticleList from '@/components/ArticleList.vue'
 import WindowContainer from '@/components/window/WindowContainer.vue'
+import { listQueryMode } from '@/models/article'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 const router = useRoute()
@@ -11,7 +12,7 @@ const isShowList = computed<Boolean>(() => {
 <template>
   <WindowContainer>
     <KeepAlive>
-      <ArticleList :show-mode="'article'" v-if="isShowList" />
+      <ArticleList :show-mode="listQueryMode.published" v-if="isShowList" />
     </KeepAlive>
     <RouterView></RouterView>
   </WindowContainer>

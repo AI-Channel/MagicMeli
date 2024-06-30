@@ -9,9 +9,9 @@ import WindowToolBar from './WindowToolBar.vue'
 const store = useWindowStore()
 let initialize = {
   initW: ref(window.innerWidth / 2),
-  initH: ref(window.innerHeight / 2),
+  initH: ref(window.innerHeight / 1.5),
   x: ref(window.innerWidth / 4),
-  y: ref(window.innerHeight / 4)
+  y: ref(window.innerHeight / 6)
 }
 </script>
 
@@ -28,13 +28,13 @@ let initialize = {
     class="fixed z-10 flex max-h-full max-w-full flex-col border-[2px] border-themeViolet bg-themeCyan p-1 dark:bg-darkThemeFuchsia"
     :style="store.isMaximized ? { width: 100 + '%', height: 100 + '%', top: 0, left: 0 } : {}"
   >
-    <WindowHeadBar :title="$route.meta.title" />
+    <WindowHeadBar :title="$route.meta.title as string" />
     <WindowToolBar />
-    <div
-      class="h-full max-w-full overflow-auto border-[2px] border-themeViolet bg-windowFuchsia p-2  dark:border-darkViolet dark:bg-darkWindowFuchsia"
+    <article
+      class="h-full max-w-full overflow-y-auto overflow-x-hidden border-[2px] border-themeViolet bg-windowFuchsia p-2 dark:border-darkViolet dark:bg-darkWindowFuchsia"
     >
       <slot></slot>
-    </div>
+    </article>
   </Vue3DraggableResizable>
 </template>
 

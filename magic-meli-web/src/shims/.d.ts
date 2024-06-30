@@ -10,3 +10,9 @@ declare module '@kangc/v-md-editor/lib/plugins/line-number/index'
 declare module '@kangc/v-md-editor/lib/plugins/copy-code/index'
 declare module '@kangc/v-md-editor/lib/plugins/katex/cdn'
 declare module '@kangc/v-md-editor/lib/plugins/mermaid/cdn'
+declare module '@kangc/v-md-editor/lib/plugins/todo-list/index'
+declare module 'vue3-tags-input'
+
+declare interface Window {
+  showOpenFilePicker: any
+}

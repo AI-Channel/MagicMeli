@@ -1,0 +1,36 @@
+code {
+  * {
+    @apply font-mono;
+  }
+  .hljs-comment {
+    @apply italic text-gray-400;
+  }
+  .hljs-keyword {
+    @apply font-bold text-themeViolet dark:text-darkViolet;
+  }
+  .hljs-attr,
+  .hljs-property {
+    @apply text-themeViolet dark:text-darkViolet;
+  }
+  .hljs-built_in {
+    @apply text-cyan-500;
+  }
+  .hljs-variable.language_ {
+    @apply text-emerald-500;
+  }
+  .hljs-number {
+    @apply text-emerald-600;
+  }
+  .hljs-title {
+    @apply font-bold text-rose-700;
+  }
+  .hljs-string {
+    @apply text-pink-500;
+  }
+  .hljs-type {
+    @apply font-bold text-fuchsia-600;
+  }
+  .hljs-meta {
+    @apply text-gray-400;
+  }
+}

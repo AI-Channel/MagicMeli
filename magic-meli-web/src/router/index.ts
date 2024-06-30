@@ -8,27 +8,9 @@ const router = createRouter({
     },
     {
       path: '/home',
+      name: 'home',
       component: () => import('@/App.vue')
     },
-    // {
-    //   path: '/articles',
-    //   meta: {
-    //     isListPageCheck: 'articles',
-    //     title: 'Article List'
-    //   },
-    //   name: 'articles',
-    //   component: () => import('@/views/ArticleView.vue'),
-    //   children: [
-    //     {
-    //       path: ':name',
-    //       name: 'article',
-    //       meta: {
-    //         title: 'Article'
-    //       },
-    //       component: () => import('@/components/articles/ArticleContainer.vue')
-    //     }
-    //   ]
-    // },
     {
       path: '/gallery',
       meta: {
@@ -67,11 +49,20 @@ const router = createRouter({
     {
       path: '/recycle-bin',
       meta: {
-        isListPageCheck: 'recycle',
+        isListPageCheck: 'deleted',
         title: 'Recycle Bin'
       },
-      name: 'recycle',
+      name: 'deleted',
       component: () => import('@/views/RecycleView.vue')
+    },
+    {
+      path: '/draft-box',
+      meta: {
+        isListPageCheck: 'draft',
+        title: 'Draft Box'
+      },
+      name: 'draft',
+      component: () => import('@/views/DraftView.vue')
     },
     {
       path: '/login',

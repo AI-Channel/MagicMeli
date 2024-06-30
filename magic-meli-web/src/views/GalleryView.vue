@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import DesktopIconContainer from '@/components/DesktopIconContainer.vue'
-import WindowContainer from '@/components/window/WindowContainer.vue'
 import IconFolder from '@/components/icons/IconFolder.vue'
+import WindowContainer from '@/components/window/WindowContainer.vue'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 const router = useRoute()

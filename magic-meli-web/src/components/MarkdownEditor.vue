@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import type { Article } from '@/models/article'
-import { getArticleById, newArticle, updateArticle } from '@/scripts/article'
+import type { ArticleViewRequest, ArticleViewResponse } from '@/models/article'
+import { usersLevelStr } from '@/models/user'
+import { getArticleById, newArticle, updateArticleById } from '@/requests/article'
 import VMdEditor from '@kangc/v-md-editor'
-import { onMounted, ref, type Ref } from 'vue'
+import { defineAsyncComponent, onMounted, ref, type Ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { toast, type ToastOptions } from 'vue3-toastify'
 import WindowContainer from './window/WindowContainer.vue'
 
-const route = useRoute()
-const leftToolbar =
-  'undo redo clear|h bold italic strikethrough quote|ul ol table hr|link image code|tip emoji save'
-let articleEcho: Article
-let tagsString: Ref<string | undefined> = ref('')
+const ArticleEditForm = defineAsyncComponent(() => import('@/components/ArticleEditForm.vue'))
 
-let article: Ref<Article> = ref({
+const route = useRoute()
+
+let article: Ref<ArticleViewResponse> = ref({
   id: 0,
   title: '',
   author: '',
@@ -21,86 +21,99 @@ let article: Ref<Article> = ref({
   tags: [],
   content: '',
   isDeleted: false,
-  isPublished: true
+  isPublished: false,
+  updateTime: new Date().toISOString(),
+  permission: usersLevelStr.guest
 })
+
+const customToolbar = {
+  save: {
+    name: 'save',
+    icon: 'v-md-icon-save',
+    title: (editor: { langConfig: { save: { toolbar: any } } }) => `${editor.langConfig.save.toolbar}（Ctrl+S）`,
+    menus: [
+      {
+        name: 'saveDraft',
+        text: '保存草稿',
+        action() {
+          saveArticle(false)
+        }
+      },
+      {
+        name: 'saveArticle',
+        text: '保存文章',
+        action() {
+          saveArticle(true)
+        }
+      }
+    ]
+  }
+}
 
 onMounted(async () => {
-  if (typeof route.query.id != 'undefined' && Number(route.query.id) != 0) {
+  if (Number(route.query.id)) {
     article.value = await getArticleById(Number(route.query.id))
-    tagsString.value = article.value.tags?.join()
+    if (article.value.isPublished) article.value.isPublished = true
+    else article.value.isPublished = false
   }
 })
 
-async function saveArticle() {
-  if (article.value.id == 0) {
-    articleEcho = await newArticle(article.value)
-  } else {
-    articleEcho = await updateArticle(article.value)
+async function saveArticle(isPublished: boolean) {
+  let articleEcho: ArticleViewResponse
+  const articleRequest: ArticleViewRequest = {
+    title: article.value.title,
+    content: article.value.content,
+    summary: article.value.summary,
+    author: article.value.author,
+    category: article.value.category,
+    tags: article.value.tags,
+    isPublished: isPublished,
+    permission: article.value.permission
   }
+  if (article.value.id == 0) {
+    articleEcho = await newArticle(articleRequest)
+  } else {
+    articleEcho = await updateArticleById(article.value.id, articleRequest)
+  }
+  isPublished
+    ? toast.success('保存成功', {
+        position: toast.POSITION.TOP_CENTER
+      } as ToastOptions)
+    : toast.success('保存草稿成功', {
+        position: toast.POSITION.TOP_CENTER
+      } as ToastOptions)
   return articleEcho
 }
+
+// function handleUploadImage(event: Event, insertImage: any, files: FileWithHandle[]) {
+//   const reg: RegExp = /data:.*base64,/
+//   let base64Data: string = ''
+//   const reader = new FileReader()
+//   reader.readAsDataURL(files[0])
+//   reader.onload = (event) => {
+//     base64Data = event.target?.result?.toString().replace(reg, '') ?? ''
+//     const imgInfo: Image = {
+//       title: files[0].name,
+//       description: '',
+//       imageDataBase64: base64Data
+//     }
+//     uploadImageBase64(imgInfo)
+//   }
+//   insertImage({
+//     url: `http://localhost:5000/image/079e7569-59ad-4e5b-9795-d1d99f9c7dc6/raw`,
+//     desc: 'desc1'
+//   })
+// }
 </script>
 
 <template>
   <WindowContainer>
-    <form class="my-2 grid grid-cols-2 grid-rows-4 gap-2 font-Fusion text-themeViolet dark:text-darkViolet">
-      <label class="flex content-center">
-        <span class="m-auto min-w-20">标题：</span>
-        <input
-          id="title"
-          type="text"
-          class="h-fit w-full whitespace-pre-wrap break-words py-1 focus:ring-themeViolet dark:focus:ring-darkViolet"
-          placeholder="文章标题"
-          v-model.trim="article.title"
-        />
-      </label>
-      <label class="row-span-4 flex h-full">
-        <span class="m-auto min-w-20">简介:</span>
-        <textarea
-          id="summary"
-          class="w-full whitespace-pre-wrap break-words focus:ring-themeViolet dark:focus:ring-darkViolet"
-          placeholder="文章简介"
-          v-model="article.summary"
-        ></textarea>
-      </label>
-      <label class="flex content-center">
-        <span class="m-auto min-w-20">作者：</span>
-        <input
-          id="title"
-          class="h-fit w-full whitespace-pre-wrap break-words py-1 focus:ring-themeViolet dark:focus:ring-darkViolet"
-          placeholder="文章作者"
-          v-model.trim="article.author"
-        />
-      </label>
-      <label class="flex content-center">
-        <span class="m-auto min-w-20">分类：</span>
-        <input
-          id="title"
-          class="h-fit w-full whitespace-pre-wrap break-words py-1 focus:ring-themeViolet dark:focus:ring-darkViolet"
-          placeholder="文章分类"
-          v-model.trim="article.category"
-        />
-      </label>
-      <label class="flex content-center">
-        <span class="m-auto min-w-20">标签：</span>
-        <input
-          id="title"
-          class="h-fit w-full whitespace-pre-wrap break-words py-1"
-          placeholder="文章标签,输入使用英文逗号分隔"
-          :value="tagsString"
-          @input="
-            (event: Event) => {
-              tagsString = (event.target as HTMLInputElement).value
-              article.tags = tagsString.split(',')
-            }
-          "
-        />
-      </label>
-    </form>
+    <ArticleEditForm v-model="article" />
     <VMdEditor
       v-model="article.content"
-      :left-toolbar="leftToolbar"
-      @save="saveArticle()"
+      left-toolbar="undo redo clear|h bold italic strikethrough quote|ul ol table hr|link image code|tip emoji save"
+      :toolbar="customToolbar"
+      :disabled-menus="[]"
       height="100%"
       :include-level="[2, 3, 4]"
     ></VMdEditor>

@@ -9,7 +9,9 @@ import createAlignPlugin from '@kangc/v-md-editor/lib/plugins/align'
 import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index'
 import createCopyCodePlugin from '@kangc/v-md-editor/lib/plugins/copy-code/index'
 import createKatexPlugin from '@kangc/v-md-editor/lib/plugins/katex/cdn'
-import createMermaidPlugin from '@kangc/v-md-editor/lib/plugins/mermaid/cdn';
+import createMermaidPlugin from '@kangc/v-md-editor/lib/plugins/mermaid/cdn'
+import createTodoListPlugin from '@kangc/v-md-editor/lib/plugins/todo-list/index'
+import '@kangc/v-md-editor/lib/plugins/todo-list/todo-list.css'
 
 import '@kangc/v-md-editor/lib/theme/style/github.css'
 import '@kangc/v-md-editor/lib/style/base-editor.css'
@@ -18,7 +20,7 @@ import '@kangc/v-md-editor/lib/plugins/tip/tip.css'
 import '@kangc/v-md-editor/lib/plugins/emoji/emoji.css'
 import '@kangc/v-md-editor/lib/plugins/copy-code/copy-code.css'
 import '@/assets/styles/meliMarkdownStyle.css'
-import '@kangc/v-md-editor/lib/plugins/mermaid/mermaid.css';
+import '@kangc/v-md-editor/lib/plugins/mermaid/mermaid.css'
 import { mark } from '@mdit/plugin-mark'
 import anchor from 'markdown-it-anchor'
 
@@ -29,17 +31,38 @@ const hljsTheme = createHljsTheme({
 })
 
 hljsTheme.extend((md: MarkdownIt) => {
-  md.set({ html: true, breaks: true, linkify: true, typographer: true })
+  md.set({
+    html: true,
+    breaks: true,
+    linkify: true,
+    typographer: true,
+    highlight: function (str, lang) {
+      if (lang && hljs.getLanguage(lang)) {
+        try {
+          const preCode = hljs.highlight(str, { language: lang, ignoreIllegals: true }).value
+          return '<pre class="hljs"><code>' + preCode + '</code></pre>'
+        } catch (__) {
+          /* empty */
+        }
+      }
+      const preCode = md.utils.escapeHtml(str)
+      return '<pre class="hljs"><code>' + preCode + '</code></pre>'
+    }
+  })
     .use(mark)
     .use(anchor, { permalink: anchor.permalink.linkInsideHeader({ placement: 'before' }) })
 })
 
-
 VMdEditor.use(githubTheme, {
   Hljs: hljs,
-  extends(markdown: MarkdownIt) {
-    markdown
-      .set({ html: true, breaks: true, linkify: true, typographer: true })
+  extend(md: MarkdownIt) {
+    md.set({
+      html: true,
+      breaks: true,
+      linkify: true,
+      typographer: true
+    })
+
       .use(mark)
       .use(anchor, { permalink: anchor.permalink.linkInsideHeader({ placement: 'before' }) })
   }
@@ -54,6 +77,7 @@ VMdEditor.use(createTipPlugin())
   .use(createCopyCodePlugin())
   .use(createKatexPlugin())
   .use(createMermaidPlugin())
+  .use(createTodoListPlugin())
 
 VMdPreview.use(createTipPlugin())
   .use(createAlignPlugin())
@@ -62,6 +86,7 @@ VMdPreview.use(createTipPlugin())
   .use(createCopyCodePlugin())
   .use(createKatexPlugin())
   .use(createMermaidPlugin())
+  .use(createTodoListPlugin())
 
 const markdown = new MarkdownIt()
   .set({ html: true, breaks: true, linkify: true, typographer: true })

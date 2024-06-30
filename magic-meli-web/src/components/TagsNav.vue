@@ -12,9 +12,7 @@ const store = useArticleStore()
     <span
       v-for="tag in props.tags"
       :key="tag"
-      @click="
-        store.checkedTags.has(tag) ? store.checkedTags.delete(tag) : store.checkedTags.add(tag)
-      "
+      @click="store.checkedTags.has(tag) ? store.checkedTags.delete(tag) : store.checkedTags.add(tag)"
       class="mx-1 cursor-pointer select-none rounded-sm p-1 hover:bg-activeFuchsia hover:text-themeViolet dark:hover:bg-indigo-400 dark:hover:text-darkViolet"
       :class="{
         'bg-activeFuchsia': store.checkedTags.has(tag),
