@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { testUser } from '@/scripts/userInfo'
-import { ref } from 'vue'
+import type { UserLoginDto } from '@/models/user'
+import { login } from '@/requests/user'
+import { useUserStore } from '@/stores/store'
+import { ref, type Ref } from 'vue'
 
-const usernameEntered = ref('')
-const passwordEntered = ref('')
-function submitAndCheck(usernameEntered: string, passwordEntered: string) {
-  if (usernameEntered === testUser._username) {
-    if (passwordEntered === testUser._password) {
-      alert('Login success!✝升天✝')
-    } else {
-      alert('Password Incorrect!')
-    }
-  } else {
-    alert('Username Incorrect!')
+const userLogin: Ref<UserLoginDto> = ref({ userId: '', password: '' })
+const userStore = useUserStore()
+async function handleLogin(user: UserLoginDto) {
+  const token = await login(user)
+  if (token) {
+    localStorage.setItem('token', token)
   }
+  userStore.setToken(token)
+  console.log(localStorage.getItem('token'))
+  return token
 }
 </script>
 
@@ -24,25 +24,20 @@ function submitAndCheck(usernameEntered: string, passwordEntered: string) {
         <img src="/src/assets/graphs/icon_cho.png" class="mx-auto my-5 max-w-fit" alt="avatar" />
         <form class="flex flex-col gap-y-4 font-Dinkie text-themeViolet dark:text-darkViolet">
           <label for="username" class="flex select-none items-center">
-            <span class="w-1/3 min-w-fit">Username:</span>
-            <input type="text" class="form-input max-h-9 w-2/3 py-1" id="username" v-model="usernameEntered" required />
+            <span class="w-1/3 min-w-fit">UserID:</span>
+            <input type="text" class="form-input max-h-9 w-2/3 py-1" id="username" v-model="userLogin.userId" required />
           </label>
           <label for="password" class="flex select-none items-center">
             <span class="w-1/3 min-w-fit">Password:</span>
-            <input type="password" class="form-input max-h-9 w-2/3 py-1" id="password" v-model="passwordEntered" required />
+            <input type="password" class="form-input max-h-9 w-2/3 py-1" id="password" v-model="userLogin.password" required />
           </label>
           <div class="flex place-content-between">
             <label for="remember" class="select-none items-center">
               Remember Me
               <input type="checkbox" class="form-checkbox text-themeViolet dark:text-darkViolet" id="remember" />
             </label>
-            <RouterLink :to="{ name: 'register' }" class="rounded-sm px-2 hover:bg-activeFuchsia dark:hover:bg-indigo-400">
-              <span>Sign up</span>
-            </RouterLink>
           </div>
-          <button class="rounded border border-themeViolet bg-themeFuchsia shadow" @click="submitAndCheck(usernameEntered, passwordEntered)">
-            login
-          </button>
+          <button type="submit" class="rounded border border-themeViolet bg-themeFuchsia shadow" @click="handleLogin(userLogin)">login</button>
         </form>
       </div>
     </div>

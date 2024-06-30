@@ -1,50 +1,47 @@
-import type { Article, ArticleMeta, ArticleUpdateDto } from '@/models/article'
-import instance from './axiosInstance'
-import { union } from '../scripts/libs'
+import type { ArticleListViewResponse, ArticleViewRequest, ArticleViewResponse, articleStatusHandles, listQueryMode } from '@/models/article'
 import { toast } from 'vue3-toastify'
-import { useUserStore } from '@/stores/store'
+import { union } from '../scripts/libs'
+import instance from './axiosInstance'
 
-const userStore = useUserStore()
-
-export async function getArticleById(id: number): Promise<Article> {
-  const response = await instance.get<Article>(`/article/${id}`)
+export async function getArticleById(id: number): Promise<ArticleViewResponse> {
+  const response = await instance.get<ArticleViewResponse>(`/articles/${id}`)
   return response.data
 }
 
-export async function getArticleListByStatus(status: string): Promise<ArticleMeta[]> {
-  const response = await instance.get<ArticleMeta[]>(`/article/list?status=${status}`)
+export async function getArticleListByStatus(status: listQueryMode): Promise<ArticleListViewResponse[]> {
+  const response = await instance.get<ArticleListViewResponse[]>(`/articles?queryMode=${status}`)
   return response.data
 }
 
-export async function updateArticleStatusById(id: number, status: string): Promise<Article> {
-  const response = await instance.put<Article>(`/article/${id}?status=${status}`, { headers: { Authorization: userStore.token } })
+export async function updateArticleStatusById(id: number, status: articleStatusHandles): Promise<ArticleViewResponse> {
+  const response = await instance.put<ArticleViewResponse>(`/articles/${id}/status`, { method: status })
   return response.data
 }
 
-export async function newArticle(params: Article): Promise<Article> {
+export async function newArticle(payload: ArticleViewRequest): Promise<ArticleViewResponse> {
+  if (payload.title == '' || payload.author == '' || payload.category == '' || payload.content == '') {
+    toast.error('文章标题，作者，分类，内容字段不能为空！', { position: toast.POSITION.TOP_CENTER })
+    throw new Error('文章标题，作者，分类，内容字段不能为空！')
+  }
+  const response = await instance.post<ArticleViewResponse>('/articles', payload)
+  return response.data
+}
+
+export async function updateArticleById(id: number, params: ArticleViewRequest): Promise<ArticleViewResponse> {
   if (params.title == '' || params.author == '' || params.category == '' || params.content == '') {
     toast.error('文章标题，作者，分类，内容字段不能为空！', { position: toast.POSITION.TOP_CENTER })
     throw '文章标题，作者，分类，内容字段不能为空！'
   }
-  const response = await instance.post<Article>('/article/new', params, { headers: { Authorization: userStore.token } })
+  const response = await instance.put<ArticleViewResponse>(`/articles/${id}`, params)
   return response.data
 }
 
-export async function updateArticle(params: ArticleUpdateDto): Promise<Article> {
-  if (params.title == '' || params.author == '' || params.category == '' || params.content == '') {
-    toast.error('文章标题，作者，分类，内容字段不能为空！', { position: toast.POSITION.TOP_CENTER })
-    throw '文章标题，作者，分类，内容字段不能为空！'
-  }
-  const response = await instance.put<Article>('/article/update', params, { headers: { Authorization: userStore.token } })
+export async function hardDelArticleById(id: number): Promise<ArticleViewResponse> {
+  const response = await instance.delete<ArticleViewResponse>(`/articles/${id}`)
   return response.data
 }
 
-export async function hardDelArticleById(id: number): Promise<Article> {
-  const response = await instance.delete<Article>(`/article/${id}`, { headers: { Authorization: userStore.token } })
-  return response.data
-}
-
-export async function getAllTagsByStatus(status: string) {
+export async function getAllTagsByStatus(status: listQueryMode) {
   const articleList = await getArticleListByStatus(status)
   let tags: Set<string> = new Set()
   for (const article of articleList) {

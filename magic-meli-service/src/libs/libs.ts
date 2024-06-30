@@ -1,4 +1,5 @@
 import { SnowflakeIdv1 } from 'simple-flakeid'
+import { usersLevelNum, usersLevelStr } from '../modules/user/user.model'
 
 export const idGenerate = () => new SnowflakeIdv1({ workerId: 1, baseTime: 1704038400000 }).NextId()
 
@@ -34,4 +35,23 @@ export function shuffle<T>(arr: Array<T>) {
     ;[arr[i], arr[j]] = [arr[j], arr[i]]
   }
   return arr
+}
+
+export function userLevelStrtoNum(levelStr: usersLevelStr) {
+  return usersLevelNum[levelStr]
+}
+
+export function userLevelNumtoStr(levelNum: usersLevelNum) {
+  switch (levelNum) {
+    case 0:
+      return usersLevelStr.guest
+    case 1:
+      return usersLevelStr.user
+    case 2:
+      return usersLevelStr.editor
+    case 3:
+      return usersLevelStr.admin
+    default:
+      return usersLevelStr.guest
+  }
 }

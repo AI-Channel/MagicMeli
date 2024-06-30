@@ -1,21 +1,18 @@
 <script setup lang="ts">
-import type { Article } from '@/models/article'
-import type { Image } from '@/models/image'
-import { getArticleById, newArticle, updateArticle } from '@/requests/article'
-import { uploadImageBase64 } from '@/requests/image'
+import type { ArticleViewRequest, ArticleViewResponse } from '@/models/article'
+import { usersLevelStr } from '@/models/user'
+import { getArticleById, newArticle, updateArticleById } from '@/requests/article'
 import VMdEditor from '@kangc/v-md-editor'
-import type { FileWithHandle } from 'browser-fs-access'
 import { defineAsyncComponent, onMounted, ref, type Ref } from 'vue'
 import { useRoute } from 'vue-router'
-import WindowContainer from './window/WindowContainer.vue'
 import { toast, type ToastOptions } from 'vue3-toastify'
+import WindowContainer from './window/WindowContainer.vue'
 
 const ArticleEditForm = defineAsyncComponent(() => import('@/components/ArticleEditForm.vue'))
 
 const route = useRoute()
-let articleEcho: Article
 
-let article: Ref<Article> = ref({
+let article: Ref<ArticleViewResponse> = ref({
   id: 0,
   title: '',
   author: '',
@@ -25,7 +22,8 @@ let article: Ref<Article> = ref({
   content: '',
   isDeleted: false,
   isPublished: false,
-  updateTime: new Date().toISOString()
+  updateTime: new Date().toISOString(),
+  permission: usersLevelStr.guest
 })
 
 const customToolbar = {
@@ -44,8 +42,8 @@ const customToolbar = {
       {
         name: 'saveArticle',
         text: '保存文章',
-        action(editor: { save: () => void }) {
-          editor.save()
+        action() {
+          saveArticle(true)
         }
       }
     ]
@@ -61,11 +59,21 @@ onMounted(async () => {
 })
 
 async function saveArticle(isPublished: boolean) {
-  article.value.isPublished = isPublished
+  let articleEcho: ArticleViewResponse
+  const articleRequest: ArticleViewRequest = {
+    title: article.value.title,
+    content: article.value.content,
+    summary: article.value.summary,
+    author: article.value.author,
+    category: article.value.category,
+    tags: article.value.tags,
+    isPublished: isPublished,
+    permission: article.value.permission
+  }
   if (article.value.id == 0) {
-    articleEcho = await newArticle(article.value)
+    articleEcho = await newArticle(articleRequest)
   } else {
-    articleEcho = await updateArticle(article.value)
+    articleEcho = await updateArticleById(article.value.id, articleRequest)
   }
   isPublished
     ? toast.success('保存成功', {
@@ -77,25 +85,25 @@ async function saveArticle(isPublished: boolean) {
   return articleEcho
 }
 
-function handleUploadImage(event: Event, insertImage: any, files: FileWithHandle[]) {
-  const reg: RegExp = /data:.*base64,/
-  let base64Data: string = ''
-  const reader = new FileReader()
-  reader.readAsDataURL(files[0])
-  reader.onload = (event) => {
-    base64Data = event.target?.result?.toString().replace(reg, '') ?? ''
-    const imgInfo: Image = {
-      title: files[0].name,
-      description: '',
-      imageDataBase64: base64Data
-    }
-    uploadImageBase64(imgInfo)
-  }
-  // insertImage({
-  //   url: `http://localhost:5000/image/079e7569-59ad-4e5b-9795-d1d99f9c7dc6/raw`,
-  //   desc: 'desc1'
-  // })
-}
+// function handleUploadImage(event: Event, insertImage: any, files: FileWithHandle[]) {
+//   const reg: RegExp = /data:.*base64,/
+//   let base64Data: string = ''
+//   const reader = new FileReader()
+//   reader.readAsDataURL(files[0])
+//   reader.onload = (event) => {
+//     base64Data = event.target?.result?.toString().replace(reg, '') ?? ''
+//     const imgInfo: Image = {
+//       title: files[0].name,
+//       description: '',
+//       imageDataBase64: base64Data
+//     }
+//     uploadImageBase64(imgInfo)
+//   }
+//   insertImage({
+//     url: `http://localhost:5000/image/079e7569-59ad-4e5b-9795-d1d99f9c7dc6/raw`,
+//     desc: 'desc1'
+//   })
+// }
 </script>
 
 <template>
@@ -105,11 +113,9 @@ function handleUploadImage(event: Event, insertImage: any, files: FileWithHandle
       v-model="article.content"
       left-toolbar="undo redo clear|h bold italic strikethrough quote|ul ol table hr|link image code|tip emoji save"
       :toolbar="customToolbar"
-      @save="saveArticle(true)"
       :disabled-menus="[]"
       height="100%"
       :include-level="[2, 3, 4]"
-      @upload-image="handleUploadImage"
     ></VMdEditor>
   </WindowContainer>
 </template>

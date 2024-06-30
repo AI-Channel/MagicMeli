@@ -1,72 +1,65 @@
 <script setup lang="ts">
-import type { ArticleMeta } from '@/models/article'
-import { updateArticleStatusById, hardDelArticleById, getArticleListByStatus, getAllTagsByStatus } from '@/requests/article'
+import { articleStatusHandles, listQueryMode, type ArticleListViewResponse } from '@/models/article'
+import { getAllTagsByStatus, getArticleListByStatus, hardDelArticleById, updateArticleStatusById } from '@/requests/article'
+import { autoToast } from '@/scripts/libs'
+import { renderInline } from '@/scripts/mdRenderer'
+import { useArticleStore } from '@/stores/store'
 import { onMounted, onUpdated, ref, type Ref } from 'vue'
 import StatusBar from './StatusBar.vue'
 import TagsNav from './TagsNav.vue'
-import { useArticleStore } from '@/stores/store'
-import { renderInline } from '@/scripts/mdRenderer'
-import { toast, type ToastOptions } from 'vue3-toastify'
 
-let articleList: Ref<ArticleMeta[]> = ref([])
+let articleList: Ref<ArticleListViewResponse[]> = ref([])
 const store = useArticleStore()
 
 const props = defineProps<{
-  showMode: string | undefined
+  showMode: listQueryMode
 }>()
 
-store.status = props.showMode ?? 'article'
+store.status = props.showMode ?? listQueryMode.published
 
 onMounted(async () => {
-  if (props.showMode) articleList.value = await getArticleListByStatus(props.showMode)
+  articleList.value = await getArticleListByStatus(props.showMode)
 })
 
 onUpdated(async () => {
   store.articleTags = await getAllTagsByStatus(store.status)
 })
 
-async function deleteArticle(id: number) {
-  await updateArticleStatusById(id, 'delete')
-  if (props.showMode == 'article') articleList.value = await getArticleListByStatus('article')
-  else if (props.showMode == 'draft') articleList.value = await getArticleListByStatus('draft')
-  autoToast('删除成功')
+async function deleteArticleById(id: number) {
+  await updateArticleStatusById(id, articleStatusHandles.delete)
+  if (props.showMode == 'published') articleList.value = await getArticleListByStatus(listQueryMode.published)
+  else if (props.showMode == 'draft') articleList.value = await getArticleListByStatus(listQueryMode.draft)
+  autoToast('删除成功', 'success')
 }
 
-async function revertArticle(id: number) {
-  await updateArticleStatusById(id, 'revert')
-  articleList.value = await getArticleListByStatus('deleted')
-  autoToast('恢复成功')
+async function revertArticleById(id: number) {
+  await updateArticleStatusById(id, articleStatusHandles.revert)
+  articleList.value = await getArticleListByStatus(listQueryMode.deleted)
+  autoToast('恢复成功', 'success')
 }
 
-async function publishArticle(id: number) {
-  await updateArticleStatusById(id, 'publish')
-  articleList.value = await getArticleListByStatus('draft')
-  autoToast('发布成功')
+async function publishArticleById(id: number) {
+  await updateArticleStatusById(id, articleStatusHandles.publish)
+  articleList.value = await getArticleListByStatus(listQueryMode.draft)
+  autoToast('发布成功', 'success')
 }
 
-async function hardDelete(id: number) {
+async function hardDeleteArticleById(id: number) {
   if (confirm('确定要永久删除此文章吗？')) {
     await hardDelArticleById(id)
   }
-  articleList.value = await getArticleListByStatus('deleted')
+  articleList.value = await getArticleListByStatus(listQueryMode.deleted)
 }
 
-async function unpublishArticle(id: number) {
-  await updateArticleStatusById(id, 'unpublish')
-  articleList.value = await getArticleListByStatus('article')
-  autoToast('撤销发布成功')
-}
-
-function autoToast(message: string) {
-  toast.success(message, {
-    autoClose: 1500,
-    position: toast.POSITION.TOP_CENTER
-  } as ToastOptions)
+async function unpublishArticleById(id: number) {
+  await updateArticleStatusById(id, articleStatusHandles.unpublish)
+  articleList.value = await getArticleListByStatus(listQueryMode.published)
+  autoToast('撤销发布成功', 'success')
 }
 </script>
 
 <template>
-  <ul class="m-auto flex flex-col text-themeViolet dark:text-darkViolet">
+  <ul class="mx-2 my-auto flex flex-col text-themeViolet dark:text-darkViolet">
     <li
       v-for="(item, key) in articleList"
       class="flex place-content-between border-b border-dashed border-themeViolet p-3 font-Dinkie dark:border-darkViolet"
@@ -85,11 +78,11 @@ function autoToast(message: string) {
       <StatusBar
         :article-id="item.id"
         :show-mode="props.showMode"
-        @delete="deleteArticle(item.id)"
-        @revert="revertArticle(item.id)"
-        @hard-delete="hardDelete(item.id)"
-        @publish="publishArticle(item.id)"
-        @unpublish="unpublishArticle(item.id)"
+        @delete="deleteArticleById(item.id)"
+        @revert="revertArticleById(item.id)"
+        @hard-delete="hardDeleteArticleById(item.id)"
+        @publish="publishArticleById(item.id)"
+        @unpublish="unpublishArticleById(item.id)"
       />
     </li>
   </ul>

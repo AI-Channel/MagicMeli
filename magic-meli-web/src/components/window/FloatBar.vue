@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import IconEdit from '../icons/IconEdit.vue'
-import IconUp from '../icons/IconUp.vue'
 </script>
 
 <template>
@@ -8,7 +7,6 @@ import IconUp from '../icons/IconUp.vue'
     <RouterLink :to="{ name: 'markdown editor', query: { id: $route.params.id } }">
       <IconEdit :width="24" :height="24" />
     </RouterLink>
-    <IconUp :width="24" :height="24" @click="$emit('top')" />
   </nav>
 </template>
 

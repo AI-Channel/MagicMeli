@@ -1,12 +1,12 @@
 <script setup lang="ts">
 const props = defineProps<{
-  width?: number
-  height?: number
+  width?: number | string
+  height?: number | string
 }>()
 </script>
 
 <template>
-  <svg xmlns="http://www.w3.org/2000/svg" :width="props.width" :height="props.height" viewBox="0 0 28 20">
+  <svg xmlns="http://www.w3.org/2000/svg" :width="props.width" :height="props.height" viewBox="0 0 28 20" shape-rendering="crispEdges">
     <path fill="#EC4899" d="M0 0h1v1H0zM1 0h1v1H1zM2 0h1v1H2zM3 0h1v1H3zM4 0h1v1H4zM5 0h1v1H5zM1 1h1v1H1z" />
     <path fill="#FBCFE8" d="M2 1h1v1H2zM3 1h1v1H3zM4 1h1v1H4zM5 1h1v1H5z" />
     <path fill="#EC4899" d="M6 1h1v1H6zM7 1h1v1H7zM8 1h1v1H8zM9 1h1v1H9zM2 2h1v1H2z" />

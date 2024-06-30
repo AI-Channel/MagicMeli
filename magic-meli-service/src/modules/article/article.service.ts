@@ -1,20 +1,16 @@
 import Database, { SQLQueryBindings } from 'bun:sqlite'
-import { difference, idGenerate } from '../../libs/libs'
+import { difference, idGenerate, userLevelNumtoStr, userLevelStrtoNum } from '../../libs/libs'
+import {
+  ArticleDtoIn,
+  ArticleDtoOut,
+  ArticleEntity,
+  ArticleListDtoOut,
+  ArticleListEntity,
+  articleStatusHandles,
+  listQueryMode
+} from './article.model'
+import { usersLevelStr } from '../user/user.model'
 
-interface ArticleMetaDto {
-  id?: number
-  title: string
-  author: string
-  summary?: string
-  updateTime?: string
-  tags?: string[]
-  category: string
-  isDeleted?: boolean
-  isPublished?: boolean
-}
-interface ArticleDto extends ArticleMetaDto {
-  content: string
-}
 interface tagsObject {
   id: number
   tag: string
@@ -27,129 +23,165 @@ export class ArticleService {
   private defalutTagObj: tagsObject = { id: 0, tag: 'error', refCount: 0 }
 
   getArticleById = (id: number) => {
-    const article: ArticleDto | null = this.db.query<ArticleDto, number>(`SELECT * FROM article WHERE id == $param`).get(id)
-    if (article == null) return null
-    else article.tags = this.getArticleTagsById(id)
-    return article
+    const article = this.db.query<ArticleEntity, number>(`SELECT * FROM article WHERE id == $param`).get(id) ?? false
+    if (!article) return false
+    return this.articleEntitytoDtoOut(article)
   }
 
-  getAriticleList(mode: string) {
+  getAriticleList(mode: listQueryMode) {
     let queryCondition = ''
     try {
       switch (mode) {
-        case 'article':
+        case listQueryMode.published:
           queryCondition = `isDeleted == 0 AND isPublished == 1`
           break
-        case 'deleted':
+        case listQueryMode.deleted:
           queryCondition = `isDeleted == 1`
           break
-        case 'draft':
+        case listQueryMode.draft:
           queryCondition = `isDeleted == 0 AND isPublished == 0`
           break
         default:
           throw new Error('Invalid list status!')
       }
-    } catch (error: any) {
+    } catch (error) {
       console.warn(error)
-      return error as string
+      return false
     }
-
     const articleList = this.db
-      .query<
-        ArticleMetaDto,
-        null
-      >(`SELECT id,title,summary,author,category,isDeleted,isPublished,updateTime FROM article WHERE ${queryCondition} ORDER BY id`)
+      .query<ArticleListEntity, null>(
+        `SELECT id,title,summary,author,category,isDeleted,isPublished,updateTime,permission 
+        FROM article WHERE ${queryCondition} 
+        ORDER BY id `
+      )
       .all(null)
+    const articleListReturn: ArticleListDtoOut[] = []
+
     for (const article of articleList) {
-      article.tags = this.getArticleTagsById(article.id ?? 0)
+      articleListReturn.push({
+        id: article.id,
+        summary: article.summary,
+        title: article.title,
+        author: article.author,
+        category: article.category,
+        tags: this.getArticleTagsById(article.id),
+        isDeleted: article.isDeleted,
+        isPublished: article.isPublished,
+        updateTime: article.updateTime,
+        permission: userLevelNumtoStr(article.permission)
+      })
     }
-    return articleList
+    return articleListReturn
   }
 
-  insertArticle = this.db.transaction((article: ArticleDto) => {
-    const insert = this.db.prepare<ArticleDto, SQLQueryBindings>(
-      `INSERT INTO article (id,title,summary,author,content,category,updateTime,isPublished)
-      VALUES($id,$title,$summary,$author,$content,$category,$updateTime,$isPublished) RETURNING *`
-    )
-    const echo = insert.get({
-      $id: idGenerate(),
-      $title: article.title,
-      $summary: article.summary ?? '',
-      $author: article.author,
-      $content: article.content,
-      $category: article.category,
-      $updateTime: new Date().toISOString(),
-      $isPublished: article.isPublished ?? false
-    })
+  getArticleMetaById(id: number) {
+    const articleMeta = this.db
+      .query<ArticleListEntity, number>(
+        `SELECT id,title,summary,author,category,isDeleted,isPublished,updateTime,permission 
+        FROM article WHERE id=$id`
+      )
+      .get(id)
+    if (!articleMeta) return false
+    return this.articleListEntitytoDtoOut(articleMeta)
+  }
+
+  insertArticle = this.db.transaction((article: ArticleDtoIn): ArticleDtoOut | false => {
+    const echo = this.db
+      .query<ArticleEntity, SQLQueryBindings>(
+        `INSERT INTO article (id,title,summary,author,content,category,updateTime,isPublished,permission)
+      VALUES($id,$title,$summary,$author,$content,$category,$updateTime,$isPublished,$permission) 
+      RETURNING *`
+      )
+      .get({
+        $id: idGenerate(),
+        $title: article.title,
+        $summary: article.summary ?? '',
+        $author: article.author,
+        $content: article.content,
+        $category: article.category,
+        $updateTime: new Date().toISOString(),
+        $isPublished: article.isPublished ?? false,
+        $permission: userLevelStrtoNum(article.permission)
+      })
     if (echo) {
       this.updateAllTags(echo.id, article.tags)
-      echo.tags = this.getArticleTagsById(echo.id ?? 0)
-    }
-    return echo
+      return this.articleEntitytoDtoOut(echo)
+    } else return false
   })
 
-  updateArticleStatusById(id: number, mode: string) {
+  updateArticleStatusById(id: number, mode: articleStatusHandles) {
     let dbHandle = ''
     try {
       switch (mode) {
-        case 'delete':
+        case articleStatusHandles.delete:
           dbHandle = `isDeleted = true`
           break
-        case 'revert':
+        case articleStatusHandles.revert:
           dbHandle = `isDeleted = false`
           break
-        case 'publish':
+        case articleStatusHandles.publish:
           dbHandle = `isPublished = true`
           break
-        case 'unpublish':
+        case articleStatusHandles.unpublish:
           dbHandle = `isPublished = false`
           break
         default:
           throw new Error('Invalid update mode!')
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.warn(error)
-      return error as string
+      return false
     }
-
-    const updateTime = new Date().toISOString()
-    return this.db
-      .prepare<ArticleDto, SQLQueryBindings>(`UPDATE article SET ${dbHandle},updateTime = $time WHERE id==$id RETURNING *`)
-      .get({ $id: id, $time: updateTime })
+    const echo =
+      this.db
+        .query<ArticleEntity, SQLQueryBindings>(`UPDATE article SET ${dbHandle},updateTime = $time WHERE id == $id RETURNING *`)
+        .get({ $id: id, $time: new Date().toISOString() }) ?? false
+    if (!echo) return false
+    else return this.articleEntitytoDtoOut(echo)
   }
 
-  updateArticle = this.db.transaction((article: ArticleDto) => {
-    if (typeof article.id != 'number') {
-      throw new Error('invalid article object')
-    }
-    const update = this.db.prepare<ArticleDto, SQLQueryBindings>(
+  updatePermissionById(id: number, permission: usersLevelStr) {
+    const echo = this.db
+      .query<ArticleEntity, SQLQueryBindings>(`UPDATE article SET permission = $permission WHERE id = $id RETURNING *`)
+      .get({ $id: id, $permission: userLevelStrtoNum(permission) })
+    if (!echo) return false
+    else return this.articleEntitytoDtoOut(echo)
+  }
+
+  updateArticle = this.db.transaction((id: number, article: ArticleDtoIn): ArticleDtoOut | false => {
+    const update = this.db.query<ArticleEntity, SQLQueryBindings>(
       `UPDATE article 
-      SET title=$title,summary=$summary,author=$author,content=$content,category=$category,updateTime=$updateTime,isPublished=$isPublished 
-      WHERE id=$id RETURNING *`
+      SET title = $title, summary = $summary, author = $author,content = $content, category = $category, updateTime = $updateTime, isPublished = $isPublished, permission = $permission 
+      WHERE id = $id 
+      RETURNING *`
     )
 
     const echo = update.get({
-      $id: article.id,
+      $id: id,
       $title: article.title,
-      $summary: article.summary ?? '',
+      $summary: article.summary,
       $author: article.author,
       $content: article.content,
       $category: article.category,
       $updateTime: new Date().toISOString(),
-      $isPublished: article.isPublished ?? false
+      $isPublished: article.isPublished,
+      $permission: userLevelStrtoNum(article.permission)
     })
-    this.updateAllTags(article.id, article.tags)
-    if (echo) echo.tags = this.getArticleTagsById(echo.id ?? 0)
-    return echo
+    this.updateAllTags(id, article.tags)
+    if (echo) {
+      this.updateAllTags(echo.id, article.tags)
+      return this.articleEntitytoDtoOut(echo)
+    } else return false
   })
 
   hardDelArticleById(id: number) {
-    const echo = this.db.prepare<ArticleDto, number>(`DELETE FROM article WHERE ID == $param RETURNING *`).get(id)
-    if (echo) this.updateAllTags(echo.id, echo.tags)
+    const echo = this.db.query<ArticleEntity, number>(`DELETE FROM article WHERE ID == $param RETURNING *`).get(id)
+    if (echo) this.updateAllTags(echo.id, this.getArticleTagsById(echo.id))
+    else return false
   }
 
   getTagsList() {
-    return this.db.query<tagsObject, null>(`SELECT id,tag FROM tags`).all(null)
+    return this.db.query<tagsObject, null>(`SELECT DISTINCT id,tag FROM tags`).all(null)
   }
 
   getAllCategories() {
@@ -161,16 +193,40 @@ export class ArticleService {
     return outputArray
   }
 
-  tagGarbageCollection = this.db.transaction((tag: string) => {
-    this.db
-      .prepare(
-        `DELETE FROM tags WHERE tag=(SELECT DISTINCT tags.tag FROM articleHasTags RIGHT JOIN tags ON articleHasTags.tagId == tags.id WHERE articleId is null)`
-      )
-      .run(tag)
-  })
+  private articleListEntitytoDtoOut(articleMeta: ArticleListEntity): ArticleListDtoOut {
+    const articleMetaReturn: ArticleListDtoOut = {
+      id: articleMeta.id,
+      title: articleMeta.title,
+      summary: articleMeta.summary,
+      author: articleMeta.author,
+      category: articleMeta.category,
+      tags: this.getArticleTagsById(articleMeta.id),
+      isDeleted: articleMeta.isDeleted,
+      isPublished: articleMeta.isPublished,
+      updateTime: articleMeta.updateTime,
+      permission: userLevelNumtoStr(articleMeta.permission)
+    }
+    return articleMetaReturn
+  }
 
+  private articleEntitytoDtoOut(article: ArticleEntity): ArticleDtoOut {
+    const articleReturn: ArticleDtoOut = {
+      id: article.id,
+      title: article.title,
+      summary: article.summary,
+      author: article.author,
+      content: article.content,
+      category: article.category,
+      tags: this.getArticleTagsById(article.id),
+      isDeleted: article.isDeleted,
+      isPublished: article.isPublished,
+      updateTime: article.updateTime,
+      permission: userLevelNumtoStr(article.permission)
+    }
+    return articleReturn
+  }
   private getArticleTagsObjectById = (id: number) => {
-    return this.db.query<tagsObject, number>(`SELECT articleId as id,tag FROM (${this.tempArticleHasTagsTable}) WHERE articleId=$id`).all(id)
+    return this.db.query<tagsObject, number>(`SELECT articleId as id,tag FROM (${this.tempArticleHasTagsTable}) WHERE articleId = $id`).all(id)
   }
 
   private getArticleTagsById(id: number) {
@@ -190,26 +246,21 @@ export class ArticleService {
   }
 
   private insertTag = this.db.transaction((tag: string) => {
-    return this.db.prepare<tagsObject, string>(`INSERT INTO tags (tag) VALUES ($tag) RETURNING *`).get(tag) ?? this.defalutTagObj
+    return this.db.query<tagsObject, string>(`INSERT INTO tags (tag) VALUES ($tag) RETURNING *`).get(tag) ?? this.defalutTagObj
   })
 
   private deleteTag = this.db.transaction((tag: string) => {
-    return this.db.prepare<tagsObject, string>(`DELETE FROM tags WHERE tag = $tag RETURNING *`).get(tag) ?? this.defalutTagObj
+    return this.db.query<tagsObject, string>(`DELETE FROM tags WHERE tag = $tag RETURNING *`).get(tag) ?? this.defalutTagObj
   })
 
   private deleteTagMap = this.db.transaction((articleId: number, tag: string) => {
     let thisTagObj: tagsObject = this.getTagByTagName(tag) ?? this.defalutTagObj
-    this.db
-      .prepare(
-        `DELETE FROM articleHasTags WHERE articleId = $id AND tagId = $tagId;
-    `
-      )
-      .run({
-        $id: articleId,
-        $tagId: thisTagObj.id
-      })
+    this.db.query(`DELETE FROM articleHasTags WHERE articleId = $id AND tagId = $tagId;`).run({
+      $id: articleId,
+      $tagId: thisTagObj.id
+    })
     thisTagObj =
-      this.db.prepare<tagsObject, number>(`UPDATE tags SET refCount = refCount - 1 WHERE id = $tagId RETURNING *`).get(thisTagObj.id) ??
+      this.db.query<tagsObject, number>(`UPDATE tags SET refCount = refCount - 1 WHERE id = $tagId RETURNING *`).get(thisTagObj.id) ??
       this.defalutTagObj
     if (thisTagObj.refCount == 0) {
       this.deleteTag(thisTagObj.tag)
@@ -221,8 +272,8 @@ export class ArticleService {
     if (thisTagObj.id == 0) {
       thisTagObj = this.insertTag(tagName)
     }
-    this.db.prepare(`INSERT INTO articleHasTags (articleId,tagId) VALUES ($articleId,$tagId)`).run({ $articleId: articleId, $tagId: thisTagObj.id })
-    this.db.prepare(`UPDATE tags SET refCount = refCount + 1 WHERE id = $tagId`).run({ $tagId: thisTagObj.id })
+    this.db.query(`INSERT INTO articleHasTags (articleId,tagId) VALUES ($articleId,$tagId)`).run({ $articleId: articleId, $tagId: thisTagObj.id })
+    this.db.query(`UPDATE tags SET refCount = refCount + 1 WHERE id = $tagId`).run({ $tagId: thisTagObj.id })
   })
 
   private updateAllTags = this.db.transaction((articleId: number, tags: string[]) => {

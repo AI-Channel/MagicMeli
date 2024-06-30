@@ -1,3 +1,5 @@
+import { toast, type ToastType } from 'vue3-toastify'
+
 function getTheme() {
   return document.body.className
 }
@@ -44,5 +46,50 @@ function shuffle(arr: any) {
 function titleToUpperCase(str: string) {
   return str.toLowerCase().replace(/( |^)[a-z]/g, (i) => i.toUpperCase())
 }
-
-export { switchTheme, getTheme, setTheme, union, intersection, difference, isSubsetOf, shuffle, titleToUpperCase }
+function autoToast(message: string, mode: ToastType) {
+  switch (mode) {
+    case 'default': {
+      toast(message, {
+        autoClose: 1500,
+        position: toast.POSITION.TOP_CENTER
+      })
+      break
+    }
+    case 'error': {
+      toast.error(message, {
+        autoClose: 1500,
+        position: toast.POSITION.TOP_CENTER
+      })
+      break
+    }
+    case 'info': {
+      toast.info(message, {
+        autoClose: 1500,
+        position: toast.POSITION.TOP_CENTER
+      })
+      break
+    }
+    case 'loading': {
+      toast.loading(message, {
+        autoClose: 1500,
+        position: toast.POSITION.TOP_CENTER
+      })
+      break
+    }
+    case 'success': {
+      toast.success(message, {
+        autoClose: 1500,
+        position: toast.POSITION.TOP_CENTER
+      })
+      break
+    }
+    case 'warning': {
+      toast.warning(message, {
+        autoClose: 1500,
+        position: toast.POSITION.TOP_CENTER
+      })
+      break
+    }
+  }
+}
+export { switchTheme, getTheme, setTheme, union, intersection, difference, isSubsetOf, shuffle, titleToUpperCase, autoToast }

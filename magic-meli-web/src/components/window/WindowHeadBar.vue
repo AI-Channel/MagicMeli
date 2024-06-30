@@ -16,7 +16,7 @@ const store = useWindowStore()
     <p class="max-w-fit overflow-clip text-ellipsis text-nowrap text-themeViolet before:mx-1 before:content-['■'] dark:text-white">
       {{ props.title }}
     </p>
-    <div class="flex h-full space-x-1">
+    <div class="flex h-full">
       <IconMinimize :width="24" :height="24" />
       <IconMaximize @click="store.windowResize()" :width="24" :height="24" class="cursor-pointer" />
       <IconClose :width="24" :height="24" @click="store.windowClose(), $router.push({ path: '/home' })" class="cursor-pointer" />

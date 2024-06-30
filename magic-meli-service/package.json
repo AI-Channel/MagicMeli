@@ -4,9 +4,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run --watch src/index.ts",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "lint": "eslint ./src/ "
   },
   "dependencies": {
+    "@elysiajs/bearer": "^1.0.2",
     "@elysiajs/cors": "^1.0.2",
     "@elysiajs/jwt": "^1.0.2",
     "@elysiajs/swagger": "^1.0.5",

@@ -4,10 +4,10 @@ export interface UserEntity {
   password: string
   email: string
   about: string
-  class: string
+  level: string
 }
 export interface UserLoginDto {
-  id: string
+  userId: string
   password: string
 }
 export interface UserRegisterDto extends UserLoginDto {
@@ -20,8 +20,20 @@ export interface UserPublicInfoDto {
   about: string
   class: string
 }
-export interface UserVerifyDto {
-  id: string
+export interface UserVerifyInfoDto {
+  userId: string
   email: string
-  class: string
+  level: usersLevelStr
+}
+export enum usersLevelNum {
+  guest,
+  user,
+  editor,
+  admin
+}
+export enum usersLevelStr {
+  guest = 'guest',
+  user = 'user',
+  editor = 'editor',
+  admin = 'admin'
 }

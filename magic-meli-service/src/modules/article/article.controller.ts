@@ -1,73 +1,146 @@
-import Elysia, { error, t } from 'elysia'
-import { ArticleModel } from './article.model'
-import { ArticleService } from './article.service'
-import { jwtTokenSecret } from '../../libs/libs'
+import bearer from '@elysiajs/bearer'
 import jwt from '@elysiajs/jwt'
+import Elysia, { error, t } from 'elysia'
+import { jwtTokenSecret } from '../../libs/libs'
+import { usersLevelStr } from '../user/user.model'
+import { UserService } from '../user/user.service'
+import { ArticleModel, articleStatusHandles, listQueryMode } from './article.model'
+import { ArticleService } from './article.service'
 
-export const ArticleController = new Elysia({ prefix: '/article' })
+export const ArticleController = new Elysia({ prefix: '/articles', detail: { tags: ['Articles'] } })
   .use(ArticleModel)
-  .use(jwt({ name: 'jwt', secret: jwtTokenSecret, exp: '30min', schema: t.Object({ id: t.String(), password: t.String() }) }))
-  .decorate({ ArticleService: new ArticleService() })
+  .use(bearer())
+  .use(
+    jwt({
+      name: 'jwt',
+      iss: 'MagicMeli.icu',
+      secret: jwtTokenSecret,
+      exp: '30min',
+      nbf: '0min',
+      schema: t.Object({ userId: t.String(), email: t.String({ format: 'email' }), level: t.Enum(usersLevelStr) })
+    })
+  )
+  .decorate({ ArticleService: new ArticleService(), UserService: new UserService() })
   .get(
     '/:id',
     ({ ArticleService, params: { id } }) => {
-      return ArticleService.getArticleById(id)
-    },
-    { params: t.Object({ id: t.Numeric({ error: 'Invalid article id' }) }) }
-  )
-  .put(
-    '/:id',
-    async ({ ArticleService, jwt, params: { id }, query: { status }, headers: headers }) => {
-      const tokenVerified = await jwt.verify(headers.authorization)
-      if (!tokenVerified) return error(401, 'Unauthorized')
-      return ArticleService.updateArticleStatusById(id, status)
+      const article = ArticleService.getArticleById(id)
+      return article
     },
     {
-      params: t.Object({ id: t.Numeric({ error: 'Invalid article id' }) }),
-      query: t.Object({ status: t.String({ error: 'Invalid query status' }) }),
-      headers: t.Object({ authorization: t.String() })
+      params: t.Object({
+        id: t.Numeric({ error: 'Invalid article id' })
+      }),
+      detail: { description: 'Get an article by article id' }
     }
   )
-  .delete(
+  .group(
     '/:id',
-    async ({ ArticleService, jwt, params: { id }, headers: headers }) => {
-      const tokenVerified = await jwt.verify(headers.authorization)
-      if (!tokenVerified) return error(401, 'Unauthorized')
-      return ArticleService.hardDelArticleById(id)
-    },
     {
-      headers: t.Object({ authorization: t.String() }),
-      params: t.Object({ id: t.Numeric({ error: 'Invalid article id' }) })
-    }
+      params: t.Object({
+        id: t.Numeric({ error: 'Invalid article id' })
+      }),
+      async beforeHandle({ bearer, jwt }) {
+        if (!bearer || !(await jwt.verify(bearer))) {
+          return error(401, 'Unauthorized')
+        }
+      }
+    },
+    (app) =>
+      app
+        .resolve(async ({ bearer, jwt }) => {
+          const tokenVerified = await jwt.verify(bearer)
+          return {
+            tokenVerified
+          }
+        })
+        .put(
+          '',
+          async ({ ArticleService, params: { id }, body: newArticle }) => {
+            return ArticleService.updateArticle(id, newArticle)
+          },
+          {
+            body: 'articles.view',
+            detail: { description: 'Modify an article by article id' }
+          }
+        )
+        .put(
+          '/status',
+          async ({ ArticleService, params: { id }, body: methods }) => {
+            return ArticleService.updateArticleStatusById(id, methods.method)
+          },
+          {
+            body: t.Object({
+              method: t.Enum(articleStatusHandles, { description: 'Must in {delete, revert, publish, unpublish}' })
+            }),
+            detail: {
+              description: "Update an article's status by article id, Delete, revert, publish or unpublish an article"
+            }
+          }
+        )
+        .put(
+          '/permission',
+          ({ ArticleService, params: { id }, body: permissionLevel }) => {
+            return ArticleService.updatePermissionById(id, permissionLevel.permission)
+          },
+          {
+            body: t.Object({ permission: t.Enum(usersLevelStr) }),
+            detail: {
+              description: "Update an article's permission level"
+            }
+          }
+        )
+        .delete(
+          '',
+          async ({ ArticleService, params: { id } }) => {
+            return ArticleService.hardDelArticleById(id)
+          },
+          {
+            detail: {
+              description: 'Delete an article, *Hard Delete*'
+            }
+          }
+        )
   )
   .get(
-    '/list',
-    ({ ArticleService, query: { status } }) => {
-      return ArticleService.getAriticleList(status)
-    },
-    { query: t.Object({ status: t.String({ error: 'Invalid query status' }) }) }
-  )
-  .post(
-    '/new',
-    async ({ ArticleService, jwt, error, body: newArticle, headers: headers }) => {
-      const tokenVerified = await jwt.verify(headers.authorization)
-      if (!tokenVerified) return error(401, 'Unauthorized')
-      else return ArticleService.insertArticle(newArticle)
+    '',
+    ({ ArticleService, query: { queryMode } }) => {
+      return ArticleService.getAriticleList(queryMode)
     },
     {
-      headers: t.Object({ authorization: t.String() }),
-      body: 'article.new'
+      query: t.Object({
+        queryMode: t.Enum(listQueryMode, {
+          error: 'Invalid query status',
+          description: 'Must in {published, deleted, draft}',
+          default: 'published'
+        })
+      }),
+      detail: { description: 'Get articles as a list' }
     }
   )
-  .put(
-    '/update',
-    async ({ ArticleService, jwt, headers: headers, body: newArticle }) => {
-      const tokenVerified = await jwt.verify(headers.authorization)
-      if (!tokenVerified) return error(401, 'Unauthorized')
-      else return ArticleService.updateArticle(newArticle)
+  .post(
+    '',
+    async ({ ArticleService, body: newArticle }) => {
+      // let articleIn: ArticleDtoIn = {
+      //   title: '',
+      //   summary: '',
+      //   author: store.authorSecretId,
+      //   content: '',
+      //   tags: [],
+      //   category: '',
+      //   isPublished: false,
+      //   permission: usersLevelStr.guest
+      // }
+      // articleIn = Object.assign(articleIn, newArticle)
+      return ArticleService.insertArticle(newArticle)
     },
     {
-      headers: t.Object({ authorization: t.String() }),
-      body: 'article.update'
+      body: 'articles.view',
+      detail: { description: 'Create a new article' },
+      async beforeHandle({ bearer, jwt }) {
+        if (!bearer || !(await jwt.verify(bearer))) {
+          return error(401, 'Unauthorized')
+        }
+      }
     }
   )

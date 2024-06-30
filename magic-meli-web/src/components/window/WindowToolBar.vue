@@ -13,10 +13,10 @@ const store = useArticleStore()
 
 <template>
   <div
-    class="flex max-h-9 select-none place-content-between items-center space-x-1 border-x-[2px] border-themeViolet bg-themeFuchsia p-1 font-Dinkie dark:border-darkViolet dark:bg-darkViolet"
+    class="flex max-h-fit select-none place-content-between items-center space-x-1 border-x-[2px] border-themeViolet bg-themeFuchsia px-1 py-0.5 font-Dinkie dark:border-darkViolet dark:bg-darkViolet"
   >
     <div>
-      <IconBackward :width="24" :height="24" @click="$router.back" class="cursor-pointer" />
+      <IconBackward :width="'2rem'" :height="'2rem'" @click="$router.back" class="cursor-pointer" />
     </div>
     <BreadcrumbNav />
     <ArticleFilter v-show="FilterShowCase.has($route.name?.toString() ?? '') && store.articleTags.length > 0" />

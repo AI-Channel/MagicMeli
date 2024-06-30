@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { Article } from '@/models/article'
+import type { ArticleViewResponse } from '@/models/article'
 import Vue3TagsInput from 'vue3-tags-input'
 
-const article = defineModel<Article>({
+const article = defineModel<ArticleViewResponse>({
   default: {
     id: 0,
     title: '',

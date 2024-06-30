@@ -1,21 +1,17 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
+import { RouterLink } from 'vue-router'
 import DesktopIconContainer from './components/DesktopIconContainer.vue'
 import IconArticle from './components/icons/IconArticle.vue'
+import IconDraft from './components/icons/IconDraft.vue'
 import IconFolderOpen from './components/icons/IconFolderOpen.vue'
 import IconNewArticle from './components/icons/IconNewArticle.vue'
 import IconProfile from './components/icons/IconProfile.vue'
 import IconRecycleBin from './components/icons/IconRecycleBin.vue'
 import IconSetting from './components/icons/IconSetting.vue'
 import { setTheme } from './scripts/libs'
-import { RouterLink } from 'vue-router'
-import IconDraft from './components/icons/IconDraft.vue'
-import { useUserStore } from './stores/store'
-import { tokenVerify } from './requests/user'
-const userStore = useUserStore()
+
 onMounted(async () => {
-  userStore.setToken(localStorage.getItem('token') ?? false)
-  userStore.isVerified = 'id' in await tokenVerify()
   const storedTheme = localStorage.getItem('theme') ?? 'light'
   setTheme(storedTheme)
 })
