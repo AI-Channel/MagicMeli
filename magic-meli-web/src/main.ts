@@ -9,7 +9,6 @@ import Vue3Toastify, { Bounce, type ToastContainerOptions } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 import App from './App.vue'
 import router from './router'
-import axios from '@/scripts/axiosinstance'
 
 const app = createApp(App)
   .use(createPinia())
