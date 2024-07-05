@@ -1,12 +1,18 @@
 <script setup lang="ts">
-const props = defineProps<{
-  width?: number | string
-  height?: number | string
-}>()
+  const props = defineProps<{
+    width?: number | string
+    height?: number | string
+  }>()
 </script>
 
 <template>
-  <svg xmlns="http://www.w3.org/2000/svg" :width="props.width" :height="props.height" viewBox="0 0 64 64" shape-rendering="crispEdges">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    :width="props.width"
+    :height="props.height"
+    viewBox="0 0 64 64"
+    shape-rendering="crispEdges"
+  >
     <path
       fill="#4D23CF"
       d="M8 4h1v1H8zM9 4h1v1H9zM10 4h1v1h-1zM11 4h1v1h-1zM12 4h1v1h-1zM13 4h1v1h-1zM14 4h1v1h-1zM15 4h1v1h-1zM16 4h1v1h-1zM17 4h1v1h-1zM18 4h1v1h-1zM19 4h1v1h-1zM20 4h1v1h-1zM21 4h1v1h-1zM22 4h1v1h-1zM23 4h1v1h-1zM24 4h1v1h-1zM25 4h1v1h-1zM26 4h1v1h-1zM27 4h1v1h-1zM8 5h1v1H8zM9 5h1v1H9zM10 5h1v1h-1zM11 5h1v1h-1zM12 5h1v1h-1zM13 5h1v1h-1zM14 5h1v1h-1zM15 5h1v1h-1zM16 5h1v1h-1zM17 5h1v1h-1zM18 5h1v1h-1zM19 5h1v1h-1zM20 5h1v1h-1zM21 5h1v1h-1zM22 5h1v1h-1zM23 5h1v1h-1zM24 5h1v1h-1zM25 5h1v1h-1zM26 5h1v1h-1zM27 5h1v1h-1zM6 6h1v1H6zM7 6h1v1H7z"
@@ -369,7 +375,10 @@ const props = defineProps<{
     <path fill="#FAFF8D" d="M44 42h1v1h-1zM45 42h1v1h-1z" />
     <path fill="#FFDA88" d="M46 42h1v1h-1zM47 42h1v1h-1zM48 42h1v1h-1zM49 42h1v1h-1z" />
     <path fill="#FAFF8D" d="M50 42h1v1h-1zM51 42h1v1h-1z" />
-    <path fill="#FFDA88" d="M52 42h1v1h-1zM53 42h1v1h-1zM54 42h1v1h-1zM55 42h1v1h-1zM56 42h1v1h-1zM57 42h1v1h-1zM58 42h1v1h-1zM59 42h1v1h-1z" />
+    <path
+      fill="#FFDA88"
+      d="M52 42h1v1h-1zM53 42h1v1h-1zM54 42h1v1h-1zM55 42h1v1h-1zM56 42h1v1h-1zM57 42h1v1h-1zM58 42h1v1h-1zM59 42h1v1h-1z"
+    />
     <path fill="#4D23CF" d="M60 42h1v1h-1zM61 42h1v1h-1zM62 42h1v1h-1zM63 42h1v1h-1zM0 43h1v1H0zM1 43h1v1H1z" />
     <path fill="#F2F4F0" d="M2 43h1v1H2zM3 43h1v1H3z" />
     <path fill="#FAFF8D" d="M4 43h1v1H4zM5 43h1v1H5z" />
@@ -395,14 +404,20 @@ const props = defineProps<{
     <path fill="#FAFF8D" d="M44 43h1v1h-1zM45 43h1v1h-1z" />
     <path fill="#FFDA88" d="M46 43h1v1h-1zM47 43h1v1h-1zM48 43h1v1h-1zM49 43h1v1h-1z" />
     <path fill="#FAFF8D" d="M50 43h1v1h-1zM51 43h1v1h-1z" />
-    <path fill="#FFDA88" d="M52 43h1v1h-1zM53 43h1v1h-1zM54 43h1v1h-1zM55 43h1v1h-1zM56 43h1v1h-1zM57 43h1v1h-1zM58 43h1v1h-1zM59 43h1v1h-1z" />
+    <path
+      fill="#FFDA88"
+      d="M52 43h1v1h-1zM53 43h1v1h-1zM54 43h1v1h-1zM55 43h1v1h-1zM56 43h1v1h-1zM57 43h1v1h-1zM58 43h1v1h-1zM59 43h1v1h-1z"
+    />
     <path fill="#4D23CF" d="M60 43h1v1h-1zM61 43h1v1h-1zM62 43h1v1h-1zM63 43h1v1h-1zM0 44h1v1H0zM1 44h1v1H1z" />
     <path fill="#F2F4F0" d="M2 44h1v1H2zM3 44h1v1H3z" />
     <path
       fill="#FAFF8D"
       d="M4 44h1v1H4zM5 44h1v1H5zM6 44h1v1H6zM7 44h1v1H7zM8 44h1v1H8zM9 44h1v1H9zM10 44h1v1h-1zM11 44h1v1h-1zM12 44h1v1h-1zM13 44h1v1h-1zM14 44h1v1h-1zM15 44h1v1h-1zM16 44h1v1h-1zM17 44h1v1h-1zM18 44h1v1h-1zM19 44h1v1h-1zM20 44h1v1h-1zM21 44h1v1h-1zM22 44h1v1h-1zM23 44h1v1h-1zM24 44h1v1h-1zM25 44h1v1h-1zM26 44h1v1h-1zM27 44h1v1h-1zM28 44h1v1h-1zM29 44h1v1h-1zM30 44h1v1h-1zM31 44h1v1h-1zM32 44h1v1h-1zM33 44h1v1h-1zM34 44h1v1h-1zM35 44h1v1h-1zM36 44h1v1h-1zM37 44h1v1h-1zM38 44h1v1h-1zM39 44h1v1h-1zM40 44h1v1h-1zM41 44h1v1h-1zM42 44h1v1h-1zM43 44h1v1h-1zM44 44h1v1h-1zM45 44h1v1h-1zM46 44h1v1h-1zM47 44h1v1h-1z"
     />
-    <path fill="#FFDA88" d="M48 44h1v1h-1zM49 44h1v1h-1zM50 44h1v1h-1zM51 44h1v1h-1zM52 44h1v1h-1zM53 44h1v1h-1zM54 44h1v1h-1zM55 44h1v1h-1z" />
+    <path
+      fill="#FFDA88"
+      d="M48 44h1v1h-1zM49 44h1v1h-1zM50 44h1v1h-1zM51 44h1v1h-1zM52 44h1v1h-1zM53 44h1v1h-1zM54 44h1v1h-1zM55 44h1v1h-1z"
+    />
     <path fill="#FAFF8D" d="M56 44h1v1h-1zM57 44h1v1h-1z" />
     <path fill="#FFDA88" d="M58 44h1v1h-1zM59 44h1v1h-1z" />
     <path fill="#4D23CF" d="M60 44h1v1h-1zM61 44h1v1h-1zM62 44h1v1h-1zM63 44h1v1h-1zM0 45h1v1H0zM1 45h1v1H1z" />
@@ -411,7 +426,10 @@ const props = defineProps<{
       fill="#FAFF8D"
       d="M4 45h1v1H4zM5 45h1v1H5zM6 45h1v1H6zM7 45h1v1H7zM8 45h1v1H8zM9 45h1v1H9zM10 45h1v1h-1zM11 45h1v1h-1zM12 45h1v1h-1zM13 45h1v1h-1zM14 45h1v1h-1zM15 45h1v1h-1zM16 45h1v1h-1zM17 45h1v1h-1zM18 45h1v1h-1zM19 45h1v1h-1zM20 45h1v1h-1zM21 45h1v1h-1zM22 45h1v1h-1zM23 45h1v1h-1zM24 45h1v1h-1zM25 45h1v1h-1zM26 45h1v1h-1zM27 45h1v1h-1zM28 45h1v1h-1zM29 45h1v1h-1zM30 45h1v1h-1zM31 45h1v1h-1zM32 45h1v1h-1zM33 45h1v1h-1zM34 45h1v1h-1zM35 45h1v1h-1zM36 45h1v1h-1zM37 45h1v1h-1zM38 45h1v1h-1zM39 45h1v1h-1zM40 45h1v1h-1zM41 45h1v1h-1zM42 45h1v1h-1zM43 45h1v1h-1zM44 45h1v1h-1zM45 45h1v1h-1zM46 45h1v1h-1zM47 45h1v1h-1z"
     />
-    <path fill="#FFDA88" d="M48 45h1v1h-1zM49 45h1v1h-1zM50 45h1v1h-1zM51 45h1v1h-1zM52 45h1v1h-1zM53 45h1v1h-1zM54 45h1v1h-1zM55 45h1v1h-1z" />
+    <path
+      fill="#FFDA88"
+      d="M48 45h1v1h-1zM49 45h1v1h-1zM50 45h1v1h-1zM51 45h1v1h-1zM52 45h1v1h-1zM53 45h1v1h-1zM54 45h1v1h-1zM55 45h1v1h-1z"
+    />
     <path fill="#FAFF8D" d="M56 45h1v1h-1zM57 45h1v1h-1z" />
     <path fill="#FFDA88" d="M58 45h1v1h-1zM59 45h1v1h-1z" />
     <path fill="#4D23CF" d="M60 45h1v1h-1zM61 45h1v1h-1zM62 45h1v1h-1zM63 45h1v1h-1zM0 46h1v1H0zM1 46h1v1H1z" />
@@ -507,9 +525,15 @@ const props = defineProps<{
     <path fill="#FAFF8D" d="M34 50h1v1h-1zM35 50h1v1h-1z" />
     <path fill="#FFDA88" d="M36 50h1v1h-1zM37 50h1v1h-1zM38 50h1v1h-1zM39 50h1v1h-1z" />
     <path fill="#FAFF8D" d="M40 50h1v1h-1zM41 50h1v1h-1z" />
-    <path fill="#FFDA88" d="M42 50h1v1h-1zM43 50h1v1h-1zM44 50h1v1h-1zM45 50h1v1h-1zM46 50h1v1h-1zM47 50h1v1h-1zM48 50h1v1h-1zM49 50h1v1h-1z" />
+    <path
+      fill="#FFDA88"
+      d="M42 50h1v1h-1zM43 50h1v1h-1zM44 50h1v1h-1zM45 50h1v1h-1zM46 50h1v1h-1zM47 50h1v1h-1zM48 50h1v1h-1zM49 50h1v1h-1z"
+    />
     <path fill="#FAFF8D" d="M50 50h1v1h-1zM51 50h1v1h-1z" />
-    <path fill="#FFDA88" d="M52 50h1v1h-1zM53 50h1v1h-1zM54 50h1v1h-1zM55 50h1v1h-1zM56 50h1v1h-1zM57 50h1v1h-1zM58 50h1v1h-1zM59 50h1v1h-1z" />
+    <path
+      fill="#FFDA88"
+      d="M52 50h1v1h-1zM53 50h1v1h-1zM54 50h1v1h-1zM55 50h1v1h-1zM56 50h1v1h-1zM57 50h1v1h-1zM58 50h1v1h-1zM59 50h1v1h-1z"
+    />
     <path fill="#4D23CF" d="M60 50h1v1h-1zM61 50h1v1h-1zM62 50h1v1h-1zM63 50h1v1h-1zM0 51h1v1H0zM1 51h1v1H1z" />
     <path fill="#F2F4F0" d="M2 51h1v1H2zM3 51h1v1H3z" />
     <path fill="#FAFF8D" d="M4 51h1v1H4zM5 51h1v1H5z" />
@@ -529,9 +553,15 @@ const props = defineProps<{
     <path fill="#FAFF8D" d="M34 51h1v1h-1zM35 51h1v1h-1z" />
     <path fill="#FFDA88" d="M36 51h1v1h-1zM37 51h1v1h-1zM38 51h1v1h-1zM39 51h1v1h-1z" />
     <path fill="#FAFF8D" d="M40 51h1v1h-1zM41 51h1v1h-1z" />
-    <path fill="#FFDA88" d="M42 51h1v1h-1zM43 51h1v1h-1zM44 51h1v1h-1zM45 51h1v1h-1zM46 51h1v1h-1zM47 51h1v1h-1zM48 51h1v1h-1zM49 51h1v1h-1z" />
+    <path
+      fill="#FFDA88"
+      d="M42 51h1v1h-1zM43 51h1v1h-1zM44 51h1v1h-1zM45 51h1v1h-1zM46 51h1v1h-1zM47 51h1v1h-1zM48 51h1v1h-1zM49 51h1v1h-1z"
+    />
     <path fill="#FAFF8D" d="M50 51h1v1h-1zM51 51h1v1h-1z" />
-    <path fill="#FFDA88" d="M52 51h1v1h-1zM53 51h1v1h-1zM54 51h1v1h-1zM55 51h1v1h-1zM56 51h1v1h-1zM57 51h1v1h-1zM58 51h1v1h-1zM59 51h1v1h-1z" />
+    <path
+      fill="#FFDA88"
+      d="M52 51h1v1h-1zM53 51h1v1h-1zM54 51h1v1h-1zM55 51h1v1h-1zM56 51h1v1h-1zM57 51h1v1h-1zM58 51h1v1h-1zM59 51h1v1h-1z"
+    />
     <path fill="#4D23CF" d="M60 51h1v1h-1zM61 51h1v1h-1zM62 51h1v1h-1zM63 51h1v1h-1zM0 52h1v1H0zM1 52h1v1H1z" />
     <path fill="#F2F4F0" d="M2 52h1v1H2zM3 52h1v1H3z" />
     <path fill="#FFDA88" d="M4 52h1v1H4zM5 52h1v1H5z" />

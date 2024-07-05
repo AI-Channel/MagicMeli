@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import LoginPage from '@/components/LoginPage.vue'
-import WindowContainer from '@/components/window/WindowContainer.vue'
+  import LoginPage from '@/components/LoginPage.vue'
+  import WindowContainer from '@/components/window/WindowContainer.vue'
 </script>
 
 <template>

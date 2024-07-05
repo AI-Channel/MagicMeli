@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import type { ArticleViewResponse } from '@/models/article'
-import Vue3TagsInput from 'vue3-tags-input'
+  import type { ArticleViewResponse } from '@/models/article'
+  import Vue3TagsInput from 'vue3-tags-input'
 
-const article = defineModel<ArticleViewResponse>({
-  default: {
-    id: 0,
-    title: '',
-    content: '',
-    tags: []
-  }
-})
+  const article = defineModel<ArticleViewResponse>({
+    default: {
+      id: 0,
+      title: '',
+      content: '',
+      tags: []
+    }
+  })
 </script>
 
 <template>
@@ -20,10 +20,10 @@ const article = defineModel<ArticleViewResponse>({
       <span class="m-auto min-w-20">标题：</span>
       <input
         id="title"
+        v-model.trim="article.title"
         type="text"
         class="form-input my-auto h-fit w-full whitespace-pre-wrap break-words py-1 focus:ring-themeViolet dark:focus:ring-darkViolet"
         placeholder="文章标题"
-        v-model.trim="article.title"
         required
       />
     </label>
@@ -31,18 +31,18 @@ const article = defineModel<ArticleViewResponse>({
       <span class="m-auto min-w-20">简介:</span>
       <textarea
         id="summary"
+        v-model="article.summary"
         class="form-textarea my-auto h-full w-full whitespace-pre-wrap break-words focus:ring-themeViolet dark:focus:ring-darkViolet"
         placeholder="文章简介"
-        v-model="article.summary"
       ></textarea>
     </label>
     <label class="flex content-center">
       <span class="m-auto min-w-20">作者：</span>
       <input
         id="title"
+        v-model.trim="article.author"
         class="form-input my-auto h-fit w-full whitespace-pre-wrap break-words py-1 focus:ring-themeViolet dark:focus:ring-darkViolet"
         placeholder="文章作者"
-        v-model.trim="article.author"
         required
       />
     </label>
@@ -50,9 +50,9 @@ const article = defineModel<ArticleViewResponse>({
       <span class="m-auto min-w-20">分类：</span>
       <input
         id="title"
+        v-model.trim="article.category"
         class="form-input my-auto h-fit w-full whitespace-pre-wrap break-words py-1 focus:ring-themeViolet dark:focus:ring-darkViolet"
         placeholder="文章分类"
-        v-model.trim="article.category"
         required
       />
     </label>
@@ -72,8 +72,8 @@ const article = defineModel<ArticleViewResponse>({
 </template>
 
 <style scoped>
-:deep(.v3ti .v3ti-tag) {
-  background: #eaa0e8;
-  border-radius: 0.2rem;
-}
+  :deep(.v3ti .v3ti-tag) {
+    background: #eaa0e8;
+    border-radius: 0.2rem;
+  }
 </style>

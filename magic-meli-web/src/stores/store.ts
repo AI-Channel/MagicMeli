@@ -34,10 +34,10 @@ export const useArticleStore = defineStore('article', () => {
 })
 
 export const useUserStore = defineStore('user', () => {
-  const token: Ref<string | null> = ref('')
-  const isVerified: Ref<boolean> = ref(false)
-  function setToken(Tokenvalue: string | null) {
+  const token: Ref<string> = ref(localStorage.getItem('token') ?? '')
+  const isLoggedIn: Ref<boolean> = ref(false)
+  function setToken(Tokenvalue: string) {
     token.value = Tokenvalue
   }
-  return { token, isVerified, setToken }
+  return { token, isVerified: isLoggedIn, setToken }
 })

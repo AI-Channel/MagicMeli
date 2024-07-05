@@ -6,6 +6,10 @@ export interface UserEntity {
   about: string
   level: string
 }
+export interface JwtTokenInfo {
+  head: { alg: string }
+  payload: { email: string; exp: number; iss: string; level: string; nbf: number; userId: string }
+}
 export interface UserLoginDto {
   userId: string
   password: string

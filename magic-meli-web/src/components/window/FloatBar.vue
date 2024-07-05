@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import IconEdit from '../icons/IconEdit.vue'
+  import IconEdit from '../icons/IconEdit.vue'
 </script>
 
 <template>

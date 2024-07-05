@@ -1,12 +1,18 @@
 <script setup lang="ts">
-const props = defineProps<{
-  width?: number
-  height?: number
-}>()
+  const props = defineProps<{
+    width?: number
+    height?: number
+  }>()
 </script>
 
 <template>
-  <svg :width="props.width" :height="props.height" viewBox="0 0 24 24" class="fill-themeViolet dark:fill-white" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    :width="props.width"
+    :height="props.height"
+    viewBox="0 0 24 24"
+    class="fill-themeViolet dark:fill-white"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       fill-rule="evenodd"
       clip-rule="evenodd"
