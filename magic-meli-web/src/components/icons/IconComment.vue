@@ -1,8 +1,8 @@
 <script setup lang="ts">
-const props = defineProps<{
-  width?: number
-  height?: number
-}>()
+  const props = defineProps<{
+    width?: number | string
+    height?: number | string
+  }>()
 </script>
 
 <template>

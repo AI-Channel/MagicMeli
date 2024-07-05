@@ -1,8 +1,8 @@
 <script setup lang="ts">
-const props = defineProps<{
-  width?: number
-  height?: number
-}>()
+  const props = defineProps<{
+    width?: number | string
+    height?: number | string
+  }>()
 </script>
 
 <template>
@@ -44,15 +44,9 @@ const props = defineProps<{
       d="M4 9h1v1H4zM5 9h1v1H5zM6 9h1v1H6zM7 9h1v1H7zM8 9h1v1H8zM9 9h1v1H9zM10 9h1v1h-1zM11 9h1v1h-1zM12 9h1v1h-1zM13 9h1v1h-1z"
     />
     <path fill="#C4C4C4" d="M14 9h1v1h-1zM15 9h1v1h-1zM4 10h1v1H4zM5 10h1v1H5z" />
-    <path
-      fill="#FEF08A"
-      d="M6 10h1v1H6zM7 10h1v1H7zM8 10h1v1H8zM9 10h1v1H9zM10 10h1v1h-1zM11 10h1v1h-1z"
-    />
+    <path fill="#FEF08A" d="M6 10h1v1H6zM7 10h1v1H7zM8 10h1v1H8zM9 10h1v1H9zM10 10h1v1h-1zM11 10h1v1h-1z" />
     <path fill="#C4C4C4" d="M12 10h1v1h-1zM13 10h1v1h-1zM4 11h1v1H4zM5 11h1v1H5z" />
-    <path
-      fill="#FEF08A"
-      d="M6 11h1v1H6zM7 11h1v1H7zM8 11h1v1H8zM9 11h1v1H9zM10 11h1v1h-1zM11 11h1v1h-1z"
-    />
+    <path fill="#FEF08A" d="M6 11h1v1H6zM7 11h1v1H7zM8 11h1v1H8zM9 11h1v1H9zM10 11h1v1h-1zM11 11h1v1h-1z" />
     <path fill="#C4C4C4" d="M12 11h1v1h-1zM13 11h1v1h-1zM4 12h1v1H4zM5 12h1v1H5z" />
     <path fill="#FEF08A" d="M6 12h1v1H6zM7 12h1v1H7z" />
     <path fill="#C4C4C4" d="M8 12h1v1H8zM9 12h1v1H9z" />

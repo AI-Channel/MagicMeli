@@ -19,6 +19,7 @@
   font-family: 'FusionPixel';
   src: url(/src/assets/fonts/fusion-pixel-12px-proportional.ttc);
 }
+
 body {
   background-repeat: no-repeat;
   background-size: cover;
@@ -28,6 +29,6 @@ body {
   font-size: 18px;
   max-height: 100vh;
   box-sizing: border-box;
-  font-family: 'Microsoft Yahei', sans-serif, 'Inconsolata';
+  font-family: 'Microsoft Yahei', sans-serif;
   scroll-behavior: smooth;
 }

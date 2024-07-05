@@ -8,27 +8,9 @@ const router = createRouter({
     },
     {
       path: '/home',
-      component: () => import('@/App.vue')
+      name: 'home',
+      components: { default: () => import('@/App.vue') }
     },
-    // {
-    //   path: '/articles',
-    //   meta: {
-    //     isListPageCheck: 'articles',
-    //     title: 'Article List'
-    //   },
-    //   name: 'articles',
-    //   component: () => import('@/views/ArticleView.vue'),
-    //   children: [
-    //     {
-    //       path: ':name',
-    //       name: 'article',
-    //       meta: {
-    //         title: 'Article'
-    //       },
-    //       component: () => import('@/components/articles/ArticleContainer.vue')
-    //     }
-    //   ]
-    // },
     {
       path: '/gallery',
       meta: {
@@ -36,7 +18,7 @@ const router = createRouter({
         title: 'Gallery'
       },
       name: 'gallery',
-      component: () => import('@/views/GalleryView.vue'),
+      components: { window: () => import('@/views/GalleryView.vue') },
       children: [
         {
           path: 'fanart',
@@ -44,7 +26,7 @@ const router = createRouter({
             title: 'Fanart'
           },
           name: 'fanart',
-          component: () => import('@/components/galleries/FanArt.vue')
+          components: { gallery: () => import('@/components/galleries/FanArt.vue') }
         }
       ]
     },
@@ -54,7 +36,7 @@ const router = createRouter({
         title: 'Setting'
       },
       name: 'setting',
-      component: () => import('@/views/SettingView.vue')
+      components: { window: () => import('@/views/SettingView.vue') }
     },
     {
       path: '/markdown-editor',
@@ -62,16 +44,25 @@ const router = createRouter({
         title: 'Markdown Editor'
       },
       name: 'markdown editor',
-      component: () => import('@/components/MarkdownEditor.vue')
+      components: { window: () => import('@/views/EditorView.vue') }
     },
     {
       path: '/recycle-bin',
       meta: {
-        isListPageCheck: 'recycle',
+        isListPageCheck: 'deleted',
         title: 'Recycle Bin'
       },
-      name: 'recycle',
-      component: () => import('@/views/RecycleView.vue')
+      name: 'deleted',
+      components: { window: () => import('@/views/RecycleView.vue') }
+    },
+    {
+      path: '/draft-box',
+      meta: {
+        isListPageCheck: 'draft',
+        title: 'Draft Box'
+      },
+      name: 'draft',
+      components: { window: () => import('@/views/DraftView.vue') }
     },
     {
       path: '/login',
@@ -79,7 +70,7 @@ const router = createRouter({
         title: 'Login'
       },
       name: 'login',
-      component: () => import('@/views/LoginView.vue')
+      components: { window: () => import('@/views/LoginView.vue') }
     },
     {
       path: '/articles',
@@ -88,7 +79,7 @@ const router = createRouter({
         title: 'Article List'
       },
       name: 'articles',
-      component: () => import('@/views/ArticleView.vue'),
+      components: { window: () => import('@/views/ArticleListView.vue') },
       children: [
         {
           path: ':id',
@@ -96,7 +87,7 @@ const router = createRouter({
           meta: {
             title: 'Article'
           },
-          component: () => import('@/components/articles/ArticleContainer.vue')
+          components: { default: () => import('@/components/articles/ArticleContainer.vue') }
         }
       ]
     }

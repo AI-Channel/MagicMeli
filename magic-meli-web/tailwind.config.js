@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 import forms from '@tailwindcss/forms'
-
+import dracula from 'tailwind-dracula'
 export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   darkMode: 'selector',
@@ -27,6 +27,10 @@ export default {
       scale: {
         200: 2
       },
+      spacing: {
+        112: '28rem',
+        128: '32rem'
+      },
       fontFamily: {
         Dinkie: ['Dinkie', 'sans-serif'],
         Yahei: ['Microsoft Yahei', '微软雅黑', 'sans-serif'],
@@ -35,5 +39,5 @@ export default {
       }
     }
   },
-  plugins: [forms]
+  plugins: [forms({ strategy: 'class' }),dracula]
 }

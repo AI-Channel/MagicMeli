@@ -1,21 +1,22 @@
 <script setup lang="ts">
-const props = defineProps<{
-  width?: number
-  height?: number
-}>()
+  const props = defineProps<{
+    width?: number | string
+    height?: number | string
+  }>()
 </script>
 
 <template>
   <svg
     xmlns="http://www.w3.org/2000/svg"
+    class="fill-themeViolet dark:fill-darkViolet"
     :width="props.width"
     :height="props.height"
-    viewBox="0 0 12 12"
-    shape-rendering="crispEdges"
+    viewBox="0 0 24 24"
   >
     <path
-      fill="#4D23CF"
-      d="M2 0h1v1H2zM3 0h1v1H3zM4 0h1v1H4zM5 0h1v1H5zM6 0h1v1H6zM7 0h1v1H7zM8 0h1v1H8zM1 1h1v1H1zM9 1h1v1H9zM10 1h1v1h-1zM0 2h1v1H0zM8 2h1v1H8zM9 2h1v1H9zM10 2h1v1h-1zM0 3h1v1H0zM7 3h1v1H7zM8 3h1v1H8zM9 3h1v1H9zM11 3h1v1h-1zM0 4h1v1H0zM6 4h1v1H6zM7 4h1v1H7zM8 4h1v1H8zM11 4h1v1h-1zM0 5h1v1H0zM5 5h1v1H5zM6 5h1v1H6zM7 5h1v1H7zM11 5h1v1h-1zM0 6h1v1H0zM4 6h1v1H4zM5 6h1v1H5zM6 6h1v1H6zM11 6h1v1h-1zM0 7h1v1H0zM3 7h1v1H3zM4 7h1v1H4zM5 7h1v1H5zM11 7h1v1h-1zM0 8h1v1H0zM3 8h1v1H3zM4 8h1v1H4zM11 8h1v1h-1zM0 9h1v1H0zM11 9h1v1h-1zM1 10h1v1H1zM10 10h1v1h-1zM2 11h1v1H2zM3 11h1v1H3zM4 11h1v1H4zM5 11h1v1H5zM6 11h1v1H6zM7 11h1v1H7zM8 11h1v1H8zM9 11h1v1H9z"
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M16 2H18V4H16V2ZM14 6V4H16V6H14ZM12 8V6H14V8H12ZM10 10V8H12V10H10ZM8 12V10H10V12H8ZM12 16V18H8H6V16V12H8V16H12ZM14 14V16H12V14H14ZM16 12V14H14V12H16ZM18 10V12H16V10H18ZM20 8V10H18V8H20ZM20 6V4H18V6H20ZM20 6V8H22V6H20ZM4 4H10V6H4V20H18V14H20V20V22H18H4H2V20V6V4H4Z"
     />
   </svg>
 </template>

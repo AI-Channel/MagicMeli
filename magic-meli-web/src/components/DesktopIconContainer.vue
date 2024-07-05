@@ -1,7 +1,7 @@
 <script setup lang="ts">
-const props = defineProps<{
-  title?: string
-}>()
+  const props = defineProps<{
+    title?: string
+  }>()
 </script>
 
 <template>
@@ -11,9 +11,7 @@ const props = defineProps<{
     <div class="flex justify-center">
       <slot></slot>
     </div>
-    <p
-      class="text-center font-Dinkie text-themeViolet subpixel-antialiased dark:text-windowFuchsia"
-    >
+    <p class="text-center font-Dinkie text-themeViolet subpixel-antialiased dark:text-windowFuchsia">
       {{ props.title }}
     </p>
   </div>

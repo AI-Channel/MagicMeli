@@ -1,19 +1,20 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import DesktopIconContainer from './components/DesktopIconContainer.vue'
-import IconArticle from './components/icons/IconArticle.vue'
-import IconFolderOpen from './components/icons/IconFolderOpen.vue'
-import IconInvader from './components/icons/IconInvader.vue'
-import IconNewArticle from './components/icons/IconNewArticle.vue'
-import IconProfile from './components/icons/IconProfile.vue'
-import IconRecycleBin from './components/icons/IconRecycleBin.vue'
-import IconSetting from './components/icons/IconSetting.vue'
-import { setTheme } from './scripts/libs'
+  import { onBeforeMount } from 'vue'
+  import { RouterLink } from 'vue-router'
+  import DesktopIconContainer from './components/DesktopIconContainer.vue'
+  import IconArticle from './components/icons/IconArticle.vue'
+  import IconDraft from './components/icons/IconDraft.vue'
+  import IconFolderOpen from './components/icons/IconFolderOpen.vue'
+  import IconNewArticle from './components/icons/IconNewArticle.vue'
+  import IconProfile from './components/icons/IconProfile.vue'
+  import IconRecycleBin from './components/icons/IconRecycleBin.vue'
+  import IconSetting from './components/icons/IconSetting.vue'
+  import { setTheme } from './scripts/libs'
 
-onMounted(() => {
-  const storedTheme = localStorage.getItem('theme')
-  if (typeof storedTheme == 'string') setTheme(storedTheme)
-})
+  onBeforeMount(async () => {
+    const storedTheme = localStorage.getItem('theme') ?? 'light'
+    setTheme(storedTheme)
+  })
 </script>
 
 <template>
@@ -25,14 +26,19 @@ onMounted(() => {
         <IconProfile :width="64" :height="64" />
       </DesktopIconContainer>
     </RouterLink>
-    <RouterLink :to="{ name: 'articles' }" class="m-auto">
+    <RouterLink :to="{ path: '/articles' }" class="m-auto">
       <DesktopIconContainer title="文章列表">
         <IconArticle :width="64" :height="64" />
       </DesktopIconContainer>
     </RouterLink>
-    <RouterLink :to="{ name: 'recycle' }" class="m-auto">
+    <RouterLink :to="{ name: 'deleted' }" class="m-auto">
       <DesktopIconContainer title="回收站">
         <IconRecycleBin :width="64" :height="64" />
+      </DesktopIconContainer>
+    </RouterLink>
+    <RouterLink :to="{ name: 'draft' }" class="m-auto"
+      ><DesktopIconContainer title="草稿箱">
+        <IconDraft :width="64" :height="64" />
       </DesktopIconContainer>
     </RouterLink>
     <RouterLink :to="{ name: 'markdown editor', query: { id: 0 } }" class="m-auto">
@@ -50,7 +56,13 @@ onMounted(() => {
         <IconFolderOpen :width="64" :height="64" />
       </DesktopIconContainer>
     </RouterLink>
-    <RouterView></RouterView>
+
+    <RouterView name="window"></RouterView>
+    <a
+      href="https://beian.miit.gov.cn"
+      class="absolute bottom-0 right-2 font-Dinkie text-[16px] text-themeViolet dark:text-white"
+      ><p>浙 ICP 备 16004952 号-5</p></a
+    >
   </main>
 </template>
 
