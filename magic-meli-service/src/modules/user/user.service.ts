@@ -1,7 +1,15 @@
 import Database, { SQLQueryBindings } from 'bun:sqlite'
 import { SHA3 } from 'crypto-js'
 import { v4 as uuidv4 } from 'uuid'
-import { UserEntity, UserLoginDto, UserPublicInfoDto, UserRegisterDto, UserUpdateDto, UserVerifyInfoDto, usersLevelStr } from './user.model'
+import {
+  UserEntity,
+  UserLoginDto,
+  UserPublicInfoDto,
+  UserRegisterDto,
+  UserUpdateDto,
+  UserVerifyInfoDto,
+  usersLevelStr
+} from './user.model'
 import { userLevelNumtoStr, userLevelStrtoNum } from '../../libs/libs'
 type queryMode = 'public' | 'verify' | 'all'
 
@@ -61,7 +69,10 @@ export class UserService {
       if (!this.passwordPattern.test(user.password)) {
         throw new Error('Invalid password! Required letter and number at least, and length must in range [6,18] !')
       }
-      if (user.userId.toLowerCase() === userInfo.userId.toLowerCase() && SHA3(user.password).toString() === userInfo.password) {
+      if (
+        user.userId.toLowerCase() === userInfo.userId.toLowerCase() &&
+        SHA3(user.password).toString() === userInfo.password
+      ) {
         return this.getUserInfoById(user.userId, 'verify') as UserVerifyInfoDto
       } else {
         throw new Error('ID and password are not correct!')
@@ -73,7 +84,9 @@ export class UserService {
   }
 
   getUserInfoById(userId: string, mode: queryMode): false | UserEntity | UserVerifyInfoDto | UserPublicInfoDto {
-    const userInfo = this.db.query<UserEntity, string>(`SELECT * FROM users WHERE userId = $userId COLLATE NOCASE`).get(userId)
+    const userInfo = this.db
+      .query<UserEntity, string>(`SELECT * FROM users WHERE userId = $userId COLLATE NOCASE`)
+      .get(userId)
     try {
       if (!userInfo) throw new Error('No such user!')
       const userPublicInfo: UserPublicInfoDto = {
@@ -83,7 +96,11 @@ export class UserService {
         about: userInfo.about,
         level: userLevelNumtoStr(userInfo.level)
       }
-      const userVerifyInfo: UserVerifyInfoDto = { userId: userInfo.userId, email: userInfo.email, level: userLevelNumtoStr(userInfo.level) }
+      const userVerifyInfo: UserVerifyInfoDto = {
+        userId: userInfo.userId,
+        email: userInfo.email,
+        level: userLevelNumtoStr(userInfo.level)
+      }
       switch (mode) {
         case 'public':
           return userPublicInfo
@@ -101,7 +118,9 @@ export class UserService {
   }
 
   getUsersList() {
-    const usersInfo = this.db.query<UserPublicInfoDto, null>(`SELECT userId, username, email, about, level FROM users`).all(null)
+    const usersInfo = this.db
+      .query<UserPublicInfoDto, null>(`SELECT userId, username, email, about, level FROM users`)
+      .all(null)
     return usersInfo
   }
 
@@ -146,13 +165,16 @@ export class UserService {
   getSecretIdByUserId(userId: string) {
     type SecretIdObj = { id: string } | false
     const secretId: SecretIdObj =
-      this.db.query<SecretIdObj, string>(`SELECT id FROM users WHERE userId = $userId COLLATE NOCASE`).get(userId) ?? false
+      this.db.query<SecretIdObj, string>(`SELECT id FROM users WHERE userId = $userId COLLATE NOCASE`).get(userId) ??
+      false
     return secretId ? secretId.id : false
   }
 
   getUserIdBySecretId(secretId: string) {
     type UserIdObj = { UserId: string } | false
-    const userId: UserIdObj = this.db.query<UserIdObj, string>(`SELECT id FROM users WHERE userId = $userId COLLATE NOCASE`).get(secretId) ?? false
+    const userId: UserIdObj =
+      this.db.query<UserIdObj, string>(`SELECT id FROM users WHERE userId = $userId COLLATE NOCASE`).get(secretId) ??
+      false
     return userId ? userId.UserId : false
   }
 }

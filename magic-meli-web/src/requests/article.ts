@@ -1,4 +1,10 @@
-import type { ArticleListViewResponse, ArticleViewRequest, ArticleViewResponse, articleStatusHandles, listQueryMode } from '@/models/article'
+import type {
+  ArticleListViewResponse,
+  ArticleViewRequest,
+  ArticleViewResponse,
+  articleStatusHandles,
+  listQueryMode
+} from '@/models/article'
 import { toast } from 'vue3-toastify'
 import { union } from '../scripts/libs'
 import instance from './axiosInstance'
@@ -41,8 +47,7 @@ export async function hardDelArticleById(id: number): Promise<ArticleViewRespons
   return response.data
 }
 
-export async function getAllTagsByStatus(status: listQueryMode) {
-  const articleList = await getArticleListByStatus(status)
+export async function getAllTagsByArticleList(articleList: ArticleListViewResponse[]) {
   let tags: Set<string> = new Set()
   for (const article of articleList) {
     tags = union(tags, new Set(article.tags))

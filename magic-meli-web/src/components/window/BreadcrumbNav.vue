@@ -1,22 +1,24 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { useRoute } from 'vue-router'
+  import { computed, ref } from 'vue'
+  import { useRoute, type RouteLocationMatched } from 'vue-router'
 
-const route = useRoute()
+  const route = useRoute()
 
-let navTitle = computed(() => {
-  const filterdRoute = ref(route.matched.filter((item) => item.name))
-  return filterdRoute.value.map((item: any) => item.meta.title)
-})
+  let navTitle = computed(() => {
+    const filterdRoute = ref(route.matched.filter((item) => item.name))
+    return filterdRoute.value.map((item: RouteLocationMatched) => item.meta.title)
+  })
 
-let navName = computed(() => {
-  const filterdRoute = ref(route.matched.filter((item) => item.name))
-  return filterdRoute.value.map((item: any) => item.name)
-})
+  let navName = computed(() => {
+    const filterdRoute = ref(route.matched.filter((item) => item.name))
+    return filterdRoute.value.map((item: RouteLocationMatched) => item.name)
+  })
 </script>
 
 <template>
-  <p class="w-full overflow-clip text-nowrap bg-windowFuchsia px-2 text-themeViolet dark:bg-darkWindowFuchsia dark:text-darkViolet">
+  <p
+    class="w-full overflow-clip text-nowrap bg-windowFuchsia px-2 text-themeViolet dark:bg-darkWindowFuchsia dark:text-darkViolet"
+  >
     <RouterLink to="/home">
       <span class="hover:text-activeFuchsia dark:hover:text-indigo-400">Windose:</span>
     </RouterLink>

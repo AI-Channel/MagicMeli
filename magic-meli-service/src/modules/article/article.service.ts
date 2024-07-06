@@ -134,7 +134,10 @@ export class ArticleService {
     }
     const echo =
       this.db
-        .query<ArticleEntity, SQLQueryBindings>(`UPDATE article SET ${dbHandle},updateTime = $time WHERE id == $id RETURNING *`)
+        .query<
+          ArticleEntity,
+          SQLQueryBindings
+        >(`UPDATE article SET ${dbHandle},updateTime = $time WHERE id == $id RETURNING *`)
         .get({ $id: id, $time: new Date().toISOString() }) ?? false
     if (!echo) return false
     else return this.articleEntitytoDtoOut(echo)
@@ -226,7 +229,12 @@ export class ArticleService {
     return articleReturn
   }
   private getArticleTagsObjectById = (id: number) => {
-    return this.db.query<tagsObject, number>(`SELECT articleId as id,tag FROM (${this.tempArticleHasTagsTable}) WHERE articleId = $id`).all(id)
+    return this.db
+      .query<
+        tagsObject,
+        number
+      >(`SELECT articleId as id,tag FROM (${this.tempArticleHasTagsTable}) WHERE articleId = $id`)
+      .all(id)
   }
 
   private getArticleTagsById(id: number) {
@@ -246,11 +254,16 @@ export class ArticleService {
   }
 
   private insertTag = this.db.transaction((tag: string) => {
-    return this.db.query<tagsObject, string>(`INSERT INTO tags (tag) VALUES ($tag) RETURNING *`).get(tag) ?? this.defalutTagObj
+    return (
+      this.db.query<tagsObject, string>(`INSERT INTO tags (tag) VALUES ($tag) RETURNING *`).get(tag) ??
+      this.defalutTagObj
+    )
   })
 
   private deleteTag = this.db.transaction((tag: string) => {
-    return this.db.query<tagsObject, string>(`DELETE FROM tags WHERE tag = $tag RETURNING *`).get(tag) ?? this.defalutTagObj
+    return (
+      this.db.query<tagsObject, string>(`DELETE FROM tags WHERE tag = $tag RETURNING *`).get(tag) ?? this.defalutTagObj
+    )
   })
 
   private deleteTagMap = this.db.transaction((articleId: number, tag: string) => {
@@ -260,8 +273,9 @@ export class ArticleService {
       $tagId: thisTagObj.id
     })
     thisTagObj =
-      this.db.query<tagsObject, number>(`UPDATE tags SET refCount = refCount - 1 WHERE id = $tagId RETURNING *`).get(thisTagObj.id) ??
-      this.defalutTagObj
+      this.db
+        .query<tagsObject, number>(`UPDATE tags SET refCount = refCount - 1 WHERE id = $tagId RETURNING *`)
+        .get(thisTagObj.id) ?? this.defalutTagObj
     if (thisTagObj.refCount == 0) {
       this.deleteTag(thisTagObj.tag)
     }
@@ -272,7 +286,9 @@ export class ArticleService {
     if (thisTagObj.id == 0) {
       thisTagObj = this.insertTag(tagName)
     }
-    this.db.query(`INSERT INTO articleHasTags (articleId,tagId) VALUES ($articleId,$tagId)`).run({ $articleId: articleId, $tagId: thisTagObj.id })
+    this.db
+      .query(`INSERT INTO articleHasTags (articleId,tagId) VALUES ($articleId,$tagId)`)
+      .run({ $articleId: articleId, $tagId: thisTagObj.id })
     this.db.query(`UPDATE tags SET refCount = refCount + 1 WHERE id = $tagId`).run({ $tagId: thisTagObj.id })
   })
 

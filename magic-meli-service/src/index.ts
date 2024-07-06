@@ -9,10 +9,16 @@ const app = new Elysia({ normalize: true })
   .use(
     swagger({
       documentation: {
-        info: { title: 'A Simple Blog written by vue + typescript as frontend and bun + elysia as backend', version: '0.0.1 alpha' },
+        info: {
+          title: 'A Simple Blog written by vue + typescript as frontend and bun + elysia as backend',
+          version: '0.0.1 alpha'
+        },
         tags: [
           { name: 'Articles', description: 'Article module of this blog, include create, read, update, delete' },
-          { name: 'Users', description: 'An authentication module of users, include register, login and verification for security' }
+          {
+            name: 'Users',
+            description: 'An authentication module of users, include register, login and verification for security'
+          }
         ]
       },
       provider: 'scalar'

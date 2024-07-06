@@ -32,7 +32,7 @@ const hljsTheme = createHljsTheme({
 
 hljsTheme.extend((md: MarkdownIt) => {
   md.set({
-    html: true,
+    html: false,
     breaks: true,
     linkify: true,
     typographer: true,
@@ -57,7 +57,7 @@ VMdEditor.use(githubTheme, {
   Hljs: hljs,
   extend(md: MarkdownIt) {
     md.set({
-      html: true,
+      html: false,
       breaks: true,
       linkify: true,
       typographer: true

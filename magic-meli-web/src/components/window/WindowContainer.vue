@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import WindowHeadBar from './WindowHeadBar.vue'
-import { useWindowStore } from '@/stores/store'
-import { ref } from 'vue'
-import Vue3DraggableResizable from 'vue3-draggable-resizable'
-import 'vue3-draggable-resizable/dist/Vue3DraggableResizable.css'
-import WindowToolBar from './WindowToolBar.vue'
+  import WindowHeadBar from './WindowHeadBar.vue'
+  import { useWindowStore } from '@/stores/store'
+  import { ref } from 'vue'
+  import Vue3DraggableResizable from 'vue3-draggable-resizable'
+  import 'vue3-draggable-resizable/dist/Vue3DraggableResizable.css'
+  import WindowToolBar from './WindowToolBar.vue'
 
-const store = useWindowStore()
-let initialize = {
-  initW: ref(window.innerWidth / 2),
-  initH: ref(window.innerHeight / 1.5),
-  x: ref(window.innerWidth / 4),
-  y: ref(window.innerHeight / 6)
-}
+  const store = useWindowStore()
+  let initialize = {
+    initW: ref(window.innerWidth / 2),
+    initH: ref(window.innerHeight / 1.5),
+    x: ref(window.innerWidth / 4),
+    y: ref(window.innerHeight / 6)
+  }
 </script>
 
 <template>

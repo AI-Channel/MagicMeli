@@ -13,6 +13,7 @@ export const userController = new Elysia({ prefix: 'users', detail: { tags: ['Us
   .use(
     jwt({
       name: 'jwt',
+      alg: 'HS256',
       iss: 'MagicMeli.icu',
       secret: jwtTokenSecret,
       exp: '30min',
@@ -47,22 +48,30 @@ export const userController = new Elysia({ prefix: 'users', detail: { tags: ['Us
         }
       )
   )
-  .get('/verification', async ({ bearer, jwt }) => await jwt.verify(bearer), {
-    async beforeHandle({ bearer, jwt }) {
-      if (!bearer || !(await jwt.verify(bearer))) {
-        return error(401, 'Unauthorized')
+  .get(
+    '/refresh',
+    async ({ bearer, jwt }) => {
+      const tokenVerified = await jwt.verify(bearer)
+      if (tokenVerified)
+        return await jwt.sign({ userId: tokenVerified.userId, email: tokenVerified.email, level: tokenVerified.level })
+    },
+    {
+      async beforeHandle({ bearer, jwt }) {
+        if (!bearer || !(await jwt.verify(bearer))) {
+          return error(401, 'Unauthorized')
+        }
       }
     }
-  })
-  .post(
-    '/register',
-    async ({ UserService, jwt, body: newUser }) => {
-      const newUserInfo = UserService.register(newUser)
-      if (!newUserInfo) return error(400, 'Bad Request')
-      else return await jwt.sign(newUserInfo)
-    },
-    { body: 'user.register' }
   )
+  // .post(
+  //   '/register',
+  //   async ({ UserService, jwt, body: newUser }) => {
+  //     const newUserInfo = UserService.register(newUser)
+  //     if (!newUserInfo) return error(400, 'Bad Request')
+  //     else return await jwt.sign(newUserInfo)
+  //   },
+  //   { body: 'user.register' }
+  // )
   .post(
     '/login',
     async ({ UserService, jwt, body: user }) => {

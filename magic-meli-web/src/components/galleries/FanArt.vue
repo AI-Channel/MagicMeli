@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { getImages } from '@/scripts/imageinfo'
-import MasonryLayout from '@/components/MasonryLayout.vue'
+  import { getImages } from '@/scripts/imageinfo'
+  import MasonryLayout from '@/components/MasonryLayout.vue'
 </script>
 
 <template>

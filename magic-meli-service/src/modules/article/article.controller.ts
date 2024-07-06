@@ -12,6 +12,7 @@ export const ArticleController = new Elysia({ prefix: '/articles', detail: { tag
   .use(bearer())
   .use(
     jwt({
+      alg: 'HS256',
       name: 'jwt',
       iss: 'MagicMeli.icu',
       secret: jwtTokenSecret,

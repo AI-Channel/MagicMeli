@@ -56,13 +56,10 @@
     .header-anchor {
       @apply float-left -ml-3 pr-2;
     }
-    div[class*='v-md-pre-wrapper-'].line-numbers-mode {
-      @apply relative rounded bg-themeFuchsia py-5 dark:bg-darkThemeFuchsia;
-      pre {
-        @apply pl-20;
-      }
+    .line-numbers-mode {
+      @apply relative;
       .line-numbers-wrapper {
-        @apply absolute top-0 m-auto w-14 select-none border-r border-violet-200 py-5 text-center text-base leading-8 text-violet-400;
+        @apply absolute top-0 m-auto w-14 select-none border-r  p-[0.5em] text-center text-base leading-8;
       }
     }
   }
