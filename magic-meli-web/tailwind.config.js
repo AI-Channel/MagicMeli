@@ -17,8 +17,8 @@ export default {
         darkWindowFuchsia: '#E8D2E9'
       },
       backgroundImage: {
-        synth: "url('/src/assets/graphs/Synth.png')",
-        dreamcore: "url('/src/assets/graphs/Dreamcore.jpg')",
+        synth: "url('/src/assets/graphs/Synth.webp')",
+        dreamcore: "url('/src/assets/graphs/Dreamcore.webp')",
         login: "url('/src/assets/graphs/LoginBackground.png')"
       },
       screens: {
