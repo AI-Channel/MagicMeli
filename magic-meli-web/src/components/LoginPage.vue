@@ -2,18 +2,25 @@
   import type { UserLoginDto } from '@/models/user'
   import { login } from '@/requests/user'
   import { autoToast } from '@/scripts/libs'
+  import { useUserStore } from '@/stores/store'
   import { ref, type Ref } from 'vue'
+  import { useRouter } from 'vue-router'
 
   const userLogin: Ref<UserLoginDto> = ref({ userId: '', password: '' })
-
+  const userStore = useUserStore()
+  const router = useRouter()
   async function handleLogin(user: UserLoginDto) {
-    const token = await login(user)
-    if (token) {
+    try {
+      const token = await login(user)
       localStorage.setItem('token', token)
+      userStore.isLoggedIn = true
+      autoToast('登录成功', 'success')
+      // console.log(localStorage.getItem('token'))
+      setTimeout(() => router.push({ name: 'home' }), 1500)
+      return token
+    } catch (error) {
+      autoToast('登录失败，请检查用户名或密码是否正确！', 'error')
     }
-    console.log(localStorage.getItem('token'))
-    autoToast('登录成功', 'success')
-    return token
   }
 </script>
 

@@ -121,7 +121,7 @@ export const ArticleController = new Elysia({ prefix: '/articles', detail: { tag
   )
   .post(
     '',
-    async ({ ArticleService, body: newArticle }) => {
+    async ({ ArticleService, body: newArticle, set }) => {
       // let articleIn: ArticleDtoIn = {
       //   title: '',
       //   summary: '',
@@ -133,6 +133,7 @@ export const ArticleController = new Elysia({ prefix: '/articles', detail: { tag
       //   permission: usersLevelStr.guest
       // }
       // articleIn = Object.assign(articleIn, newArticle)
+      set.status = 201
       return ArticleService.insertArticle(newArticle)
     },
     {
