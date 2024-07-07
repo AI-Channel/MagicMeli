@@ -5,12 +5,14 @@
   import VMdEditor from '@kangc/v-md-editor'
   import { defineAsyncComponent, onBeforeMount, ref, type Ref } from 'vue'
   import { useRoute } from 'vue-router'
-  import { toast, type ToastOptions } from 'vue3-toastify'
   import WindowContainer from '@/components/window/WindowContainer.vue'
+  import { useUserStore } from '@/stores/store'
+  import { autoToast } from '@/scripts/libs'
 
   const ArticleEditForm = defineAsyncComponent(() => import('@/components/ArticleEditForm.vue'))
 
   const route = useRoute()
+  const userStore = useUserStore()
 
   let article: Ref<ArticleViewResponse> = ref({
     id: 0,
@@ -59,30 +61,31 @@
   })
 
   async function saveArticle(isPublished: boolean) {
-    let articleEcho: ArticleViewResponse
-    const articleRequest: ArticleViewRequest = {
-      title: article.value.title,
-      content: article.value.content,
-      summary: article.value.summary,
-      author: article.value.author,
-      category: article.value.category,
-      tags: article.value.tags,
-      isPublished: isPublished,
-      permission: article.value.permission
+    try {
+      let articleEcho: ArticleViewResponse
+      const articleRequest: ArticleViewRequest = {
+        title: article.value.title,
+        content: article.value.content,
+        summary: article.value.summary,
+        author: article.value.author,
+        category: article.value.category,
+        tags: article.value.tags,
+        isPublished: isPublished,
+        permission: article.value.permission
+      }
+      if (article.value.id == 0) {
+        articleEcho = await newArticle(articleRequest)
+      } else {
+        articleEcho = await updateArticleById(article.value.id, articleRequest)
+      }
+      isPublished ? autoToast('保存成功', 'success') : autoToast('保存草稿成功', 'success')
+      return articleEcho
+    } catch (error) {
+      if ((error as Error).message == 'Request failed with status code 401') {
+        autoToast('未登录，无法保存', 'error')
+        userStore.isLoggedIn = false
+      }
     }
-    if (article.value.id == 0) {
-      articleEcho = await newArticle(articleRequest)
-    } else {
-      articleEcho = await updateArticleById(article.value.id, articleRequest)
-    }
-    isPublished
-      ? toast.success('保存成功', {
-          position: toast.POSITION.TOP_CENTER
-        } as ToastOptions)
-      : toast.success('保存草稿成功', {
-          position: toast.POSITION.TOP_CENTER
-        } as ToastOptions)
-    return articleEcho
   }
 
   // function handleUploadImage(event: Event, insertImage: any, files: FileWithHandle[]) {

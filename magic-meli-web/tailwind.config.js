@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 import forms from '@tailwindcss/forms'
-import dracula from 'tailwind-dracula'
 export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   darkMode: 'selector',
@@ -39,5 +38,5 @@ export default {
       }
     }
   },
-  plugins: [forms({ strategy: 'class' }),dracula]
+  plugins: [forms({ strategy: 'class' })]
 }

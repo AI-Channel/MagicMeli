@@ -9,11 +9,22 @@
   import IconProfile from './components/icons/IconProfile.vue'
   import IconRecycleBin from './components/icons/IconRecycleBin.vue'
   import IconSetting from './components/icons/IconSetting.vue'
+  import { tokenRefresh } from './requests/user'
   import { setTheme } from './scripts/libs'
+  import { useUserStore } from './stores/store'
 
+  const userStore = useUserStore()
   onBeforeMount(async () => {
     const storedTheme = localStorage.getItem('theme') ?? 'light'
     setTheme(storedTheme)
+    try {
+      const newToken = await tokenRefresh()
+      localStorage.setItem('token', newToken)
+      userStore.isLoggedIn = true
+    } catch (error) {
+      userStore.isLoggedIn = false
+    }
+    // localStorage.setItem('token', '')
   })
 </script>
 
@@ -31,17 +42,17 @@
         <IconArticle :width="64" :height="64" />
       </DesktopIconContainer>
     </RouterLink>
-    <RouterLink :to="{ name: 'deleted' }" class="m-auto">
+    <RouterLink v-if="userStore.isLoggedIn" :to="{ name: 'deleted' }" class="m-auto">
       <DesktopIconContainer title="回收站">
         <IconRecycleBin :width="64" :height="64" />
       </DesktopIconContainer>
     </RouterLink>
-    <RouterLink :to="{ name: 'draft' }" class="m-auto"
+    <RouterLink v-if="userStore.isLoggedIn" :to="{ name: 'draft' }" class="m-auto"
       ><DesktopIconContainer title="草稿箱">
         <IconDraft :width="64" :height="64" />
       </DesktopIconContainer>
     </RouterLink>
-    <RouterLink :to="{ name: 'markdown editor', query: { id: 0 } }" class="m-auto">
+    <RouterLink v-if="userStore.isLoggedIn" :to="{ name: 'markdown editor', query: { id: 0 } }" class="m-auto">
       <DesktopIconContainer title="新文章">
         <IconNewArticle :width="64" :height="64" />
       </DesktopIconContainer>

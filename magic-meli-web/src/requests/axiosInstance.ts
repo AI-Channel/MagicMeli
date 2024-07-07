@@ -1,4 +1,4 @@
-import { autoToast, getNowTimeStamp10, jwtDecode } from '@/scripts/libs'
+import { getNowTimeStamp10, jwtDecode } from '@/scripts/libs'
 import axios, { AxiosError, type AxiosInstance, type AxiosResponse, type InternalAxiosRequestConfig } from 'axios'
 import { tokenRefresh } from './user'
 
@@ -40,7 +40,6 @@ instance.interceptors.response.use(
     return response
   },
   (error: AxiosError) => {
-    if (error.response?.status == 401) autoToast('未登录，无法访问', 'error')
     console.log(error.response)
     return Promise.reject(error)
   }
