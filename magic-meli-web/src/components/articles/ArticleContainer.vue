@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<script lang="ts" setup>
   import FloatBar from '@/components/window/FloatBar.vue'
-  import { emptyArticle, type ArticleViewResponse } from '@/models/article'
+  import { type ArticleViewResponse, emptyArticle } from '@/models/article'
   import { getArticleById } from '@/requests/article'
   import VMdPreview from '@kangc/v-md-editor/lib/preview'
   import { onBeforeMount, ref, type Ref } from 'vue'

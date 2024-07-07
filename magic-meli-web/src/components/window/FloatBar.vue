@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
   import { useUserStore } from '@/stores/store'
   import IconEdit from '../icons/IconEdit.vue'
   import { switchTheme } from '@/scripts/libs'

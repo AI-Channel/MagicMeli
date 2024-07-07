@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
   import WindowHeadBar from './WindowHeadBar.vue'
   import { useWindowStore } from '@/stores/store'
   import { ref } from 'vue'
@@ -17,16 +17,16 @@
 
 <template>
   <Vue3DraggableResizable
+    :draggable="!store.isMaximized"
     :init-h="initialize.initH.value"
     :init-w="initialize.initW.value"
+    :min-h="200"
+    :min-w="280"
+    :resizable="!store.isMaximized"
+    :style="store.isMaximized ? { width: 100 + '%', height: 100 + '%', top: 0, left: 0 } : {}"
     :x="initialize.x.value"
     :y="initialize.y.value"
-    :min-w="280"
-    :min-h="200"
-    :draggable="store.isMaximized ? false : true"
-    :resizable="store.isMaximized ? false : true"
     class="fixed z-10 flex max-h-full max-w-full flex-col border-[2px] border-themeViolet bg-themeCyan p-1 dark:bg-darkThemeFuchsia"
-    :style="store.isMaximized ? { width: 100 + '%', height: 100 + '%', top: 0, left: 0 } : {}"
   >
     <WindowHeadBar :title="$route.meta.title as string" />
     <WindowToolBar />

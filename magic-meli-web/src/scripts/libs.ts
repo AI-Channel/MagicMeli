@@ -4,10 +4,12 @@ import { toast, type ToastType } from 'vue3-toastify'
 export function getTheme() {
   return document.body.className
 }
+
 export function setTheme(theme: string) {
   document.body.className = theme
   localStorage.setItem('theme', theme)
 }
+
 export function switchTheme() {
   if (document.body.className === 'light') {
     setTheme('dark')
@@ -19,12 +21,15 @@ export function switchTheme() {
 export function union<T>(setA: Set<T>, setB: Set<T>): Set<T> {
   return new Set([...setA, ...setB])
 }
+
 export function intersection<T>(setA: Set<T>, setB: Set<T>): Set<T> {
   return new Set([...setA].filter((x) => setB.has(x)))
 }
+
 export function difference<T>(setA: Set<T>, setB: Set<T>): Set<T> {
   return new Set([...setA].filter((x) => !setB.has(x)))
 }
+
 export function isSubsetOf<T>(setA: Set<T> | undefined, setB: Set<T> | undefined) {
   if (typeof setA == 'undefined') setA = new Set([])
   if (typeof setB == 'undefined') setB = new Set([])

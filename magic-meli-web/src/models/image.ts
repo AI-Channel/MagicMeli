@@ -4,6 +4,7 @@ export interface ImageMeta {
   description: string
   uploadDate?: string
 }
+
 export interface Image extends ImageMeta {
   imageDataBase64: string
 }

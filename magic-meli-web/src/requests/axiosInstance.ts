@@ -5,6 +5,7 @@ import { tokenRefresh } from './user'
 enum baseURL {
   elysia = 'http://localhost:5939'
 }
+
 const instance: AxiosInstance = axios.create({
   baseURL: baseURL.elysia,
   timeout: 3000,

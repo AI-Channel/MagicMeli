@@ -1,8 +1,9 @@
-<script setup lang="ts">
+<script lang="ts" setup>
   import { useWindowStore } from '@/stores/store'
   import IconClose from '@/components/icons/IconClose.vue'
   import IconMaximize from '@/components/icons/IconMaximize.vue'
   import IconMinimize from '@/components/icons/IconMinimize.vue'
+
   const props = defineProps<{
     title: string
   }>()
@@ -19,11 +20,11 @@
       {{ props.title }}
     </p>
     <div class="flex h-full">
-      <IconMinimize :width="24" :height="24" />
-      <IconMaximize :width="24" :height="24" class="cursor-pointer" @click="store.windowResize()" />
+      <IconMinimize :height="24" :width="24" />
+      <IconMaximize :height="24" :width="24" class="cursor-pointer" @click="store.windowResize()" />
       <IconClose
-        :width="24"
         :height="24"
+        :width="24"
         class="cursor-pointer"
         @click="store.windowClose(), $router.push({ path: '/home' })"
       />

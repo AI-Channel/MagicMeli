@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
   import type { ArticleViewResponse } from '@/models/article'
   import Vue3TagsInput from 'vue3-tags-input'
 
@@ -21,10 +21,10 @@
       <input
         id="title"
         v-model.trim="article.title"
-        type="text"
         class="form-input my-auto h-fit w-full whitespace-pre-wrap break-words py-1 focus:ring-themeViolet dark:focus:ring-darkViolet"
         placeholder="文章标题"
         required
+        type="text"
       />
     </label>
     <label class="row-span-4 flex h-full">
