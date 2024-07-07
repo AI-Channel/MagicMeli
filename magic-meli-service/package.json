@@ -5,7 +5,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run --watch src/index.ts",
     "format": "prettier --write src/",
-    "lint": "eslint ./src/ "
+    "lint": "eslint ./src/",
+    "build": "bun build --compile --minify --sourcemap src/index.ts --outfile magic-meli-service"
   },
   "dependencies": {
     "@elysiajs/bearer": "^1.0.2",
