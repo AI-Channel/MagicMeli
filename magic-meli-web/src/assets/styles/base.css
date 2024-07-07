@@ -1,34 +1,32 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
-  margin: 0;
-  font-weight: normal;
+    box-sizing: border-box;
+    margin: 0;
+    font-weight: normal;
 }
 
 @font-face {
-  font-family: 'Dinkie';
-  src: url(/src/assets/fonts/DinkieBitmap-9px.woff2);
+    font-family: 'Dinkie';
+    src: url(/src/assets/fonts/optimized/DinkieBitmap-9px.woff2) format('woff2');
 }
 
 @font-face {
-  font-family: 'zpix';
-  src: url(/src/assets/fonts/zpix.ttf);
-}
-@font-face {
-  font-family: 'FusionPixel';
-  src: url(/src/assets/fonts/fusion-pixel-12px-proportional.ttc);
+    font-family: 'FusionPixel';
+    src: url(/src/assets/fonts/optimized/Fusion-Pixel-12px-Proportional-zh_hans-Regular.woff2) format("woff2"),
+    url(/src/assets/fonts/optimized/Fusion-Pixel-12px-Proportional-zh_hant-Regular.woff2) format("woff2"),
+    url(/src/assets/fonts/optimized/Fusion-Pixel-12px-Proportional-ja-Regular.woff2) format("woff2");
 }
 
 body {
-  background-repeat: no-repeat;
-  background-size: cover;
-  overflow: hidden;
-  min-height: 100vh;
-  max-width: 100vh;
-  font-size: 18px;
-  max-height: 100vh;
-  box-sizing: border-box;
-  font-family: 'Microsoft Yahei', sans-serif;
-  scroll-behavior: smooth;
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: hidden;
+    min-height: 100vh;
+    max-width: 100vh;
+    font-size: 18px;
+    max-height: 100vh;
+    box-sizing: border-box;
+    font-family: 'Microsoft Yahei', sans-serif;
+    scroll-behavior: smooth;
 }
