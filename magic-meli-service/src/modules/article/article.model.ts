@@ -12,9 +12,11 @@ export interface ArticleListEntity {
   updateTime: string
   permission: usersLevelNum
 }
+
 export interface ArticleEntity extends ArticleListEntity {
   content: string
 }
+
 export interface ArticleListDtoIn {
   title: string
   summary: string
@@ -24,9 +26,11 @@ export interface ArticleListDtoIn {
   isPublished: boolean
   permission: usersLevelStr
 }
+
 export interface ArticleDtoIn extends ArticleListDtoIn {
   content: string
 }
+
 export interface ArticleListDtoOut {
   id: number
   title: string
@@ -39,6 +43,7 @@ export interface ArticleListDtoOut {
   permission: usersLevelStr
   updateTime: string
 }
+
 export interface ArticleDtoOut extends ArticleListDtoOut {
   content: string
 }
