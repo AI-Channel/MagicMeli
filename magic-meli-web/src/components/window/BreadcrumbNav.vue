@@ -1,17 +1,17 @@
-<script setup lang="ts">
+<script lang="ts" setup>
   import { computed, ref } from 'vue'
-  import { useRoute, type RouteLocationMatched } from 'vue-router'
+  import { type RouteLocationMatched, useRoute } from 'vue-router'
 
   const route = useRoute()
 
   let navTitle = computed(() => {
-    const filterdRoute = ref(route.matched.filter((item) => item.name))
-    return filterdRoute.value.map((item: RouteLocationMatched) => item.meta.title)
+    const filteredRoute = ref(route.matched.filter((item) => item.name))
+    return filteredRoute.value.map((item: RouteLocationMatched) => item.meta.title)
   })
 
   let navName = computed(() => {
-    const filterdRoute = ref(route.matched.filter((item) => item.name))
-    return filterdRoute.value.map((item: RouteLocationMatched) => item.name)
+    const filteredRoute = ref(route.matched.filter((item) => item.name))
+    return filteredRoute.value.map((item: RouteLocationMatched) => item.name)
   })
 </script>
 

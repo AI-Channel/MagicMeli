@@ -13,6 +13,7 @@ export const useWindowStore = defineStore('window', () => {
   function windowClose() {
     isMaximized.value = false
   }
+
   return { windowClose, isMaximized, windowResize }
 })
 

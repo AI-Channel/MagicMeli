@@ -5,6 +5,7 @@ interface imgObj {
   title?: string
   alt?: string
 }
+
 const EmptyImageSet: Ref<imgObj[]> = ref([
   {
     src: '/src/assets/graphs/Image Not Found.png',
@@ -45,6 +46,7 @@ const fanartImages: Ref<imgObj[]> = ref([
     title: ''
   }
 ])
+
 function getImages(imageSet: string) {
   if (imageSet.toLowerCase() == 'fanart') {
     return fanartImages
@@ -52,5 +54,6 @@ function getImages(imageSet: string) {
     return EmptyImageSet
   }
 }
+
 export { getImages }
 export type { imgObj }

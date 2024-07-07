@@ -6,7 +6,7 @@
   import { useRoute } from 'vue-router'
   const router = useRoute()
   const isShowList = computed<boolean>(() => {
-    return router.meta.isListPageCheck === router.name ? true : false
+    return router.meta.isListPageCheck === router.name
   })
 </script>
 <template>

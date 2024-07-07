@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
   import VueEasyLightbox from 'vue-easy-lightbox'
   import { ref } from 'vue'
   import { type imgObj } from '@/scripts/imageinfo'
@@ -22,13 +22,13 @@
     <img
       v-for="(img, index) in shuffledImages"
       :key="index"
-      class="h-auto max-w-full py-2"
-      loading="lazy"
       :alt="'img' + index"
       :src="img.src"
+      class="h-auto max-w-full py-2"
+      loading="lazy"
       @click="onShow(index)"
     />
-    <VueEasyLightbox :visible="visibleRef" :imgs="shuffledImages" :index="indexRef" :loop="true" @hide="onHide">
+    <VueEasyLightbox :imgs="shuffledImages" :index="indexRef" :loop="true" :visible="visibleRef" @hide="onHide">
     </VueEasyLightbox>
   </div>
 </template>

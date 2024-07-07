@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
   import { getImages } from '@/scripts/imageinfo'
   import MasonryLayout from '@/components/MasonryLayout.vue'
 </script>

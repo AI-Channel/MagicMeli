@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
   import type { ArticleViewRequest, ArticleViewResponse } from '@/models/article'
   import { usersLevelStr } from '@/models/user'
   import { getArticleById, newArticle, updateArticleById } from '@/requests/article'
@@ -114,11 +114,11 @@
     <ArticleEditForm v-model="article" />
     <VMdEditor
       v-model="article.content"
-      left-toolbar="undo redo clear|h bold italic strikethrough quote|ul ol table hr|link image code|tip emoji save"
-      :toolbar="customToolbar"
       :disabled-menus="[]"
-      height="100%"
       :include-level="[2, 3, 4]"
+      :toolbar="customToolbar"
+      height="100%"
+      left-toolbar="undo redo clear|h bold italic strikethrough quote|ul ol table hr|link image code|tip emoji save"
     ></VMdEditor>
   </WindowContainer>
 </template>

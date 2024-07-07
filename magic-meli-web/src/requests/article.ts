@@ -1,12 +1,12 @@
 import type {
   ArticleListViewResponse,
+  articleStatusHandles,
   ArticleViewRequest,
   ArticleViewResponse,
-  articleStatusHandles,
   listQueryMode
 } from '@/models/article'
 import { toast } from 'vue3-toastify'
-import { union } from '../scripts/libs'
+import { union } from '@/scripts/libs'
 import instance from './axiosInstance'
 
 export async function getArticleById(id: number): Promise<ArticleViewResponse> {
