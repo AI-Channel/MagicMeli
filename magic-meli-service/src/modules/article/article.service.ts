@@ -20,7 +20,7 @@ interface tagsObject {
 export class ArticleService {
   private tempArticleHasTagsTable = `SELECT articleId,tags.tag FROM articleHasTags JOIN tags WHERE articleHasTags.tagId == tags.id`
   private db = new Database('MagicMeli.db')
-  private defalutTagObj: tagsObject = { id: 0, tag: 'error', refCount: 0 }
+  private defaultTagObj: tagsObject = { id: 0, tag: 'error', refCount: 0 }
 
   getArticleById = (id: number) => {
     const article = this.db.query<ArticleEntity, number>(`SELECT * FROM article WHERE id == $param`).get(id) ?? false
@@ -28,7 +28,7 @@ export class ArticleService {
     return this.articleEntitytoDtoOut(article)
   }
 
-  getAriticleList(mode: listQueryMode) {
+  getArticleList(mode: listQueryMode) {
     let queryCondition = ''
     try {
       switch (mode) {
@@ -82,7 +82,7 @@ export class ArticleService {
       )
       .get(id)
     if (!articleMeta) return false
-    return this.articleListEntitytoDtoOut(articleMeta)
+    return this.articleListEntityToDtoOut(articleMeta)
   }
 
   insertArticle = this.db.transaction((article: ArticleDtoIn): ArticleDtoOut | false => {
@@ -196,8 +196,8 @@ export class ArticleService {
     return outputArray
   }
 
-  private articleListEntitytoDtoOut(articleMeta: ArticleListEntity): ArticleListDtoOut {
-    const articleMetaReturn: ArticleListDtoOut = {
+  private articleListEntityToDtoOut(articleMeta: ArticleListEntity): ArticleListDtoOut {
+    return {
       id: articleMeta.id,
       title: articleMeta.title,
       summary: articleMeta.summary,
@@ -209,11 +209,10 @@ export class ArticleService {
       updateTime: articleMeta.updateTime,
       permission: userLevelNumtoStr(articleMeta.permission)
     }
-    return articleMetaReturn
   }
 
   private articleEntitytoDtoOut(article: ArticleEntity): ArticleDtoOut {
-    const articleReturn: ArticleDtoOut = {
+    return {
       id: article.id,
       title: article.title,
       summary: article.summary,
@@ -226,7 +225,6 @@ export class ArticleService {
       updateTime: article.updateTime,
       permission: userLevelNumtoStr(article.permission)
     }
-    return articleReturn
   }
   private getArticleTagsObjectById = (id: number) => {
     return this.db
@@ -256,18 +254,18 @@ export class ArticleService {
   private insertTag = this.db.transaction((tag: string) => {
     return (
       this.db.query<tagsObject, string>(`INSERT INTO tags (tag) VALUES ($tag) RETURNING *`).get(tag) ??
-      this.defalutTagObj
+      this.defaultTagObj
     )
   })
 
   private deleteTag = this.db.transaction((tag: string) => {
     return (
-      this.db.query<tagsObject, string>(`DELETE FROM tags WHERE tag = $tag RETURNING *`).get(tag) ?? this.defalutTagObj
+      this.db.query<tagsObject, string>(`DELETE FROM tags WHERE tag = $tag RETURNING *`).get(tag) ?? this.defaultTagObj
     )
   })
 
   private deleteTagMap = this.db.transaction((articleId: number, tag: string) => {
-    let thisTagObj: tagsObject = this.getTagByTagName(tag) ?? this.defalutTagObj
+    let thisTagObj: tagsObject = this.getTagByTagName(tag) ?? this.defaultTagObj
     this.db.query(`DELETE FROM articleHasTags WHERE articleId = $id AND tagId = $tagId;`).run({
       $id: articleId,
       $tagId: thisTagObj.id
@@ -275,14 +273,14 @@ export class ArticleService {
     thisTagObj =
       this.db
         .query<tagsObject, number>(`UPDATE tags SET refCount = refCount - 1 WHERE id = $tagId RETURNING *`)
-        .get(thisTagObj.id) ?? this.defalutTagObj
+        .get(thisTagObj.id) ?? this.defaultTagObj
     if (thisTagObj.refCount == 0) {
       this.deleteTag(thisTagObj.tag)
     }
   })
 
   private insertTagMap = this.db.transaction((articleId: number, tagName: string) => {
-    let thisTagObj = this.getTagByTagName(tagName) ?? this.defalutTagObj
+    let thisTagObj = this.getTagByTagName(tagName) ?? this.defaultTagObj
     if (thisTagObj.id == 0) {
       thisTagObj = this.insertTag(tagName)
     }

@@ -25,8 +25,7 @@ export const ArticleController = new Elysia({ prefix: '/articles', detail: { tag
   .get(
     '/:id',
     ({ ArticleService, params: { id } }) => {
-      const article = ArticleService.getArticleById(id)
-      return article
+      return ArticleService.getArticleById(id)
     },
     {
       params: t.Object({
@@ -75,7 +74,7 @@ export const ArticleController = new Elysia({ prefix: '/articles', detail: { tag
               method: t.Enum(articleStatusHandles, { description: 'Must in {delete, revert, publish, unpublish}' })
             }),
             detail: {
-              description: "Update an article's status by article id, Delete, revert, publish or unpublish an article"
+              description: 'Update an article\'s status by article id, Delete, revert, publish or unpublish an article'
             }
           }
         )
@@ -87,7 +86,7 @@ export const ArticleController = new Elysia({ prefix: '/articles', detail: { tag
           {
             body: t.Object({ permission: t.Enum(usersLevelStr) }),
             detail: {
-              description: "Update an article's permission level"
+              description: 'Update an article\'s permission level'
             }
           }
         )
@@ -106,7 +105,7 @@ export const ArticleController = new Elysia({ prefix: '/articles', detail: { tag
   .get(
     '',
     ({ ArticleService, query: { queryMode } }) => {
-      return ArticleService.getAriticleList(queryMode)
+      return ArticleService.getArticleList(queryMode)
     },
     {
       query: t.Object({

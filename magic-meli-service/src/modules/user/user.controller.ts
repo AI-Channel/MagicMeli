@@ -4,7 +4,7 @@ import jwt from '@elysiajs/jwt'
 import Elysia, { error, t } from 'elysia'
 // import { v4 as uuidv4 } from 'uuid'
 import { jwtTokenSecret } from '../../libs/libs'
-import { UserVerifyInfoDto, userModel, usersLevelStr } from './user.model'
+import { userModel, usersLevelStr, UserVerifyInfoDto } from './user.model'
 import { UserService } from './user.service'
 
 export const userController = new Elysia({ prefix: 'users', detail: { tags: ['Users'] } })
