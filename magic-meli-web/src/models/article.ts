@@ -9,6 +9,7 @@ export interface ArticleNewDto {
   tags: string[]
   isPublished: boolean
 }
+
 export interface ArticleUpdateDto extends ArticleNewDto {
   isDeleted: boolean
 }
@@ -22,6 +23,7 @@ export interface ArticleListViewRequest {
   isPublished: boolean
   permission: usersLevelStr
 }
+
 export interface ArticleViewRequest extends ArticleListViewRequest {
   content: string
 }
@@ -38,6 +40,7 @@ export interface ArticleListViewResponse {
   permission: usersLevelStr
   updateTime: string
 }
+
 export interface ArticleViewResponse extends ArticleListViewResponse {
   content: string
 }

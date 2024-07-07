@@ -7,7 +7,7 @@
 <template>
   <WindowContainer>
     <div class="relative flex flex-wrap items-center">
-      <SwitchToggle id="isDark" :is-checked="getTheme() === 'dark' ? true : false" @click="switchTheme" />
+      <SwitchToggle id="isDark" :is-checked="getTheme() === 'dark'" @click="switchTheme" />
       <label
         class="cursor-pointer select-none pl-2 font-Dinkie text-themeViolet peer-disabled:cursor-not-allowed peer-disabled:text-violet-400"
         for="isDark"

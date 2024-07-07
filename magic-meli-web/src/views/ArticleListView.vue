@@ -1,13 +1,13 @@
-<script setup lang="ts">
+<script lang="ts" setup>
   import ArticleList from '@/components/ArticleList.vue'
   import WindowContainer from '@/components/window/WindowContainer.vue'
   import { listQueryMode } from '@/models/article'
-  import { RouterView } from 'vue-router'
+  import { RouterView, useRoute } from 'vue-router'
   import { computed } from 'vue'
-  import { useRoute } from 'vue-router'
+
   const router = useRoute()
   const isShowList = computed<boolean>(() => {
-    return router.meta.isListPageCheck === router.name ? true : false
+    return router.meta.isListPageCheck === router.name
   })
 </script>
 

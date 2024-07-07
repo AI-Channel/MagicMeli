@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
   import LoginPage from '@/components/LoginPage.vue'
   import WindowContainer from '@/components/window/WindowContainer.vue'
 </script>

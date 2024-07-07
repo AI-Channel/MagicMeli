@@ -11,11 +11,13 @@ export async function register(newUser: UserRegisterDto) {
     throw new Error('Invalid register!')
   }
 }
+
 export async function login(user: UserLoginDto) {
   const token = await instance.post<string>('/users/login', user)
   if (token) return token.data
   else throw new Error('Invalid login!')
 }
+
 export async function getUserInfoById(userId: string) {
   const userInfo = await instance.get<UserPublicInfoDto>(`/users/${userId}`)
   return userInfo.data

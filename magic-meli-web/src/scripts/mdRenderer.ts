@@ -96,6 +96,7 @@ const markdown = new MarkdownIt()
 function getRender(source: string | undefined) {
   if (typeof source === 'string') return markdown.render(source)
 }
+
 function renderInline(source: string | undefined) {
   if (typeof source === 'string') return markdown.renderInline(source)
 }

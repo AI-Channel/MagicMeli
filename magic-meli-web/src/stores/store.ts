@@ -13,6 +13,7 @@ export const useWindowStore = defineStore('window', () => {
   function windowClose() {
     isMaximized.value = false
   }
+
   return { windowClose, isMaximized, windowResize }
 })
 
@@ -36,8 +37,10 @@ export const useArticleStore = defineStore('article', () => {
 export const useUserStore = defineStore('user', () => {
   const token: Ref<string> = ref(localStorage.getItem('token') ?? '')
   const isLoggedIn: Ref<boolean> = ref(false)
+
   function setToken(Tokenvalue: string) {
     token.value = Tokenvalue
   }
+
   return { token, isVerified: isLoggedIn, setToken }
 })

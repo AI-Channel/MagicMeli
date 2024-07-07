@@ -1,5 +1,5 @@
-<script setup lang="ts">
-  import { articleStatusHandles, listQueryMode, type ArticleListViewResponse } from '@/models/article'
+<script lang="ts" setup>
+  import { type ArticleListViewResponse, articleStatusHandles, listQueryMode } from '@/models/article'
   import {
     getAllTagsByArticleList,
     getArticleListByStatus,
@@ -103,18 +103,18 @@
         :article-id="item.id"
         :show-mode="props.showMode"
         @delete="deleteArticleById(item.id)"
-        @revert="revertArticleById(item.id)"
-        @hard-delete="hardDeleteArticleById(item.id)"
         @publish="publishArticleById(item.id)"
+        @revert="revertArticleById(item.id)"
         @unpublish="unpublishArticleById(item.id)"
+        @hard-delete="hardDeleteArticleById(item.id)"
       />
     </li>
   </ul>
   <img
     v-if="articleList.length == 0"
     id="placeholder"
-    src="/src/assets/graphs/nothing.svg"
     class="m-auto size-36 select-none opacity-60"
+    src="/src/assets/graphs/nothing.svg"
   />
 </template>
 
