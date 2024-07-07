@@ -1,13 +1,13 @@
 <script setup lang="ts">
+  import NightDaySwap from '@/components/templates/NightDaySwap.vue'
   import WindowContainer from '@/components/window/WindowContainer.vue'
-  import SwitchToggle from '@/components/templates/SwitchToggle.vue'
-  import { switchTheme, getTheme } from '@/scripts/libs'
+  import { switchTheme } from '@/scripts/libs'
 </script>
 
 <template>
   <WindowContainer>
     <div class="relative flex flex-wrap items-center">
-      <SwitchToggle id="isDark" :is-checked="getTheme() === 'dark'" @click="switchTheme" />
+      <NightDaySwap @switch-theme="switchTheme()" />
       <label
         class="cursor-pointer select-none pl-2 font-Dinkie text-themeViolet peer-disabled:cursor-not-allowed peer-disabled:text-violet-400"
         for="isDark"

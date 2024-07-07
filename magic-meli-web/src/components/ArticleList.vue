@@ -7,26 +7,26 @@
     updateArticleStatusById
   } from '@/requests/article'
   import { autoToast } from '@/scripts/libs'
-  import { useArticleStore } from '@/stores/store'
+  import { useArticleStore, useUserStore } from '@/stores/store'
   import { onBeforeMount, onUpdated, ref, type Ref } from 'vue'
   import StatusBar from './StatusBar.vue'
   import TagsNav from './TagsNav.vue'
 
   let articleList: Ref<ArticleListViewResponse[]> = ref([])
-  const store = useArticleStore()
-
+  const articleStore = useArticleStore()
+  const userStore = useUserStore()
   const props = defineProps<{
     showMode: listQueryMode
   }>()
 
-  store.status = props.showMode ?? listQueryMode.published
+  articleStore.status = props.showMode ?? listQueryMode.published
 
   onBeforeMount(async () => {
     articleList.value = await getArticleListByStatus(props.showMode)
   })
 
   onUpdated(async () => {
-    store.articleTags = await getAllTagsByArticleList(articleList.value)
+    articleStore.articleTags = await getAllTagsByArticleList(articleList.value)
   })
 
   async function deleteArticleById(id: number) {
@@ -37,6 +37,7 @@
       autoToast('删除成功', 'success')
     } catch (error) {
       console.error('Unable to delete!')
+      userStore.isLoggedIn = false
     }
   }
 
@@ -46,7 +47,7 @@
       articleList.value = await getArticleListByStatus(listQueryMode.deleted)
       autoToast('恢复成功', 'success')
     } catch (error) {
-      console.error('Unable to revert!')
+      if ((error as Error).message == 'Request failed with status code 401') userStore.isLoggedIn = false
     }
   }
 
@@ -56,7 +57,7 @@
       articleList.value = await getArticleListByStatus(listQueryMode.draft)
       autoToast('发布成功', 'success')
     } catch (error) {
-      console.error('Unable to publish!')
+      if ((error as Error).message == 'Request failed with status code 401') userStore.isLoggedIn = false
     }
   }
 
@@ -67,7 +68,7 @@
       }
       articleList.value = await getArticleListByStatus(listQueryMode.deleted)
     } catch (error) {
-      console.error('Unable to hard delete!')
+      if ((error as Error).message == 'Request failed with status code 401') userStore.isLoggedIn = false
     }
   }
 
@@ -77,7 +78,7 @@
       articleList.value = await getArticleListByStatus(listQueryMode.published)
       autoToast('撤销发布成功', 'success')
     } catch (error) {
-      console.error('Unable to unpublish!')
+      if ((error as Error).message == 'Request failed with status code 401') userStore.isLoggedIn = false
     }
   }
 </script>
@@ -86,20 +87,22 @@
   <ul class="mx-2 my-auto flex flex-col text-themeViolet dark:text-darkViolet">
     <li
       v-for="(item, key) in articleList"
-      v-show="store.isAllCheckedTagsIn(new Set(item.tags))"
+      v-show="articleStore.isAllCheckedTagsIn(new Set(item.tags))"
       :key="key"
       class="flex place-content-between border-b border-dashed border-themeViolet p-3 font-Dinkie dark:border-darkViolet"
     >
       <div class="w-full">
-        <RouterLink :to="{ name: 'article', params: { id: item.id } }">
-          <h1 class="my-1 select-none hover:text-activeFuchsia dark:hover:text-indigo-400">
-            {{ item.title }}
-          </h1>
-        </RouterLink>
+        <h1
+          class="my-1 w-fit cursor-pointer select-none hover:text-activeFuchsia dark:hover:text-indigo-400"
+          @click="$router.push({ name: 'article', params: { id: item.id } })"
+        >
+          {{ item.title }}
+        </h1>
         <TagsNav :tags="new Set(item.tags)" class="my-1" />
         <p class="line-clamp-3 w-3/4">{{ item.summary }}</p>
       </div>
       <StatusBar
+        v-if="userStore.isLoggedIn"
         :article-id="item.id"
         :show-mode="props.showMode"
         @delete="deleteArticleById(item.id)"

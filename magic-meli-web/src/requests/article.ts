@@ -25,11 +25,11 @@ export async function updateArticleStatusById(id: number, status: articleStatusH
 }
 
 export async function newArticle(payload: ArticleViewRequest): Promise<ArticleViewResponse> {
+  const response = await instance.post<ArticleViewResponse>('/articles', payload)
   if (payload.title == '' || payload.author == '' || payload.category == '' || payload.content == '') {
     toast.error('文章标题，作者，分类，内容字段不能为空！', { position: toast.POSITION.TOP_CENTER })
     throw new Error('文章标题，作者，分类，内容字段不能为空！')
   }
-  const response = await instance.post<ArticleViewResponse>('/articles', payload)
   return response.data
 }
 

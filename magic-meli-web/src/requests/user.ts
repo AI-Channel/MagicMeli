@@ -27,7 +27,8 @@ export async function tokenRefresh() {
   const newToken = await axios.get<string>('http://localhost:5939/users/refresh', {
     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
   })
-  return newToken.data
+  if (newToken) return newToken.data
+  else throw new Error('Invalid token access!')
 }
 
 export function setTokenTest(token: string) {
