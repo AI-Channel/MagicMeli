@@ -4,7 +4,7 @@
   import { ref } from 'vue'
   import Vue3DraggableResizable from 'vue3-draggable-resizable'
   import 'vue3-draggable-resizable/dist/Vue3DraggableResizable.css'
-  import WindowToolBar from './WindowToolBar.vue'
+  import WindowToolBar from './WindowNavBar.vue'
 
   const store = useWindowStore()
   let initialize = {
@@ -13,6 +13,7 @@
     x: ref(window.innerWidth / 4),
     y: ref(window.innerHeight / 6)
   }
+  if (window.innerWidth <= 800) store.isMaximized = true
 </script>
 
 <template>

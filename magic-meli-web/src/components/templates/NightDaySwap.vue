@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
   import { getTheme } from '@/scripts/libs'
   import IconSun from '../icons/IconSun.vue'
   import IconMoon from '../icons/IconMoon.vue'

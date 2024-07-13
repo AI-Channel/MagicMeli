@@ -9,7 +9,7 @@
   import { autoToast } from '@/scripts/libs'
   import { useArticleStore, useUserStore } from '@/stores/store'
   import { onBeforeMount, onUpdated, ref, type Ref } from 'vue'
-  import StatusBar from './StatusBar.vue'
+  import StatusBar from './ToolsBar.vue'
   import TagsNav from './TagsNav.vue'
 
   let articleList: Ref<ArticleListViewResponse[]> = ref([])

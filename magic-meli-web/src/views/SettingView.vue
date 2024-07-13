@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
   import NightDaySwap from '@/components/templates/NightDaySwap.vue'
   import WindowContainer from '@/components/window/WindowContainer.vue'
   import { switchTheme } from '@/scripts/libs'

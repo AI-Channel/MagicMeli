@@ -3,13 +3,12 @@
   import { usersLevelStr } from '@/models/user'
   import { getArticleById, newArticle, updateArticleById } from '@/requests/article'
   import VMdEditor from '@kangc/v-md-editor'
-  import { defineAsyncComponent, onBeforeMount, ref, type Ref } from 'vue'
+  import { onBeforeMount, ref, type Ref } from 'vue'
   import { useRoute } from 'vue-router'
   import WindowContainer from '@/components/window/WindowContainer.vue'
   import { useUserStore } from '@/stores/store'
   import { autoToast } from '@/scripts/libs'
-
-  const ArticleEditForm = defineAsyncComponent(() => import('@/components/ArticleEditForm.vue'))
+  import ArticleEditForm from '@/components/ArticleEditForm.vue'
 
   const route = useRoute()
   const userStore = useUserStore()

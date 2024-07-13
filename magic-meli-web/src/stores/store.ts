@@ -36,5 +36,6 @@ export const useArticleStore = defineStore('article', () => {
 
 export const useUserStore = defineStore('user', () => {
   const isLoggedIn: Ref<boolean> = ref(false)
-  return { isLoggedIn }
+  const userId: Ref<string> = ref('')
+  return { isLoggedIn, userId }
 })

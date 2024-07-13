@@ -13,7 +13,7 @@
     <form
       v-show="isFilterShow"
       ref="dropdownMenu"
-      class="absolute right-1 flex max-h-64 flex-col overflow-y-auto border border-themeViolet bg-themeFuchsia p-2 dark:bg-darkWindowFuchsia"
+      class="absolute right-1 top-20 flex max-h-64 flex-col overflow-y-auto border-2 border-themeViolet bg-themeFuchsia p-2 dark:border-darkViolet dark:bg-darkWindowFuchsia"
     >
       <label
         v-for="item in store.articleTags"

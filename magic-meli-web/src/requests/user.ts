@@ -18,7 +18,7 @@ export async function login(user: UserLoginDto) {
   else throw new Error('Invalid login!')
 }
 
-export async function getUserInfoById(userId: string) {
+export async function getUserInfoByUserId(userId: string) {
   const userInfo = await instance.get<UserPublicInfoDto>(`/users/${userId}`)
   return userInfo.data
 }

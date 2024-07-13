@@ -7,16 +7,16 @@
 
 <template>
   <svg
-    xmlns="http://www.w3.org/2000/svg"
-    class="fill-themeViolet dark:fill-white"
     :width="props.width"
     :height="props.height"
     viewBox="0 0 24 24"
+    class="fill-themeViolet dark:fill-darkViolet"
+    xmlns="http://www.w3.org/2000/svg"
   >
     <path
       fill-rule="evenodd"
       clip-rule="evenodd"
-      d="M4 2H20H22V4V20V22H20H4H2V20V4V2H4ZM4 4H20V20H4V4ZM14 16H6V18H14V16Z"
+      d="M20 4H4V6H20V4ZM11 8H13V10H15V12H13V20H11V12H9V10H11V8ZM9 12V14H7V12H9ZM15 12H17V14H15V12Z"
     />
   </svg>
 </template>

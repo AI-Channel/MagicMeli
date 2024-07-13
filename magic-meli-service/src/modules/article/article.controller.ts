@@ -61,7 +61,10 @@ export const ArticleController = new Elysia({ prefix: '/articles', detail: { tag
           },
           {
             body: 'articles.view',
-            detail: { description: 'Modify an article by article id' }
+            detail: { description: 'Modify an article by article id' },
+            beforeHandle({ body }) {
+              if (body.content.length < 1 && body.isPublished == true) return error(400, 'Bad Request')
+            }
           }
         )
         .put(
@@ -74,7 +77,7 @@ export const ArticleController = new Elysia({ prefix: '/articles', detail: { tag
               method: t.Enum(articleStatusHandles, { description: 'Must in {delete, revert, publish, unpublish}' })
             }),
             detail: {
-              description: 'Update an article\'s status by article id, Delete, revert, publish or unpublish an article'
+              description: "Update an article's status by article id, Delete, revert, publish or unpublish an article"
             }
           }
         )
@@ -86,7 +89,7 @@ export const ArticleController = new Elysia({ prefix: '/articles', detail: { tag
           {
             body: t.Object({ permission: t.Enum(usersLevelStr) }),
             detail: {
-              description: 'Update an article\'s permission level'
+              description: "Update an article's permission level"
             }
           }
         )
@@ -121,27 +124,17 @@ export const ArticleController = new Elysia({ prefix: '/articles', detail: { tag
   .post(
     '',
     async ({ ArticleService, body: newArticle, set }) => {
-      // let articleIn: ArticleDtoIn = {
-      //   title: '',
-      //   summary: '',
-      //   author: store.authorSecretId,
-      //   content: '',
-      //   tags: [],
-      //   category: '',
-      //   isPublished: false,
-      //   permission: usersLevelStr.guest
-      // }
-      // articleIn = Object.assign(articleIn, newArticle)
       set.status = 201
       return ArticleService.insertArticle(newArticle)
     },
     {
       body: 'articles.view',
       detail: { description: 'Create a new article' },
-      async beforeHandle({ bearer, jwt }) {
+      async beforeHandle({ bearer, jwt, body }) {
         if (!bearer || !(await jwt.verify(bearer))) {
           return error(401, 'Unauthorized')
         }
+        if (body.content.length < 1 && body.isPublished == true) return error(400, 'Bad Request')
       }
     }
   )

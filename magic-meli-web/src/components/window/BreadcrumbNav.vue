@@ -16,7 +16,7 @@
 </script>
 
 <template>
-  <p
+  <nav
     class="w-full overflow-clip text-nowrap bg-windowFuchsia px-2 text-themeViolet dark:bg-darkWindowFuchsia dark:text-darkViolet"
   >
     <RouterLink to="/home">
@@ -25,7 +25,7 @@
     <RouterLink v-for="(item, index) in navName" :key="index" :to="{ name: item }">
       <span class="hover:text-activeFuchsia dark:hover:text-indigo-400">{{ '/' + navTitle[index] }}</span>
     </RouterLink>
-  </p>
+  </nav>
 </template>
 
 <style scoped></style>

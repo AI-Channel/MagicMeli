@@ -1,7 +1,7 @@
 <script lang="ts" setup>
   import type { UserLoginDto } from '@/models/user'
   import { login } from '@/requests/user'
-  import { autoToast } from '@/scripts/libs'
+  import { autoToast, jwtDecode } from '@/scripts/libs'
   import { useUserStore } from '@/stores/store'
   import { ref, type Ref } from 'vue'
   import { useRouter } from 'vue-router'
@@ -9,14 +9,17 @@
   const userLogin: Ref<UserLoginDto> = ref({ userId: '', password: '' })
   const userStore = useUserStore()
   const router = useRouter()
+
   async function handleLogin(user: UserLoginDto) {
     try {
       const token = await login(user)
       localStorage.setItem('token', token)
-      userStore.isLoggedIn = true
-      autoToast('登录成功', 'success')
       // console.log(localStorage.getItem('token'))
-      setTimeout(() => router.push({ name: 'home' }), 1500)
+      const tokenInfo = jwtDecode(token)
+      userStore.isLoggedIn = true
+      if (tokenInfo) userStore.userId = tokenInfo.payload.userId
+      autoToast('登录成功', 'success')
+      setTimeout(() => router.replace({ name: 'userInfo', params: { userId: userStore.userId } }), 1500)
       return token
     } catch (error) {
       autoToast('登录失败，请检查用户名或密码是否正确！', 'error')
@@ -31,7 +34,7 @@
     >
       <div class="m-auto">
         <img alt="avatar" class="mx-auto my-5 max-w-fit" src="/src/assets/graphs/icon_cho.png" />
-        <form class="flex flex-col gap-y-4 font-Dinkie text-themeViolet dark:text-darkViolet">
+        <form class="flex flex-col gap-y-4 font-Dinkie text-themeViolet dark:text-darkViolet" @submit.prevent>
           <label class="flex select-none items-center" for="username">
             <span class="w-1/3 min-w-fit">UserID:</span>
             <input
@@ -50,6 +53,7 @@
               class="form-input max-h-9 w-2/3 py-1"
               required
               type="password"
+              @keyup.enter="handleLogin(userLogin)"
             />
           </label>
           <div class="flex place-content-between">

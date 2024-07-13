@@ -64,9 +64,9 @@ export enum articleStatusHandles {
 export const ArticleModel = new Elysia({ name: 'Model.Article' }).model({
   'articles.view': t.Object(
     {
-      title: t.String(),
+      title: t.String({ minLength: 1 }),
       summary: t.String(),
-      author: t.String(),
+      author: t.String({ minLength: 1 }),
       content: t.String(),
       category: t.String(),
       tags: t.Array(t.String()),
