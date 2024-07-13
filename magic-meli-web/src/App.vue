@@ -1,5 +1,5 @@
-<script setup lang="ts">
-  import { onBeforeMount } from 'vue'
+<script lang="ts" setup>
+  import { onBeforeMount, onMounted } from 'vue'
   import { RouterLink } from 'vue-router'
   import DesktopIconContainer from './components/DesktopIconContainer.vue'
   import IconArticle from './components/icons/IconArticle.vue'
@@ -10,21 +10,40 @@
   import IconRecycleBin from './components/icons/IconRecycleBin.vue'
   import IconSetting from './components/icons/IconSetting.vue'
   import { tokenRefresh } from './requests/user'
-  import { setTheme } from './scripts/libs'
+  import { jwtDecode, setTheme } from './scripts/libs'
   import { useUserStore } from './stores/store'
 
   const userStore = useUserStore()
+  async function getNewToken() {
+    const newToken = await tokenRefresh()
+    localStorage.setItem('token', newToken)
+    const tokenInfo = jwtDecode(newToken)
+    if (tokenInfo) userStore.userId = tokenInfo.payload.userId
+    else userStore.isLoggedIn = false
+    userStore.isLoggedIn = true
+  }
   onBeforeMount(async () => {
+    userStore.isLoggedIn = false
     const storedTheme = localStorage.getItem('theme') ?? 'light'
     setTheme(storedTheme)
     try {
-      const newToken = await tokenRefresh()
-      localStorage.setItem('token', newToken)
-      userStore.isLoggedIn = true
+      await getNewToken()
     } catch (error) {
       userStore.isLoggedIn = false
+      userStore.userId = ''
     }
-    // localStorage.setItem('token', '')
+  })
+  onMounted(() => {
+    if (userStore.isLoggedIn == true) {
+      setInterval(async () => {
+        try {
+          await getNewToken()
+        } catch (error) {
+          userStore.isLoggedIn = false
+          userStore.userId = ''
+        }
+      }, 840000)
+    }
   })
 </script>
 
@@ -32,7 +51,10 @@
   <main
     class="absolute inset-0 m-auto grid max-h-fit max-w-full grid-flow-row grid-cols-3 grid-rows-9 place-items-center gap-8 place-self-stretch py-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-flow-col lg:grid-cols-9 lg:gap-4 xl:grid-cols-12"
   >
-    <RouterLink :to="{ name: 'login' }" class="m-auto">
+    <RouterLink
+      :to="userStore.isLoggedIn ? { name: 'userInfo', params: { userId: userStore.userId } } : { name: 'login' }"
+      class="m-auto"
+    >
       <DesktopIconContainer title="个人资料">
         <IconProfile :width="64" :height="64" />
       </DesktopIconContainer>

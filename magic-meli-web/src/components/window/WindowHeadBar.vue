@@ -12,14 +12,14 @@
 
 <template>
   <div
-    class="flex max-h-9 select-none place-content-between items-center border-[2px] border-themeViolet bg-themeFuchsia p-1 font-Dinkie dark:border-darkViolet dark:bg-darkViolet"
+    class="flex h-10 select-none place-content-between items-center border-2 border-themeViolet bg-themeFuchsia p-1 font-Dinkie dark:border-darkViolet dark:bg-darkViolet"
   >
     <p
       class="max-w-fit overflow-clip text-ellipsis text-nowrap text-themeViolet before:mx-1 before:content-['■'] dark:text-white"
     >
       {{ props.title }}
     </p>
-    <div class="flex h-full">
+    <nav class="flex h-full items-center gap-x-1">
       <IconMinimize :height="24" :width="24" />
       <IconMaximize :height="24" :width="24" class="cursor-pointer" @click="store.windowResize()" />
       <IconClose
@@ -28,7 +28,7 @@
         class="cursor-pointer"
         @click="store.windowClose(), $router.push({ path: '/home' })"
       />
-    </div>
+    </nav>
   </div>
 </template>
 

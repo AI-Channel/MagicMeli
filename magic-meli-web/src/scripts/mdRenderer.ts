@@ -89,7 +89,7 @@ VMdPreview.use(createTipPlugin())
   .use(createTodoListPlugin())
 
 const markdown = new MarkdownIt()
-  .set({ html: true, breaks: true, linkify: true, typographer: true })
+  .set({ html: false, breaks: true, linkify: true, typographer: true })
   .use(mark)
   .use(anchor, { permalink: anchor.permalink.linkInsideHeader({ placement: 'before' }) })
 

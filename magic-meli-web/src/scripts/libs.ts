@@ -17,7 +17,9 @@ export function switchTheme() {
     setTheme('light')
   }
 }
-
+export function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
 export function union<T>(setA: Set<T>, setB: Set<T>): Set<T> {
   return new Set([...setA, ...setB])
 }

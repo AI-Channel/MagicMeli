@@ -28,7 +28,14 @@
       loading="lazy"
       @click="onShow(index)"
     />
-    <VueEasyLightbox :imgs="shuffledImages" :index="indexRef" :loop="true" :visible="visibleRef" @hide="onHide">
+    <VueEasyLightbox
+      :imgs="shuffledImages"
+      :index="indexRef"
+      :loop="true"
+      :visible="visibleRef"
+      :zoom-scale="0.4"
+      @hide="onHide"
+    >
     </VueEasyLightbox>
   </div>
 </template>

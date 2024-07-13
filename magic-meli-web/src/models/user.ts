@@ -26,7 +26,7 @@ export interface UserPublicInfoDto {
   id: string
   username: string
   about: string
-  class: string
+  level: usersLevelStr
 }
 
 export interface UserVerifyInfoDto {

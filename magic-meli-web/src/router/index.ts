@@ -15,7 +15,7 @@ const router = createRouter({
     {
       path: '/gallery',
       meta: {
-        isListPageCheck: 'gallery',
+        isListShow: true,
         title: 'Gallery'
       },
       name: 'gallery',
@@ -24,7 +24,8 @@ const router = createRouter({
         {
           path: 'fanart',
           meta: {
-            title: 'Fanart'
+            title: 'Fanart',
+            isListShow: false
           },
           name: 'fanart',
           components: { gallery: () => import('@/components/galleries/FanArt.vue') }
@@ -50,7 +51,8 @@ const router = createRouter({
     {
       path: '/recycle-bin',
       meta: {
-        isListPageCheck: 'deleted',
+        isListShow: true,
+        isFilterShow: true,
         title: 'Recycle Bin'
       },
       name: 'deleted',
@@ -59,7 +61,8 @@ const router = createRouter({
     {
       path: '/draft-box',
       meta: {
-        isListPageCheck: 'draft',
+        isListShow: true,
+        isFilterShow: true,
         title: 'Draft Box'
       },
       name: 'draft',
@@ -74,9 +77,16 @@ const router = createRouter({
       components: { window: () => import('@/views/LoginView.vue') }
     },
     {
+      path: '/users/:userId',
+      name: 'userInfo',
+      meta: { title: 'User' },
+      components: { window: () => import('@/components/UserInfo.vue') }
+    },
+    {
       path: '/articles',
       meta: {
-        isListPageCheck: 'articles',
+        isListShow: true,
+        isFilterShow: true,
         title: 'Article List'
       },
       name: 'articles',
@@ -86,7 +96,9 @@ const router = createRouter({
           path: ':id',
           name: 'article',
           meta: {
-            title: 'Article'
+            title: 'Article',
+            isListShow: false,
+            isFilterShow: false
           },
           components: { default: () => import('@/components/articles/ArticleContainer.vue') }
         }

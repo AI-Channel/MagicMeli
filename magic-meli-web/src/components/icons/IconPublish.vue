@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
   const props = defineProps<{
     width?: number | string
     height?: number | string
@@ -8,7 +8,7 @@
 <template>
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    class="fill-themeViolet dark:fill-white"
+    class="fill-themeViolet dark:fill-darkViolet"
     :width="props.width"
     :height="props.height"
     viewBox="0 0 24 24"

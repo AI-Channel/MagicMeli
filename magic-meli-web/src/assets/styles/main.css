@@ -27,7 +27,7 @@
     @apply list-decimal;
   }
   hr {
-    @apply my-2;
+    @apply my-2 border-themeViolet dark:border-darkViolet;
   }
   #app {
     @apply mx-0 my-auto max-w-[1280px] font-normal;
