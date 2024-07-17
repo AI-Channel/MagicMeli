@@ -2,12 +2,8 @@ import { getNowTimeStamp10, jwtDecode } from '@/scripts/libs'
 import axios, { AxiosError, type AxiosInstance, type AxiosResponse, type InternalAxiosRequestConfig } from 'axios'
 import { tokenRefresh } from './user'
 
-enum baseURL {
-  elysia = 'http://localhost:5939'
-}
-
 const instance: AxiosInstance = axios.create({
-  baseURL: baseURL.elysia,
+  baseURL: import.meta.env.VITE_API_HOST,
   timeout: 3000,
   headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
   withCredentials: false

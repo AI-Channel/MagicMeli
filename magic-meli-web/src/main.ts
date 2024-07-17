@@ -19,3 +19,4 @@ const app = createApp(App)
 
 app.mount('#app')
 app.config.globalProperties.$axios = axios
+console.log('API HOST: ', import.meta.env.VITE_API_HOST)

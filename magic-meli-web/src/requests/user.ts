@@ -24,7 +24,7 @@ export async function getUserInfoByUserId(userId: string) {
 }
 
 export async function tokenRefresh() {
-  const newToken = await axios.get<string>('http://localhost:5939/users/refresh', {
+  const newToken = await axios.get<string>(`${import.meta.env.VITE_API_HOST}/users/refresh`, {
     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
   })
   if (newToken) return newToken.data
