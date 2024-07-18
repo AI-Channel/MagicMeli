@@ -30,7 +30,3 @@ export async function tokenRefresh() {
   if (newToken) return newToken.data
   else throw new Error('Invalid token access!')
 }
-
-export function setTokenTest(token: string) {
-  localStorage.setItem('token', token)
-}

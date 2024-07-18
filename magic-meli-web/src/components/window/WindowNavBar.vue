@@ -14,6 +14,7 @@
   >
     <button>
       <IconBackward :height="'2rem'" :width="'2rem'" class="block cursor-pointer" @click="$router.back" />
+      <span class="sr-only">后退</span>
     </button>
     <BreadcrumbNav />
     <ArticleFilter v-show="$route.meta.isFilterShow && store.articleTags.length > 0" />

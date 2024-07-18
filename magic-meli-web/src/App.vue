@@ -94,7 +94,7 @@
     <a
       href="https://beian.miit.gov.cn"
       class="absolute bottom-0 right-2 font-Dinkie text-[16px] text-themeViolet dark:text-white"
-      ><p>浙 ICP 备 16004952 号-5</p></a
+      ><footer>浙 ICP 备 16004952 号-5</footer></a
     >
   </main>
 </template>

@@ -9,7 +9,7 @@
 </script>
 
 <template>
-  <nav class="absolute bottom-8 right-8 grid grid-flow-row place-content-center place-items-center gap-y-3">
+  <nav class="absolute bottom-8 right-8 flex flex-col place-content-center place-items-center gap-y-3">
     <IconBacktoTop class="cursor-pointer opacity-30 hover:opacity-100" @click="$emit('BacktoTop')" />
     <NightDaySwap class="cursor-pointer opacity-30 hover:opacity-100" @switch-theme="switchTheme()" />
     <RouterLink :to="{ name: 'markdown editor', query: { id: $route.params.id } }">

@@ -20,14 +20,17 @@
       {{ props.title }}
     </p>
     <nav class="flex h-full items-center gap-x-1">
-      <IconMinimize :height="24" :width="24" />
-      <IconMaximize :height="24" :width="24" class="cursor-pointer" @click="store.windowResize()" />
-      <IconClose
-        :height="24"
-        :width="24"
-        class="cursor-pointer"
-        @click="store.windowClose(), $router.push({ path: '/home' })"
-      />
+      <button>
+        <IconMinimize :height="24" :width="24" />
+      </button>
+      <button @click="store.windowResize()">
+        <IconMaximize :height="24" :width="24" class="cursor-pointer" />
+        <span class="sr-only">最大化或还原</span>
+      </button>
+      <button @click="store.windowClose(), $router.push({ path: '/home' })">
+        <IconClose :height="24" :width="24" class="cursor-pointer" />
+        <span class="sr-only">关闭</span>
+      </button>
     </nav>
   </div>
 </template>

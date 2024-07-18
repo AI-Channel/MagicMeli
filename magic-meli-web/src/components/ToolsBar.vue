@@ -15,46 +15,32 @@
 </script>
 
 <template>
-  <div class="my-auto flex space-x-2">
+  <aside class="my-auto flex space-x-2">
     <RouterLink :to="{ name: 'markdown editor', query: { id: articleId } }">
       <IconEdit :height="24" :width="24" />
+      <span class="sr-only">编辑文章</span>
     </RouterLink>
-    <IconPublish
-      v-if="props.showMode === listQueryMode.draft"
-      :height="24"
-      :width="24"
-      class="cursor-pointer"
-      @click="$emit('publish')"
-    />
-    <IconReturn
-      v-if="props.showMode === listQueryMode.deleted"
-      :height="24"
-      :width="24"
-      class="cursor-pointer"
-      @click="$emit('revert')"
-    />
-    <IconHardDelete
-      v-if="props.showMode === listQueryMode.deleted"
-      :height="24"
-      :width="24"
-      class="cursor-pointer"
-      @click="$emit('hardDelete')"
-    />
-    <IconUnpublish
-      v-if="props.showMode === listQueryMode.published"
-      :height="24"
-      :width="24"
-      class="cursor-pointer"
-      @click="$emit('unpublish')"
-    />
-    <IconDelete
-      v-if="props.showMode !== listQueryMode.deleted"
-      :height="24"
-      :width="24"
-      class="cursor-pointer"
-      @click="$emit('delete')"
-    />
-  </div>
+    <button v-if="props.showMode === listQueryMode.draft" @click="$emit('publish')">
+      <IconPublish :height="24" :width="24" class="cursor-pointer" />
+      <span class="sr-only">发布文章</span>
+    </button>
+    <button v-if="props.showMode === listQueryMode.deleted" @click="$emit('revert')">
+      <IconReturn :height="24" :width="24" class="cursor-pointer" />
+      <span class="sr-only">还原文章</span>
+    </button>
+    <button v-if="props.showMode === listQueryMode.deleted" @click="$emit('hardDelete')">
+      <IconHardDelete :height="24" :width="24" class="cursor-pointer" />
+      <span class="sr-only">彻底删除文章</span>
+    </button>
+    <button v-if="props.showMode === listQueryMode.published" @click="$emit('unpublish')">
+      <IconUnpublish :height="24" :width="24" class="cursor-pointer" />
+      <span class="sr-only">撤销发布</span>
+    </button>
+    <button v-if="props.showMode !== listQueryMode.deleted" @click="$emit('delete')">
+      <IconDelete :height="24" :width="24" class="cursor-pointer" />
+      <span class="sr-only">删除文章</span>
+    </button>
+  </aside>
 </template>
 
 <style scoped></style>
