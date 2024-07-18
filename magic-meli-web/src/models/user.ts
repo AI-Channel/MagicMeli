@@ -29,12 +29,6 @@ export interface UserPublicInfoDto {
   level: usersLevelStr
 }
 
-export interface UserVerifyInfoDto {
-  userId: string
-  email: string
-  level: usersLevelStr
-}
-
 export enum usersLevelNum {
   guest,
   user,

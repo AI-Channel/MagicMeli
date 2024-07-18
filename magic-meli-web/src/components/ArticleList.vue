@@ -118,6 +118,7 @@
     id="placeholder"
     class="m-auto size-36 select-none opacity-60"
     src="/src/assets/graphs/nothing.svg"
+    alt="该文章列表是空的"
   />
 </template>
 

@@ -8,8 +8,11 @@
 </script>
 
 <template>
-  <div>
-    <IconFilter :height="24" :width="24" class="cursor-pointer" @click="isFilterShow = !isFilterShow" />
+  <div class="flex">
+    <button>
+      <IconFilter :height="24" :width="24" class="cursor-pointer" @click="isFilterShow = !isFilterShow" />
+      <span class="sr-only">标签过滤</span>
+    </button>
     <form
       v-show="isFilterShow"
       ref="dropdownMenu"
