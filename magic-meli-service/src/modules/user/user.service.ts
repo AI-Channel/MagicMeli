@@ -134,23 +134,24 @@ export class UserService {
     }
     const echo = this.db
       .prepare<UserEntity, SQLQueryBindings>(
-        `UPDATE users SET userId = $userId, username = $username, password = $password, email = $email, about = $about 
+        `UPDATE users SET userId = $userId, username = $username, email = $email, about = $about 
         WHERE id = $id 
         RETURNING userId, username, email, about, level`
       )
       .get({
         $userId: userNewInfo.userId,
         $username: userNewInfo.username,
-        $password: SHA3(userNewInfo.password).toString(),
         $email: userNewInfo.email,
         $about: userNewInfo.about,
         $id: secretId
       })
     if (!echo) return false
     else {
-      const userInfoReturn: UserVerifyInfoDto = {
+      const userInfoReturn: UserPublicInfoDto = {
         userId: echo.userId,
+        username: echo.username,
         email: echo.email,
+        about: echo.about,
         level: userLevelNumtoStr(echo.level)
       }
       return userInfoReturn

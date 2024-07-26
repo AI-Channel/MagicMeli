@@ -1,4 +1,4 @@
-import { type UserLoginDto, type UserPublicInfoDto, type UserRegisterDto } from '@/models/user'
+import { type UserLoginDto, type UserPublicInfoDto, type UserRegisterDto, type UserUpdateDto } from '@/models/user'
 import instance from './axiosInstance'
 import axios from 'axios'
 
@@ -20,6 +20,11 @@ export async function login(user: UserLoginDto) {
 
 export async function getUserInfoByUserId(userId: string) {
   const userInfo = await instance.get<UserPublicInfoDto>(`/users/${userId}`)
+  return userInfo.data
+}
+
+export async function updateUserInfoByUserId(userId: string, params: UserUpdateDto) {
+  const userInfo = await instance.put<UserPublicInfoDto>(`/users/${userId}`, params)
   return userInfo.data
 }
 

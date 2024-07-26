@@ -10,7 +10,7 @@
   import { useArticleStore, useUserStore } from '@/stores/store'
   import { onBeforeMount, onUpdated, ref, type Ref } from 'vue'
   import StatusBar from './ToolsBar.vue'
-  import TagsNav from './TagsNav.vue'
+  import TagsNav from './InfoNav.vue'
 
   let articleList: Ref<ArticleListViewResponse[]> = ref([])
   const articleStore = useArticleStore()
@@ -91,14 +91,14 @@
       :key="key"
       class="flex place-content-between border-b border-dashed border-themeViolet p-3 font-Dinkie dark:border-darkViolet"
     >
-      <div class="w-full">
+      <div class="flex w-full flex-col gap-1">
         <h1
           class="my-1 w-fit cursor-pointer select-none hover:text-activeFuchsia dark:hover:text-indigo-400"
           @click="$router.push({ name: 'article', params: { id: item.id } })"
         >
           {{ item.title }}
         </h1>
-        <TagsNav :tags="new Set(item.tags)" class="my-1" />
+        <TagsNav :author="item.author" :tags="new Set(item.tags)" class="my-1" />
         <p class="line-clamp-3 w-3/4">{{ item.summary }}</p>
       </div>
       <StatusBar

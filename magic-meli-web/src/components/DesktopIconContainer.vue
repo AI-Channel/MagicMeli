@@ -11,9 +11,9 @@
     <div class="flex justify-center">
       <slot></slot>
     </div>
-    <p class="text-center font-Dinkie text-themeViolet subpixel-antialiased dark:text-windowFuchsia">
+    <span class="text-center font-Dinkie text-themeViolet subpixel-antialiased dark:text-windowFuchsia">
       {{ props.title }}
-    </p>
+    </span>
   </div>
 </template>
 

@@ -48,12 +48,9 @@ export const ArticleController = new Elysia({ prefix: '/articles', detail: { tag
     },
     (app) =>
       app
-        .resolve(async ({ bearer, jwt }) => {
-          const tokenVerified = await jwt.verify(bearer)
-          return {
-            tokenVerified
-          }
-        })
+        .resolve(async ({ bearer, jwt }) => ({
+          tokenVerified: await jwt.verify(bearer)
+        }))
         .put(
           '',
           async ({ ArticleService, params: { id }, body: newArticle }) => {
@@ -62,8 +59,9 @@ export const ArticleController = new Elysia({ prefix: '/articles', detail: { tag
           {
             body: 'articles.view',
             detail: { description: 'Modify an article by article id' },
-            beforeHandle({ body }) {
+            beforeHandle({ body, tokenVerified }) {
               if (body.content.length < 1 && body.isPublished == true) return error(400, 'Bad Request')
+              if (tokenVerified && tokenVerified.userId != body.author) return error(403, 'Forbidden')
             }
           }
         )
@@ -107,8 +105,12 @@ export const ArticleController = new Elysia({ prefix: '/articles', detail: { tag
   )
   .get(
     '',
-    ({ ArticleService, query: { queryMode } }) => {
-      return ArticleService.getArticleList(queryMode)
+    async ({ ArticleService, query: { queryMode }, bearer, jwt }) => {
+      const articleList = ArticleService.getArticleList(queryMode)
+      const tokenVerified = await jwt.verify(bearer)
+      if (queryMode == 'published') return articleList
+      else if (queryMode == 'deleted' || queryMode == 'draft')
+        if (articleList && tokenVerified) return articleList.filter((item) => item.author == tokenVerified.userId)
     },
     {
       query: t.Object({
@@ -118,7 +120,12 @@ export const ArticleController = new Elysia({ prefix: '/articles', detail: { tag
           default: 'published'
         })
       }),
-      detail: { description: 'Get articles as a list' }
+      detail: { description: 'Get articles as a list' },
+      async beforeHandle({ query: { queryMode }, bearer, jwt }) {
+        if (queryMode != 'published' && (!bearer || !(await jwt.verify(bearer)))) {
+          return error(401, 'Unauthorized')
+        }
+      }
     }
   )
   .post(
@@ -131,10 +138,12 @@ export const ArticleController = new Elysia({ prefix: '/articles', detail: { tag
       body: 'articles.view',
       detail: { description: 'Create a new article' },
       async beforeHandle({ bearer, jwt, body }) {
-        if (!bearer || !(await jwt.verify(bearer))) {
+        const tokenVerified = await jwt.verify(bearer)
+        if (!bearer || !tokenVerified) {
           return error(401, 'Unauthorized')
         }
         if (body.content.length < 1 && body.isPublished == true) return error(400, 'Bad Request')
+        if (tokenVerified.userId != body.author) return error(403, 'Forbidden')
       }
     }
   )

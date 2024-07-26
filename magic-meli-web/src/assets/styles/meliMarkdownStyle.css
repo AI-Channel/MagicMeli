@@ -45,7 +45,7 @@
       @apply bg-themeFuchsia dark:bg-darkThemeFuchsia;
     }
     blockquote {
-      @apply m-4 border border-dashed border-themeViolet p-4;
+      @apply m-4 border border-dashed border-themeViolet px-6 py-4;
     }
     hr {
       @apply border-themeViolet dark:border-darkViolet;
@@ -54,20 +54,17 @@
       @apply text-activeFuchsia hover:underline hover:underline-offset-2 dark:text-indigo-400;
     }
     .header-anchor {
-      @apply float-left -ml-3 pr-2;
+      @apply float-left -ml-6 pr-2;
     }
     .line-numbers-mode {
       @apply relative;
       .line-numbers-wrapper {
-        @apply absolute top-0 m-auto w-14 select-none border-r  p-[0.5em] text-center text-base leading-8;
+        @apply absolute top-0 m-auto w-14 select-none border-r bg-themeFuchsia p-[0.5em] text-center text-base leading-8 dark:bg-[#282a36];
       }
     }
   }
 }
 .v-md-editor-preview {
-  .header-anchor {
-    @apply float-left -ml-3 pr-2;
-  }
   h1,
   h2,
   h3,

@@ -22,10 +22,14 @@ export interface UserRegisterDto extends UserLoginDto {
   email: string
 }
 
-export interface UserPublicInfoDto {
-  id: string
+export interface UserUpdateDto {
+  userId: string
   username: string
+  email: string
   about: string
+}
+
+export interface UserPublicInfoDto extends UserUpdateDto {
   level: usersLevelStr
 }
 

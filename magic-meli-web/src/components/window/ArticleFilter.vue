@@ -27,7 +27,7 @@
         <input
           v-model="store.checkedTags"
           :value="item"
-          class="checkbox text-themeViolet focus:ring-themeViolet dark:text-darkViolet dark:focus:ring-darkViolet"
+          class="checkbox inline-block text-themeViolet focus:ring-themeViolet dark:text-darkViolet dark:focus:ring-darkViolet"
           type="checkbox"
         />
       </label>

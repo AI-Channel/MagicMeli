@@ -7,8 +7,8 @@
   import { useRoute } from 'vue-router'
   import WindowContainer from '@/components/window/WindowContainer.vue'
   import { useUserStore } from '@/stores/store'
-  import { autoToast } from '@/scripts/libs'
-  import ArticleEditForm from '@/components/ArticleEditForm.vue'
+  import { autoToast, jwtDecode } from '@/scripts/libs'
+  import ArticleEditForm from '@/components/articles/ArticleEditForm.vue'
 
   const route = useRoute()
   const userStore = useUserStore()
@@ -54,19 +54,19 @@
   onBeforeMount(async () => {
     if (Number(route.query.id)) {
       article.value = await getArticleById(Number(route.query.id))
-      if (article.value.isPublished) article.value.isPublished = true
-      else article.value.isPublished = false
     }
   })
 
   async function saveArticle(isPublished: boolean) {
     try {
+      const tokenInfo = jwtDecode(localStorage.getItem('token') ?? '')
+      if (!tokenInfo) throw new Error('invalid token')
       let articleEcho: ArticleViewResponse
       const articleRequest: ArticleViewRequest = {
         title: article.value.title,
         content: article.value.content,
         summary: article.value.summary,
-        author: article.value.author,
+        author: tokenInfo ? tokenInfo.payload.userId : '',
         category: article.value.category,
         tags: article.value.tags,
         isPublished: isPublished,
@@ -86,26 +86,6 @@
       }
     }
   }
-
-  // function handleUploadImage(event: Event, insertImage: any, files: FileWithHandle[]) {
-  //   const reg: RegExp = /data:.*base64,/
-  //   let base64Data: string = ''
-  //   const reader = new FileReader()
-  //   reader.readAsDataURL(files[0])
-  //   reader.onload = (event) => {
-  //     base64Data = event.target?.result?.toString().replace(reg, '') ?? ''
-  //     const imgInfo: Image = {
-  //       title: files[0].name,
-  //       description: '',
-  //       imageDataBase64: base64Data
-  //     }
-  //     uploadImageBase64(imgInfo)
-  //   }
-  //   insertImage({
-  //     url: `http://localhost:5000/image/079e7569-59ad-4e5b-9795-d1d99f9c7dc6/raw`,
-  //     desc: 'desc1'
-  //   })
-  // }
 </script>
 
 <template>

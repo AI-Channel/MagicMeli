@@ -52,7 +52,7 @@
 .hljs-comment,
 .hljs-quote,
 .hljs-deletion {
-  color: #6272a4;
+  @apply text-slate-400 dark:text-[#6272a4];
 }
 
 .hljs-keyword,

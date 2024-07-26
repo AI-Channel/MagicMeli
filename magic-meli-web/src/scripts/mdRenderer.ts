@@ -2,7 +2,6 @@ import MarkdownIt from 'markdown-it'
 import VMdEditor from '@kangc/v-md-editor'
 import VMdPreview from '@kangc/v-md-editor/lib/preview'
 import githubTheme from '@kangc/v-md-editor/lib/theme/github.js'
-import createHljsTheme from '@kangc/v-md-editor/lib/theme/hljs'
 import createTipPlugin from '@kangc/v-md-editor/lib/plugins/tip/index'
 import createEmojiPlugin from '@kangc/v-md-editor/lib/plugins/emoji/index'
 import createAlignPlugin from '@kangc/v-md-editor/lib/plugins/align'
@@ -11,6 +10,7 @@ import createCopyCodePlugin from '@kangc/v-md-editor/lib/plugins/copy-code/index
 import createKatexPlugin from '@kangc/v-md-editor/lib/plugins/katex/cdn'
 import createMermaidPlugin from '@kangc/v-md-editor/lib/plugins/mermaid/cdn'
 import createTodoListPlugin from '@kangc/v-md-editor/lib/plugins/todo-list/index'
+import createHljsTheme from '@kangc/v-md-editor/lib/theme/hljs'
 import '@kangc/v-md-editor/lib/plugins/todo-list/todo-list.css'
 
 import '@kangc/v-md-editor/lib/theme/style/github.css'
@@ -24,7 +24,7 @@ import '@kangc/v-md-editor/lib/plugins/mermaid/mermaid.css'
 import { mark } from '@mdit/plugin-mark'
 import anchor from 'markdown-it-anchor'
 
-import hljs from 'highlight.js'
+import { hljs } from './highlight'
 
 const hljsTheme = createHljsTheme({
   Hljs: hljs
@@ -88,17 +88,17 @@ VMdPreview.use(createTipPlugin())
   .use(createMermaidPlugin())
   .use(createTodoListPlugin())
 
-const markdown = new MarkdownIt()
+const md = new MarkdownIt()
   .set({ html: false, breaks: true, linkify: true, typographer: true })
   .use(mark)
   .use(anchor, { permalink: anchor.permalink.linkInsideHeader({ placement: 'before' }) })
 
 function getRender(source: string | undefined) {
-  if (typeof source === 'string') return markdown.render(source)
+  if (typeof source === 'string') return md.render(source)
 }
 
 function renderInline(source: string | undefined) {
-  if (typeof source === 'string') return markdown.renderInline(source)
+  if (typeof source === 'string') return md.renderInline(source)
 }
 
 export { VMdEditor, VMdPreview, getRender, renderInline }

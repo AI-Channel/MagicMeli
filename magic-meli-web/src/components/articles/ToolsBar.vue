@@ -1,11 +1,11 @@
 <script lang="ts" setup>
   import { listQueryMode } from '@/models/article'
-  import IconDelete from './icons/IconDelete.vue'
-  import IconEdit from './icons/IconEdit.vue'
-  import IconHardDelete from './icons/IconHardDelete.vue'
-  import IconPublish from './icons/IconPublish.vue'
-  import IconReturn from './icons/IconReturn.vue'
-  import IconUnpublish from './icons/IconUnpublish.vue'
+  import IconDelete from '../icons/IconDelete.vue'
+  import IconEdit from '../icons/IconEdit.vue'
+  import IconHardDelete from '../icons/IconHardDelete.vue'
+  import IconPublish from '../icons/IconPublish.vue'
+  import IconReturn from '../icons/IconReturn.vue'
+  import IconUnpublish from '../icons/IconUnpublish.vue'
 
   const props = defineProps<{
     articleId: number

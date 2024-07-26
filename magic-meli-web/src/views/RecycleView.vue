@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import ArticleList from '@/components/ArticleList.vue'
+  import ArticleList from '@/components/articles/ArticleList.vue'
   import WindowContainer from '@/components/window/WindowContainer.vue'
   import { listQueryMode } from '@/models/article'
 </script>

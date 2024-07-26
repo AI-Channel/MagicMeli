@@ -30,7 +30,7 @@
 <template>
   <div class="m-auto h-full w-full select-none bg-login bg-cover">
     <div
-      class="relative left-1/4 top-[12.5%] z-10 flex h-4/5 min-h-80 w-1/2 min-w-80 flex-col rounded-lg bg-white bg-opacity-80 p-6"
+      class="relative left-[10%] top-[10%] flex h-4/5 min-h-80 w-4/5 min-w-60 flex-col rounded-lg bg-white bg-opacity-80 p-6 lg:left-1/4 lg:w-1/2"
     >
       <div class="m-auto">
         <img alt="avatar" class="mx-auto my-5 max-w-fit" src="/src/assets/graphs/icon_cho.png" />
@@ -59,7 +59,7 @@
           <div class="flex place-content-between">
             <label class="select-none items-center" for="remember">
               Remember Me
-              <input id="remember" class="form-checkbox text-themeViolet dark:text-darkViolet" type="checkbox" />
+              <input id="remember" class="form-checkbox" type="checkbox" />
             </label>
           </div>
           <button

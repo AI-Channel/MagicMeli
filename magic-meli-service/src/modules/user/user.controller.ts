@@ -1,8 +1,6 @@
 import bearer from '@elysiajs/bearer'
 import jwt from '@elysiajs/jwt'
-// import { SHA3 } from 'crypto-js'
 import Elysia, { error, t } from 'elysia'
-// import { v4 as uuidv4 } from 'uuid'
 import { jwtTokenSecret } from '../../libs/libs'
 import { userModel, usersLevelStr, UserVerifyInfoDto } from './user.model'
 import { UserService } from './user.service'
@@ -82,58 +80,3 @@ export const userController = new Elysia({ prefix: 'users', detail: { tags: ['Us
     },
     { body: 'user.login' }
   )
-// .group('/test', { detail: { tags: ['Test'] } }, (test) =>
-//   test
-//     .get('/:id/all', ({ params: { id }, UserService }) => {
-//       return UserService.getUserInfoById(id, 'all')
-//     })
-//     .get('/decode', async ({ jwt, bearer }) => {
-//       const tokenVerified = await jwt.verify(bearer)
-//       if (!tokenVerified) return error(401, 'Unauthorized')
-//       else return tokenVerified
-//     })
-//     .post(
-//       '/sign',
-//       async ({ jwt, body: testInfo }) => {
-//         const token = await jwt.sign(testInfo)
-//         return token
-//       },
-//       { body: 'user.verify' }
-//     )
-//     .post(
-//       '/sha3',
-//       ({ body: body }) => {
-//         return SHA3(body.text).toString()
-//       },
-//       { body: t.Object({ text: t.String() }), detail: { tags: ['Test'] } }
-//     )
-//     .get('/uuid', () => uuidv4())
-//     .get(
-//       '/id',
-//       ({ UserService, query: { userId } }) => {
-//         return UserService.getSecretIdByUserId(userId)
-//       },
-//       { query: t.Object({ userId: t.String() }) }
-//     )
-//     .get(
-//       '/isIdUnique',
-//       ({ UserService, query: { userId } }) => {
-//         return UserService.isUserIdUnique(userId)
-//       },
-//       { query: t.Object({ userId: t.String() }) }
-//     )
-//     .get(
-//       '/bearer',
-//       async ({ bearer, jwt }) => {
-//         const tokenVerified = await jwt.verify(bearer)
-//         return tokenVerified ? tokenVerified : error(401, 'Unauthorized')
-//       },
-//       {
-//         beforeHandle({ bearer }) {
-//           if (!bearer) {
-//             return error(401, 'Unauthorized')
-//           }
-//         }
-//       }
-//     )
-// )

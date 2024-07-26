@@ -1,6 +1,6 @@
 <script lang="ts" setup>
   import { useWindowStore } from '@/stores/store'
-  import IconClose from '@/components/icons/IconClose.vue'
+  import IconClose from '@/components/icons/IconWindowClose.vue'
   import IconMaximize from '@/components/icons/IconMaximize.vue'
   import IconMinimize from '@/components/icons/IconMinimize.vue'
 

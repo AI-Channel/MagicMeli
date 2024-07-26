@@ -23,16 +23,11 @@
   const onHide = () => (visibleRef.value = false)
 
   onBeforeMount(async () => {
-    let imageTitles: string[]
     let imageLinks: string[]
-    const imageTitlePattern = /(?<=!\[).*?(?=\]\(.*\))/g
     const imageLinkPattern = /(?<=!\[.*\]\()(.+?)(?=\))/g
     article.value = await getArticleById(id)
-    imageTitles = article.value.content.match(imageTitlePattern) as string[]
     imageLinks = article.value.content.match(imageLinkPattern) as string[]
-    if (imageLinks)
-      for (let i = 0; i < imageLinks.length; i++)
-        images.value.push({ src: imageLinks[i], title: imageTitles[i] ?? null, alt: imageTitles[i] ?? null })
+    if (imageLinks) for (let i = 0; i < imageLinks.length; i++) images.value.push({ src: imageLinks[i] })
   })
 
   onMounted(async () => {
@@ -48,10 +43,21 @@
 
 <template>
   <div>
+    <section class="article dark:text-darkVioletn m-auto max-w-[700px] font-Fusion leading-8 text-themeViolet">
+      <h1 :id="article.title">
+        <a class="header-anchor" :href="'#' + article.title">#</a>
+        {{ article.title }}
+      </h1>
+      <p class="flex flex-wrap justify-between gap-x-8">
+        <span>{{ '作者: ' + article.author }}</span>
+        <span>{{ '修改时间: ' + new Date(article.updateTime).toLocaleString() }}</span>
+      </p>
+      <hr />
+    </section>
     <VMdPreview
       id="article"
+      class="article dark:text-darkVioletn m-auto max-w-[700px] font-Fusion leading-8 text-themeViolet"
       :text="article.content"
-      class="article m-auto max-w-[700px] font-Fusion leading-8 text-themeViolet dark:text-darkViolet"
     ></VMdPreview>
     <FloatBar @backto-top="BacktoTop()" />
     <VueEasyLightbox

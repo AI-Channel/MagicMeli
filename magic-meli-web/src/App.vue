@@ -12,6 +12,7 @@
   import { tokenRefresh } from './requests/user'
   import { jwtDecode, setTheme } from './scripts/libs'
   import { useUserStore } from './stores/store'
+  import IconSearch from './components/icons/IconSearch.vue'
 
   const userStore = useUserStore()
   async function getNewToken() {
@@ -23,7 +24,6 @@
     userStore.isLoggedIn = true
   }
   onBeforeMount(async () => {
-    userStore.isLoggedIn = false
     const storedTheme = localStorage.getItem('theme') ?? 'light'
     setTheme(storedTheme)
     try {
@@ -42,7 +42,7 @@
           userStore.isLoggedIn = false
           userStore.userId = ''
         }
-      }, 840000)
+      }, 600000)
     }
   })
 </script>
@@ -89,7 +89,9 @@
         <IconFolderOpen :width="64" :height="64" />
       </DesktopIconContainer>
     </RouterLink>
-
+    <DesktopIconContainer title="搜索">
+      <IconSearch :width="64" :height="64" />
+    </DesktopIconContainer>
     <RouterView name="window"></RouterView>
     <a
       href="https://beian.miit.gov.cn"

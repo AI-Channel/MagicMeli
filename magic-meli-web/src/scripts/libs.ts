@@ -17,9 +17,11 @@ export function switchTheme() {
     setTheme('light')
   }
 }
+
 export function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
+
 export function union<T>(setA: Set<T>, setB: Set<T>): Set<T> {
   return new Set([...setA, ...setB])
 }
@@ -110,5 +112,5 @@ export function jwtDecode(token: string) {
   if (tokenArray != null && tokenHeadArray != null) {
     const info: JwtTokenInfo = { head: JSON.parse(atob(tokenHeadArray[0])), payload: JSON.parse(atob(tokenArray[0])) }
     return info
-  }
+  } else return false
 }
