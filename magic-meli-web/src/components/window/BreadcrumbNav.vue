@@ -17,7 +17,7 @@
 
 <template>
   <nav
-    class="w-full overflow-clip text-nowrap bg-windowFuchsia px-2 text-themeViolet dark:bg-darkWindowFuchsia dark:text-darkViolet"
+    class="flex h-7 w-full items-center overflow-clip text-nowrap bg-windowFuchsia px-2 text-themeViolet dark:bg-darkWindowFuchsia dark:text-darkViolet"
   >
     <RouterLink to="/home">
       <span class="hover:text-activeFuchsia dark:hover:text-indigo-400">Windose:</span>

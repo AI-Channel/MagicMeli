@@ -2,17 +2,17 @@
   import { onBeforeMount, onMounted } from 'vue'
   import { RouterLink } from 'vue-router'
   import DesktopIconContainer from './components/DesktopIconContainer.vue'
-  import IconArticle from './components/icons/IconArticle.vue'
-  import IconDraft from './components/icons/IconDraft.vue'
-  import IconFolderOpen from './components/icons/IconFolderOpen.vue'
-  import IconNewArticle from './components/icons/IconNewArticle.vue'
-  import IconProfile from './components/icons/IconProfile.vue'
-  import IconRecycleBin from './components/icons/IconRecycleBin.vue'
-  import IconSetting from './components/icons/IconSetting.vue'
+  import IconArticle from './components/icons/DesktopIconArticle.vue'
+  import IconDraft from './components/icons/DesktopIconDraft.vue'
+  import IconFolderOpen from './components/icons/DesktopIconFolderOpen.vue'
+  import IconNewArticle from './components/icons/DesktopIconNewArticle.vue'
+  import IconProfile from './components/icons/DesktopIconProfile.vue'
+  import IconRecycleBin from './components/icons/DesktopIconRecycleBin.vue'
+  import IconSetting from './components/icons/DesktopIconSetting.vue'
   import { tokenRefresh } from './requests/user'
   import { jwtDecode, setTheme } from './scripts/libs'
   import { useUserStore } from './stores/store'
-  import IconSearch from './components/icons/IconSearch.vue'
+  import IconSearch from './components/icons/DesktopIconSearch.vue'
 
   const userStore = useUserStore()
   async function getNewToken() {
@@ -49,7 +49,7 @@
 
 <template>
   <main
-    class="absolute inset-0 m-auto grid max-h-fit max-w-full grid-flow-row grid-cols-3 grid-rows-9 place-items-center gap-8 place-self-stretch py-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-flow-col lg:grid-cols-9 lg:gap-4 xl:grid-cols-12"
+    class="absolute inset-0 m-auto grid max-h-fit max-w-full grid-flow-row grid-cols-3 grid-rows-6 place-items-center gap-8 place-self-stretch py-4 sm:grid-cols-5 md:grid-cols-7 md:grid-rows-7 lg:grid-flow-col lg:grid-cols-8 lg:grid-rows-8 lg:gap-4 xl:grid-cols-12 xl:grid-rows-9"
   >
     <RouterLink
       :to="userStore.isLoggedIn ? { name: 'userInfo', params: { userId: userStore.userId } } : { name: 'login' }"
@@ -89,9 +89,12 @@
         <IconFolderOpen :width="64" :height="64" />
       </DesktopIconContainer>
     </RouterLink>
-    <DesktopIconContainer title="搜索">
-      <IconSearch :width="64" :height="64" />
-    </DesktopIconContainer>
+    <RouterLink :to="{ name: 'search' }" class="m-auto">
+      <DesktopIconContainer title="搜索">
+        <IconSearch :width="64" :height="64" />
+      </DesktopIconContainer>
+    </RouterLink>
+
     <RouterView name="window"></RouterView>
     <a
       href="https://beian.miit.gov.cn"

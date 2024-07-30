@@ -1,6 +1,6 @@
 <script lang="ts" setup>
   import DesktopIconContainer from '@/components/DesktopIconContainer.vue'
-  import IconFolder from '@/components/icons/IconFolder.vue'
+  import IconFolder from '@/components/icons/DesktopIconFolder.vue'
   import WindowContainer from '@/components/window/WindowContainer.vue'
 </script>
 

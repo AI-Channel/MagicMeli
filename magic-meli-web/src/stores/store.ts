@@ -1,4 +1,3 @@
-import { listQueryMode } from '@/models/article'
 import { isSubsetOf } from '@/scripts/libs'
 import { defineStore } from 'pinia'
 import { ref, type Ref } from 'vue'
@@ -18,8 +17,8 @@ export const useWindowStore = defineStore('window', () => {
 })
 
 export const useArticleStore = defineStore('article', () => {
-  const status = listQueryMode.published
-  const articleTags = ['']
+  const articleMount: number = 0
+  const articleTags: string[] = []
   const checkedTags: Ref<Set<string>> = ref(new Set<string>())
 
   function isAllCheckedTagsIn(tags: Set<string> | undefined) {
@@ -27,7 +26,7 @@ export const useArticleStore = defineStore('article', () => {
   }
 
   return {
-    status,
+    articleMount,
     articleTags,
     checkedTags,
     isAllCheckedTagsIn

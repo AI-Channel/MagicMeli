@@ -96,7 +96,7 @@
               v-model="userInfo.about"
               class="box-border h-full w-3/4 whitespace-pre-wrap break-words border border-themeViolet px-3 outline-themeViolet dark:border-darkViolet dark:outline-darkViolet"
             ></textarea>
-            <span v-else class="">{{ userInfo.about }}</span>
+            <pre v-else class="font-Dinkie">{{ userInfo.about }}</pre>
           </label>
         </li>
         <li class="w-full">

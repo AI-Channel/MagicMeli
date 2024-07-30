@@ -1,7 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 import forms from '@tailwindcss/forms'
 
-
 export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   darkMode: 'selector',
@@ -20,7 +19,8 @@ export default {
       backgroundImage: {
         synth: "url('/src/assets/graphs/Synth.webp')",
         dreamcore: "url('/src/assets/graphs/Dreamcore.webp')",
-        login: "url('/src/assets/graphs/LoginBackground.png')"
+        login: "url('/src/assets/graphs/LoginBackground.png')",
+        room: "url('/src/assets/graphs/AmeRoom.webp')"
       },
       screens: {
         '4k': '2560px'

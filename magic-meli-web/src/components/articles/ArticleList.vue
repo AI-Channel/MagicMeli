@@ -19,10 +19,9 @@
     showMode: listQueryMode
   }>()
 
-  articleStore.status = props.showMode ?? listQueryMode.published
-
   onBeforeMount(async () => {
     articleList.value = await getArticleListByStatus(props.showMode)
+    articleStore.articleMount = articleList.value.length
   })
 
   onUpdated(async () => {

@@ -9,7 +9,7 @@
 
 @layer base {
   body {
-    @apply bg-dreamcore dark:bg-synth;
+    @apply bg-room dark:bg-synth;
   }
   h1 {
     @apply text-4xl;

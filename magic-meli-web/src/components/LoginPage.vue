@@ -53,7 +53,7 @@
               class="form-input max-h-9 w-2/3 py-1"
               required
               type="password"
-              @keyup.enter="handleLogin(userLogin)"
+              @keydown.enter="handleLogin(userLogin)"
             />
           </label>
           <div class="flex place-content-between">
