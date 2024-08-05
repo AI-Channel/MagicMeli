@@ -5,8 +5,7 @@ import type {
   ArticleViewResponse,
   listQueryMode
 } from '@/models/article'
-import { toast } from 'vue3-toastify'
-import { union } from '@/scripts/libs'
+import { autoToast, union } from '@/scripts/libs'
 import instance from './axiosInstance'
 
 export async function getArticleById(id: number): Promise<ArticleViewResponse> {
@@ -25,23 +24,18 @@ export async function updateArticleStatusById(id: number, status: articleStatusH
 }
 
 export async function newArticle(payload: ArticleViewRequest): Promise<ArticleViewResponse> {
-  if (
-    payload.title.length < 1 ||
-    payload.author.length < 1 ||
-    payload.category.length < 1 ||
-    payload.content.length < 1
-  ) {
-    toast.error('文章标题，作者，分类，内容字段不能为空！', { position: toast.POSITION.TOP_CENTER })
-    throw new Error('文章标题，作者，分类，内容字段不能为空！')
+  if (payload.title.length < 1 || payload.category.length < 1 || payload.content.length < 1) {
+    autoToast('文章标题，分类，内容字段不能为空！', 'error')
+    throw new Error('Invalid meta info')
   }
   const response = await instance.post<ArticleViewResponse>('/articles', payload)
   return response.data
 }
 
 export async function updateArticleById(id: number, params: ArticleViewRequest): Promise<ArticleViewResponse> {
-  if (params.title.length < 1 || params.author.length < 1 || params.category.length < 1 || params.content.length < 1) {
-    toast.error('文章标题，作者，分类，内容字段不能为空！', { position: toast.POSITION.TOP_CENTER })
-    throw new Error('文章标题，作者，分类，内容字段不能为空！')
+  if (params.title.length < 1 || params.category.length < 1 || params.content.length < 1) {
+    autoToast('文章标题，分类，内容字段不能为空！', 'error')
+    throw new Error('Invalid meta info')
   }
   const response = await instance.put<ArticleViewResponse>(`/articles/${id}`, params)
   return response.data

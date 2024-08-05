@@ -1,8 +1,12 @@
-import { type UserLoginDto, type UserPublicInfoDto, type UserRegisterDto, type UserUpdateDto } from '@/models/user'
+import {
+  type UserLoginDto,
+  type UserPublicInfoDto,
+  /* type UserRegisterDto, */ type UserUpdateDto
+} from '@/models/user'
 import instance from './axiosInstance'
 import axios from 'axios'
 
-export async function register(newUser: UserRegisterDto) {
+/* export async function register(newUser: UserRegisterDto) {
   const token: string = await instance.post<UserRegisterDto, string>('/users/register', newUser)
   if (token) {
     localStorage.setItem('token', token)
@@ -10,7 +14,7 @@ export async function register(newUser: UserRegisterDto) {
   } else {
     throw new Error('Invalid register!')
   }
-}
+} */
 
 export async function login(user: UserLoginDto) {
   const token = await instance.post<string>('/users/login', user)

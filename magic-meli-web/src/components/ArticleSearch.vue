@@ -3,8 +3,9 @@
   import { computed } from 'vue'
   import IconSearch from './icons/IconSearch.vue'
   import IconClose from './icons/IconClose.vue'
+  import { randomSelect } from '@/scripts/libs'
 
-  const bgSelected = computed(() => bgList[Math.floor(Math.random() * bgList.length)])
+  const bgSelected = computed(() => randomSelect(bgList))
   const searchContent = defineModel<string>({ default: '' })
 </script>
 

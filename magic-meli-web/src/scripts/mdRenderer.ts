@@ -30,6 +30,28 @@ const hljsTheme = createHljsTheme({
   Hljs: hljs
 })
 
+const md: MarkdownIt = new MarkdownIt()
+  .set({
+    html: false,
+    breaks: true,
+    linkify: true,
+    typographer: true,
+    highlight: function (str, lang) {
+      if (lang && hljs.getLanguage(lang)) {
+        try {
+          const preCode = hljs.highlight(str, { language: lang, ignoreIllegals: true }).value
+          return '<pre class="hljs"><code>' + preCode + '</code></pre>'
+        } catch (__) {
+          /* empty */
+        }
+      }
+      const preCode = md.utils.escapeHtml(str)
+      return '<pre class="hljs"><code>' + preCode + '</code></pre>'
+    }
+  })
+  .use(mark)
+  .use(anchor, { permalink: anchor.permalink.linkInsideHeader({ placement: 'before' }) })
+
 hljsTheme.extend((md: MarkdownIt) => {
   md.set({
     html: false,
@@ -87,11 +109,6 @@ VMdPreview.use(createTipPlugin())
   .use(createKatexPlugin())
   .use(createMermaidPlugin())
   .use(createTodoListPlugin())
-
-const md = new MarkdownIt()
-  .set({ html: false, breaks: true, linkify: true, typographer: true })
-  .use(mark)
-  .use(anchor, { permalink: anchor.permalink.linkInsideHeader({ placement: 'before' }) })
 
 function getRender(source: string | undefined) {
   if (typeof source === 'string') return md.render(source)

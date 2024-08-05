@@ -1,7 +1,7 @@
 <script lang="ts" setup>
   import VueEasyLightbox from 'vue-easy-lightbox'
   import { ref } from 'vue'
-  import { type imgObj } from '@/scripts/imageinfo'
+  import { type imgObj } from '@/models/images'
   import { shuffle } from '@/scripts/libs'
 
   const visibleRef = ref(false)

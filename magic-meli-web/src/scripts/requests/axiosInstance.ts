@@ -1,6 +1,5 @@
 import { getNowTimeStamp10, jwtDecode } from '@/scripts/libs'
 import axios, { AxiosError, type AxiosInstance, type AxiosResponse, type InternalAxiosRequestConfig } from 'axios'
-import { tokenRefresh } from './user'
 
 const instance: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_HOST,
@@ -16,14 +15,8 @@ instance.interceptors.request.use(
     const tokenDecoded = jwtDecode(token)
     if (tokenDecoded) {
       const tokenTimeLeft = tokenDecoded.payload.exp - getNowTimeStamp10()
-      if (tokenTimeLeft < 0) console.warn('Need to relogin')
-      if (tokenTimeLeft > 0 && tokenTimeLeft <= 300) {
-        const newToken = await tokenRefresh()
-        localStorage.setItem('token', newToken)
-      }
-      // console.log(tokenTimeLeft)
+      if (tokenTimeLeft <= 0) console.warn('Need to relogin')
     }
-    // console.log(tokenDecoded)
     return config
   },
   (error: AxiosError) => {

@@ -53,7 +53,6 @@ export interface UserLoginDto {
 export interface UserUpdateDto {
   userId: string
   username: string
-  // password: string
   email: string
   about: string
 }
@@ -77,7 +76,6 @@ export const userModel = new Elysia().model({
   'user.update': t.Object({
     userId: t.String({ minLength: 4, maxLength: 20, error: 'Invalid id!' }),
     username: t.String({ minLength: 4, maxLength: 20, error: 'Invalid username!' }),
-    // password: t.String({ minLength: 6, maxLength: 18, error: 'Invalid password!' }),
     email: t.String({ format: 'email', error: 'invalid email' }),
     about: t.String()
   })

@@ -1,13 +1,39 @@
 <script lang="ts" setup>
-  import { useWindowStore } from '@/stores/store'
+  import { useTaskBarStore, useWindowStore } from '@/stores/store'
   import IconClose from '@/components/icons/IconWindowClose.vue'
   import IconMaximize from '@/components/icons/IconMaximize.vue'
   import IconMinimize from '@/components/icons/IconMinimize.vue'
+  import { useRoute, useRouter } from 'vue-router'
 
   const props = defineProps<{
     title: string
   }>()
-  const store = useWindowStore()
+  const route = useRoute()
+  const router = useRouter()
+  const windowStore = useWindowStore()
+  const taskBarStore = useTaskBarStore()
+  const handleMinimize = () => {
+    windowStore.isMaximized = false
+    taskBarStore.addToTaskBar({
+      name: route.name,
+      path: route.path,
+      params: route.params,
+      query: route.query,
+      meta: route.meta
+    })
+    router.replace({ path: '/home' })
+  }
+  const handleClose = () => {
+    windowStore.isMaximized = false
+    taskBarStore.delFromTaskBar({
+      name: route.name,
+      path: route.path,
+      params: route.params,
+      query: route.query,
+      meta: route.meta
+    })
+    router.replace({ path: '/home' })
+  }
 </script>
 
 <template>
@@ -20,14 +46,14 @@
       {{ props.title }}
     </p>
     <nav class="flex h-full items-center gap-x-1">
-      <button>
+      <button @click="handleMinimize()">
         <IconMinimize :height="24" :width="24" />
       </button>
-      <button @click="store.windowResize()">
+      <button @click="windowStore.isMaximized = !windowStore.isMaximized">
         <IconMaximize :height="24" :width="24" class="cursor-pointer" />
         <span class="sr-only">最大化或还原</span>
       </button>
-      <button @click="store.windowClose(), $router.push({ path: '/home' })">
+      <button @click="handleClose()">
         <IconClose :height="24" :width="24" class="cursor-pointer" />
         <span class="sr-only">关闭</span>
       </button>

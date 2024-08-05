@@ -114,3 +114,7 @@ export function jwtDecode(token: string) {
     return info
   } else return false
 }
+
+export function randomSelect<T>(array: T[]) {
+  return array[Math.floor(Math.random() * array.length)]
+}

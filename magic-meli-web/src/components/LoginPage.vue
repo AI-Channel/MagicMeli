@@ -1,6 +1,6 @@
 <script lang="ts" setup>
   import type { UserLoginDto } from '@/models/user'
-  import { login } from '@/requests/user'
+  import { login } from '@/scripts/requests/user'
   import { autoToast, jwtDecode } from '@/scripts/libs'
   import { useUserStore } from '@/stores/store'
   import { ref, type Ref } from 'vue'
@@ -33,7 +33,7 @@
       class="relative left-[10%] top-[10%] flex h-4/5 min-h-80 w-4/5 min-w-60 flex-col rounded-lg bg-white bg-opacity-80 p-6 lg:left-1/4 lg:w-1/2"
     >
       <div class="m-auto">
-        <img alt="avatar" class="mx-auto my-5 max-w-fit" src="/src/assets/graphs/icon_cho.png" />
+        <img alt="avatar" class="mx-auto my-5 max-w-fit" src="../assets/graphs/omori.gif" width="64" height="64" />
         <form class="flex flex-col gap-y-4 font-Dinkie text-themeViolet dark:text-darkViolet" @submit.prevent>
           <label class="flex select-none items-center" for="username">
             <span class="w-1/3 min-w-fit">UserID:</span>

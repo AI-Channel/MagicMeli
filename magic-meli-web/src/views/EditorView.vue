@@ -1,7 +1,7 @@
 <script lang="ts" setup>
   import type { ArticleViewRequest, ArticleViewResponse } from '@/models/article'
   import { usersLevelStr } from '@/models/user'
-  import { getArticleById, newArticle, updateArticleById } from '@/requests/article'
+  import { getArticleById, newArticle, updateArticleById } from '@/scripts/requests/article'
   import VMdEditor from '@kangc/v-md-editor'
   import { onBeforeMount, ref, type Ref } from 'vue'
   import { useRoute } from 'vue-router'
@@ -56,7 +56,6 @@
       article.value = await getArticleById(Number(route.query.id))
     }
   })
-
   async function saveArticle(isPublished: boolean) {
     try {
       const tokenInfo = jwtDecode(localStorage.getItem('token') ?? '')

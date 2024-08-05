@@ -6,7 +6,7 @@
 
 <template>
   <WindowContainer>
-    <div class="relative flex flex-wrap items-center">
+    <div class="m-auto flex max-w-[1000px] flex-wrap items-center">
       <NightDaySwap @switch-theme="switchTheme()" />
       <label
         class="cursor-pointer select-none pl-2 font-Dinkie text-themeViolet peer-disabled:cursor-not-allowed peer-disabled:text-violet-400"

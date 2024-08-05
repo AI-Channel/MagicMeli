@@ -19,18 +19,18 @@ const router = createRouter({
         title: 'Gallery'
       },
       name: 'gallery',
-      components: { window: () => import('@/views/GalleryView.vue') },
-      children: [
-        {
-          path: 'fanart',
-          meta: {
-            title: 'Fanart',
-            isListShow: false
-          },
-          name: 'fanart',
-          components: { gallery: () => import('@/components/galleries/FanArt.vue') }
-        }
-      ]
+      components: { window: () => import('@/views/GalleryView.vue') }
+      // children: [
+      //   {
+      //     path: 'fanart',
+      //     meta: {
+      //       title: 'Fanart',
+      //       isListShow: false
+      //     },
+      //     name: 'fanart',
+      //     components: { gallery: () => import('@/components/galleries/FanArt.vue') }
+      //   }
+      // ]
     },
     {
       path: '/setting',
@@ -56,7 +56,7 @@ const router = createRouter({
         title: 'Recycle Bin'
       },
       name: 'deleted',
-      components: { window: () => import('@/views/RecycleView.vue') }
+      components: { window: () => import('@/views/ArticleListView.vue') }
     },
     {
       path: '/draft-box',
@@ -66,7 +66,7 @@ const router = createRouter({
         title: 'Draft Box'
       },
       name: 'draft',
-      components: { window: () => import('@/views/DraftView.vue') }
+      components: { window: () => import('@/views/ArticleListView.vue') }
     },
     {
       path: '/login',

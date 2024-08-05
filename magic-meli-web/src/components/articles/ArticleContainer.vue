@@ -1,8 +1,9 @@
 <script lang="ts" setup>
   import FloatBar from '@/components/articles/FloatBar.vue'
   import { type ArticleViewResponse, emptyArticle } from '@/models/article'
-  import { getArticleById } from '@/requests/article'
-  import type { imgObj } from '@/scripts/imageinfo'
+  import type { imgObj } from '@/models/images'
+  import { getArticleById } from '@/scripts/requests/article'
+
   import { sleep } from '@/scripts/libs'
   import VMdPreview from '@kangc/v-md-editor/lib/preview'
   import { onBeforeMount, onMounted, ref, type Ref } from 'vue'

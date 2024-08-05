@@ -5,12 +5,13 @@
     getArticleListByStatus,
     hardDelArticleById,
     updateArticleStatusById
-  } from '@/requests/article'
+  } from '@/scripts/requests/article'
   import { autoToast } from '@/scripts/libs'
   import { useArticleStore, useUserStore } from '@/stores/store'
   import { onBeforeMount, onUpdated, ref, type Ref } from 'vue'
   import StatusBar from './ToolsBar.vue'
   import TagsNav from './InfoNav.vue'
+  import { renderInline } from '@/scripts/mdRenderer'
 
   let articleList: Ref<ArticleListViewResponse[]> = ref([])
   const articleStore = useArticleStore()
@@ -83,10 +84,10 @@
 </script>
 
 <template>
-  <ul class="mx-2 my-auto flex flex-col text-themeViolet dark:text-darkViolet">
+  <ul class="m-auto flex max-w-[1000px] flex-col gap-y-2 text-themeViolet dark:text-darkViolet">
     <li
-      v-for="(item, key) in articleList"
-      v-show="articleStore.isAllCheckedTagsIn(new Set(item.tags))"
+      v-for="(item, key) of articleList"
+      v-show="articleStore.isContainAllCheckedTags(new Set(item.tags))"
       :key="key"
       class="flex place-content-between border-b border-dashed border-themeViolet p-3 font-Dinkie dark:border-darkViolet"
     >
@@ -98,7 +99,8 @@
           {{ item.title }}
         </h1>
         <TagsNav :author="item.author" :tags="new Set(item.tags)" class="my-1" />
-        <p class="line-clamp-3 w-3/4">{{ item.summary }}</p>
+        <!-- eslint-disable-next-line vue/no-v-html -->
+        <p class="line-clamp-4 w-3/4" v-html="renderInline(item.summary)"></p>
       </div>
       <StatusBar
         v-if="userStore.isLoggedIn"

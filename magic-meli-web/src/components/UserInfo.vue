@@ -1,6 +1,6 @@
 <script lang="ts" setup>
   import WindowContainer from '@/components/window/WindowContainer.vue'
-  import { getUserInfoByUserId, tokenRefresh, updateUserInfoByUserId } from '@/requests/user'
+  import { getUserInfoByUserId, tokenRefresh, updateUserInfoByUserId } from '@/scripts/requests/user'
   import { autoToast } from '@/scripts/libs'
   import { useUserStore } from '@/stores/store'
   import { onBeforeMount, ref, type Ref } from 'vue'
@@ -10,6 +10,7 @@
   import IconCheck from './icons/IconCheck.vue'
   import { usersLevelStr, type UserPublicInfoDto } from '@/models/user'
   import IconClose from './icons/IconClose.vue'
+  import { renderInline } from '@/scripts/mdRenderer'
   const route = useRoute()
   const router = useRouter()
   const userInfo: Ref<UserPublicInfoDto> = ref({
@@ -76,7 +77,7 @@
         <span class="sr-only">编辑</span>
       </section>
       <hr />
-      <ul class="m-auto grid grid-cols-2 grid-rows-4 gap-x-10 gap-y-2 text-2xl">
+      <ul class="m-auto grid grid-cols-1 grid-rows-4 gap-x-10 gap-y-2 text-2xl md:grid-cols-2">
         <li class="w-full">
           <label class="flex space-x-3">
             <span class="select-none text-nowrap">用户ID:</span>
@@ -96,7 +97,8 @@
               v-model="userInfo.about"
               class="box-border h-full w-3/4 whitespace-pre-wrap break-words border border-themeViolet px-3 outline-themeViolet dark:border-darkViolet dark:outline-darkViolet"
             ></textarea>
-            <pre v-else class="font-Dinkie">{{ userInfo.about }}</pre>
+            <!-- eslint-disable-next-line vue/no-v-html -->
+            <p v-else class="font-Dinkie" v-html="renderInline(userInfo.about)"></p>
           </label>
         </li>
         <li class="w-full">

@@ -4,7 +4,7 @@ import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 import { VMdEditor, VMdPreview } from './scripts/mdRenderer'
 
-import axios from '@/requests/axiosInstance'
+import axios from '@/scripts/requests/axiosInstance'
 import Vue3Toastify, { Bounce, type ToastContainerOptions } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 import App from './App.vue'

@@ -7,11 +7,9 @@
 <template>
   <WindowContainer>
     <div v-if="$route.meta.isListShow" class="flex flex-wrap justify-start gap-7">
-      <RouterLink :to="{ name: 'fanart' }">
-        <DesktopIconContainer :title="'Fanart'">
-          <IconFolder :width="64" :height="64" />
-        </DesktopIconContainer>
-      </RouterLink>
+      <DesktopIconContainer :title="'Fanart'">
+        <IconFolder :width="64" :height="64" />
+      </DesktopIconContainer>
     </div>
   </WindowContainer>
 </template>
