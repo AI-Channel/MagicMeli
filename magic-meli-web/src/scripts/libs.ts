@@ -37,9 +37,7 @@ export function difference<T>(setA: Set<T>, setB: Set<T>): Set<T> {
 export function isSubsetOf<T>(setA: Set<T> | undefined, setB: Set<T> | undefined) {
   if (typeof setA == 'undefined') setA = new Set([])
   if (typeof setB == 'undefined') setB = new Set([])
-  for (const item of setA) {
-    if (setB.has(item) === false) return false
-  }
+  for (const item of setA) if (!setB.has(item)) return false
   return true
 }
 
@@ -53,54 +51,63 @@ export function shuffle<T>(arr: T[]) {
   return arr
 }
 
-export const getNowTimeStamp10 = () => Math.floor(new Date().getTime() / 1000)
+export const getNowTimeStamp10 = (): number => Math.floor(new Date().getTime() / 1000)
 
-export function autoToast(message: string, mode: ToastType) {
-  switch (mode) {
-    case 'default': {
-      toast(message, {
-        autoClose: 1500,
-        position: toast.POSITION.TOP_CENTER
-      })
-      break
-    }
-    case 'error': {
-      toast.error(message, {
-        autoClose: 1500,
-        position: toast.POSITION.TOP_CENTER
-      })
-      break
-    }
-    case 'info': {
-      toast.info(message, {
-        autoClose: 1500,
-        position: toast.POSITION.TOP_CENTER
-      })
-      break
-    }
-    case 'loading': {
-      toast.loading(message, {
-        autoClose: 1500,
-        position: toast.POSITION.TOP_CENTER
-      })
-      break
-    }
-    case 'success': {
-      toast.success(message, {
-        autoClose: 1500,
-        position: toast.POSITION.TOP_CENTER
-      })
-      break
-    }
-    case 'warning': {
-      toast.warning(message, {
-        autoClose: 1500,
-        position: toast.POSITION.TOP_CENTER
-      })
-      break
-    }
-  }
-}
+export const range = (start: number, end: number) => [...Array(end - start).keys()].map((el, i) => start + i)
+
+export const autoToast = (message: string, mode: ToastType) =>
+  new Map([
+    [
+      'default',
+      () =>
+        toast(message, {
+          autoClose: 1500,
+          position: toast.POSITION.TOP_CENTER
+        })
+    ],
+    [
+      'error',
+      () =>
+        toast.error(message, {
+          autoClose: 1500,
+          position: toast.POSITION.TOP_CENTER
+        })
+    ],
+    [
+      'info',
+      () =>
+        toast.info(message, {
+          autoClose: 1500,
+          position: toast.POSITION.TOP_CENTER
+        })
+    ],
+    [
+      'loading',
+      () =>
+        toast.loading(message, {
+          autoClose: 1500,
+          position: toast.POSITION.TOP_CENTER
+        })
+    ],
+    [
+      'success',
+      () =>
+        toast.success(message, {
+          autoClose: 1500,
+          position: toast.POSITION.TOP_CENTER
+        })
+    ],
+    [
+      'warning',
+      () =>
+        toast.warning(message, {
+          autoClose: 1500,
+          position: toast.POSITION.TOP_CENTER
+        })
+    ]
+  ])
+    .get(mode)
+    ?.call(this)
 
 export function jwtDecode(token: string) {
   const jwtVerifyPattern = /^[\w-]*\.[\w-]*\.[\w-]*$/g

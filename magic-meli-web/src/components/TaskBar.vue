@@ -1,6 +1,6 @@
 <script lang="ts" setup>
   import { useTaskBarStore } from '@/stores/store'
-  import IconWIndose from './icons/IconWIndose.vue'
+  import IconWindose from './icons/IconWindose.vue'
   import type { routeInfo } from '@/models/tasks'
   import type { RouteLocationAsPathGeneric, RouteLocationAsRelativeGeneric } from 'vue-router'
   const taskBarStore = useTaskBarStore()
@@ -17,10 +17,10 @@
 
 <template>
   <footer
-    class="h-10 flex-shrink-0 items-center gap-x-1 bg-themeFuchsia px-2 py-1 font-Dinkie text-themeViolet shadow-md shadow-black dark:bg-darkThemeFuchsia dark:text-darkViolet"
+    class="h-10 flex-shrink-0 select-none items-center gap-x-1 bg-themeFuchsia px-2 py-1 font-Dinkie text-themeViolet shadow-md shadow-black dark:bg-darkThemeFuchsia dark:text-darkViolet"
   >
     <button class="taskBtn my-1 flex w-40 gap-x-7">
-      <IconWIndose :width="32" :height="24" />
+      <IconWindose :width="32" :height="24" />
       开始
     </button>
     <hr class="taskHr" />

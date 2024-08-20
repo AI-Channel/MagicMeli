@@ -40,6 +40,10 @@ export interface ArticleListViewResponse {
   permission: usersLevelStr
   updateTime: string
 }
+export interface ArticleListViewAndLengthResponse {
+  articleList: ArticleListViewResponse[]
+  articleListLength: number
+}
 
 export interface ArticleViewResponse extends ArticleListViewResponse {
   content: string
@@ -48,7 +52,8 @@ export interface ArticleViewResponse extends ArticleListViewResponse {
 export enum listQueryMode {
   published = 'published',
   deleted = 'deleted',
-  draft = 'draft'
+  draft = 'draft',
+  search = 'search'
 }
 
 export enum articleStatusHandles {

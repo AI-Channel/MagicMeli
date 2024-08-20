@@ -32,7 +32,10 @@
       <IconHardDelete :height="24" :width="24" class="cursor-pointer" />
       <span class="sr-only">彻底删除文章</span>
     </button>
-    <button v-if="props.showMode === listQueryMode.published" @click="$emit('unpublish')">
+    <button
+      v-if="props.showMode === listQueryMode.published || props.showMode === listQueryMode.search"
+      @click="$emit('unpublish')"
+    >
       <IconUnpublish :height="24" :width="24" class="cursor-pointer" />
       <span class="sr-only">撤销发布</span>
     </button>

@@ -47,11 +47,15 @@ export interface ArticleListDtoOut {
 export interface ArticleDtoOut extends ArticleListDtoOut {
   content: string
 }
-
+export interface ArticleListContentAndLengthDtoOut {
+  articleList: ArticleListDtoOut[]
+  articleListLength: number
+}
 export enum listQueryMode {
   published = 'published',
   deleted = 'deleted',
-  draft = 'draft'
+  draft = 'draft',
+  search = 'search'
 }
 
 export enum articleStatusHandles {

@@ -1,4 +1,5 @@
 import type {
+  ArticleListViewAndLengthResponse,
   ArticleListViewResponse,
   articleStatusHandles,
   ArticleViewRequest,
@@ -13,8 +14,14 @@ export async function getArticleById(id: number): Promise<ArticleViewResponse> {
   return response.data
 }
 
-export async function getArticleListByStatus(status: listQueryMode): Promise<ArticleListViewResponse[]> {
-  const response = await instance.get<ArticleListViewResponse[]>(`/articles?queryMode=${status}`)
+export async function getArticleList(
+  status: listQueryMode,
+  page: number,
+  searchPrompt?: string
+): Promise<ArticleListViewAndLengthResponse> {
+  const response = await instance.get<ArticleListViewAndLengthResponse>(`/articles`, {
+    params: { queryMode: status, page: page, searchPrompt: searchPrompt }
+  })
   return response.data
 }
 
@@ -43,6 +50,11 @@ export async function updateArticleById(id: number, params: ArticleViewRequest):
 
 export async function hardDelArticleById(id: number): Promise<ArticleViewResponse> {
   const response = await instance.delete<ArticleViewResponse>(`/articles/${id}`)
+  return response.data
+}
+
+export async function clearArticlesRecycleBin(): Promise<ArticleViewResponse> {
+  const response = await instance.delete<ArticleViewResponse>(`/articles`)
   return response.data
 }
 

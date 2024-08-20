@@ -16,6 +16,7 @@
   import TaskBar from './components/TaskBar.vue'
 
   const userStore = useUserStore()
+
   async function getNewToken() {
     const newToken = await tokenRefresh()
     localStorage.setItem('token', newToken)
@@ -24,6 +25,7 @@
     else userStore.isLoggedIn = false
     userStore.isLoggedIn = true
   }
+
   onBeforeMount(async () => {
     const storedTheme = localStorage.getItem('theme') ?? 'light'
     setTheme(storedTheme)
@@ -34,6 +36,7 @@
       userStore.userId = ''
     }
   })
+
   onMounted(() => {
     if (userStore.isLoggedIn == true) {
       setInterval(async () => {
@@ -58,17 +61,17 @@
           <IconProfile :width="64" :height="64" />
         </DesktopIconContainer>
       </RouterLink>
-      <RouterLink :to="{ name: 'articles' }">
+      <RouterLink :to="{ name: 'articles', query: { page: 1 } }">
         <DesktopIconContainer title="文章列表">
           <IconArticle :width="64" :height="64" />
         </DesktopIconContainer>
       </RouterLink>
-      <RouterLink v-if="userStore.isLoggedIn" :to="{ name: 'deleted' }">
+      <RouterLink v-if="userStore.isLoggedIn" :to="{ name: 'deleted', query: { page: 1 } }">
         <DesktopIconContainer title="回收站">
           <IconRecycleBin :width="64" :height="64" />
         </DesktopIconContainer>
       </RouterLink>
-      <RouterLink v-if="userStore.isLoggedIn" :to="{ name: 'draft' }">
+      <RouterLink v-if="userStore.isLoggedIn" :to="{ name: 'draft', query: { page: 1 } }">
         <DesktopIconContainer title="草稿箱">
           <IconDraft :width="64" :height="64" />
         </DesktopIconContainer>

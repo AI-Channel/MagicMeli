@@ -53,6 +53,7 @@ const router = createRouter({
       meta: {
         isListShow: true,
         isFilterShow: true,
+        isClearShow: true,
         title: 'Recycle Bin'
       },
       name: 'deleted',
@@ -63,9 +64,21 @@ const router = createRouter({
       meta: {
         isListShow: true,
         isFilterShow: true,
+        isClearShow: false,
         title: 'Draft Box'
       },
       name: 'draft',
+      components: { window: () => import('@/views/ArticleListView.vue') }
+    },
+    {
+      path: '/article-search',
+      meta: {
+        isListShow: true,
+        isFilterShow: true,
+        isClearShow: false,
+        title: 'Article Search'
+      },
+      name: 'articleSearch',
       components: { window: () => import('@/views/ArticleListView.vue') }
     },
     {
@@ -87,6 +100,7 @@ const router = createRouter({
       meta: {
         isListShow: true,
         isFilterShow: true,
+        isClearShow: false,
         title: 'Article List'
       },
       name: 'articles',

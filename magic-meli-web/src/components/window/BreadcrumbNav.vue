@@ -1,19 +1,4 @@
-<script lang="ts" setup>
-  import { computed, ref } from 'vue'
-  import { type RouteLocationMatched, useRoute } from 'vue-router'
-
-  const route = useRoute()
-
-  let navTitle = computed(() => {
-    const filteredRoute = ref(route.matched.filter((item) => item.name))
-    return filteredRoute.value.map((item: RouteLocationMatched) => item.meta.title)
-  })
-
-  let navName = computed(() => {
-    const filteredRoute = ref(route.matched.filter((item) => item.name))
-    return filteredRoute.value.map((item: RouteLocationMatched) => item.name)
-  })
-</script>
+<script lang="ts" setup></script>
 
 <template>
   <nav
@@ -22,8 +7,8 @@
     <RouterLink to="/home">
       <span class="hover:text-activeFuchsia dark:hover:text-indigo-400">Windose:</span>
     </RouterLink>
-    <RouterLink v-for="(item, index) in navName" :key="index" :to="{ name: item }">
-      <span class="hover:text-activeFuchsia dark:hover:text-indigo-400">{{ '/' + navTitle[index] }}</span>
+    <RouterLink v-for="(item, index) in $route.matched" :key="index" :to="{ name: item.name }">
+      <span class="hover:text-activeFuchsia dark:hover:text-indigo-400">{{ '/' + item.meta.title }}</span>
     </RouterLink>
   </nav>
 </template>

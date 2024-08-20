@@ -2,7 +2,7 @@
   import WindowContainer from '@/components/window/WindowContainer.vue'
   import { getUserInfoByUserId, tokenRefresh, updateUserInfoByUserId } from '@/scripts/requests/user'
   import { autoToast } from '@/scripts/libs'
-  import { useUserStore } from '@/stores/store'
+  import { useTaskBarStore, useUserStore } from '@/stores/store'
   import { onBeforeMount, ref, type Ref } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
   import IconLogout from './icons/IconLogout.vue'
@@ -21,6 +21,7 @@
     level: usersLevelStr.guest
   })
   const userStore = useUserStore()
+  const taskBarStore = useTaskBarStore()
   const editMode = ref(false)
   let userIdCache: string
 
@@ -40,6 +41,13 @@
     userStore.isLoggedIn = false
     localStorage.setItem('token', '')
     autoToast('登出成功', 'success')
+    taskBarStore.delFromTaskBar({
+      name: route.name,
+      path: route.path,
+      params: route.params,
+      query: route.query,
+      meta: route.meta
+    })
     setTimeout(() => router.push({ name: 'home' }), 1500)
   }
 

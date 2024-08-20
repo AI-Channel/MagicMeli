@@ -9,18 +9,22 @@ export const useWindowStore = defineStore('window', () => {
 })
 
 export const useArticleStore = defineStore('article', () => {
-  const articleMount: number = 0
+  const currentArticleListLength: Ref<number> = ref(0)
   const articleTags: string[] = []
   const checkedTags: Ref<Set<string>> = ref(new Set<string>([]))
+  const searchPrompt: Ref<string> = ref('')
+  const metaSearchPrompt: Ref<string> = ref('')
 
   function isContainAllCheckedTags(tags: Set<string> | undefined) {
     return isSubsetOf(checkedTags.value, tags)
   }
 
   return {
-    articleMount,
+    currentArticleListLength,
     articleTags,
     checkedTags,
+    searchPrompt,
+    metaSearchPrompt,
     isContainAllCheckedTags
   }
 })
@@ -33,14 +37,19 @@ export const useUserStore = defineStore('user', () => {
 
 export const useTaskBarStore = defineStore('taskBar', () => {
   const taskBarStorage: Ref<Set<string>> = ref(new Set<string>([]))
-  const isShowTaskBar: Ref<boolean> = ref(false)
 
   const addToTaskBar = (value: routeInfo) =>
     new Set<routeInfo>(Array.from(taskBarStorage.value.add(JSON.stringify(value))).map((item) => JSON.parse(item)))
 
   const delFromTaskBar = (value: routeInfo) => taskBarStorage.value.delete(JSON.stringify(value))
 
-  const getTaskBar = () => new Set<routeInfo>(Array.from(taskBarStorage.value).map((item) => JSON.parse(item)))
-
-  return { taskBarStorage, isShowTaskBar, addToTaskBar, delFromTaskBar, getTaskBar }
+  function getTaskBar() {
+    const maxLength = 12
+    const uniquedTaskBar = Array.from(taskBarStorage.value).map((item) => JSON.parse(item))
+    return uniquedTaskBar.slice(
+      uniquedTaskBar.length > maxLength ? uniquedTaskBar.length - maxLength : 0,
+      uniquedTaskBar.length
+    )
+  }
+  return { taskBarStorage, addToTaskBar, delFromTaskBar, getTaskBar }
 })

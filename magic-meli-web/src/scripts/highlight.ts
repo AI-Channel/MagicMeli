@@ -6,7 +6,7 @@ import cpp from 'highlight.js/lib/languages/cpp'
 import csharp from 'highlight.js/lib/languages/csharp'
 import css from 'highlight.js/lib/languages/css'
 import dockerfile from 'highlight.js/lib/languages/dockerfile'
-import fortran from 'highlight.js/lib/languages/fortran'
+// import fortran from 'highlight.js/lib/languages/fortran'
 import go from 'highlight.js/lib/languages/go'
 import gradle from 'highlight.js/lib/languages/gradle'
 import graphql from 'highlight.js/lib/languages/graphql'
@@ -24,7 +24,7 @@ import lua from 'highlight.js/lib/languages/lua'
 import markdown from 'highlight.js/lib/languages/markdown'
 import matlab from 'highlight.js/lib/languages/matlab'
 import nginx from 'highlight.js/lib/languages/nginx'
-import objectivec from 'highlight.js/lib/languages/objectivec'
+// import objectivec from 'highlight.js/lib/languages/objectivec'
 import perl from 'highlight.js/lib/languages/perl'
 import pgsql from 'highlight.js/lib/languages/pgsql'
 import php from 'highlight.js/lib/languages/php'
@@ -51,7 +51,7 @@ hljs.registerLanguage('cpp', cpp)
 hljs.registerLanguage('csharp', csharp)
 hljs.registerLanguage('css', css)
 hljs.registerLanguage('dockerfile', dockerfile)
-hljs.registerLanguage('fortran', fortran)
+// hljs.registerLanguage('fortran', fortran)
 hljs.registerLanguage('go', go)
 hljs.registerLanguage('gradle', gradle)
 hljs.registerLanguage('graphql', graphql)
@@ -69,7 +69,7 @@ hljs.registerLanguage('lua', lua)
 hljs.registerLanguage('markdown', markdown)
 hljs.registerLanguage('matlab', matlab)
 hljs.registerLanguage('nginx', nginx)
-hljs.registerLanguage('objectivec', objectivec)
+// hljs.registerLanguage('objectivec', objectivec)
 hljs.registerLanguage('perl', perl)
 hljs.registerLanguage('pgsql', pgsql)
 hljs.registerLanguage('php', php)

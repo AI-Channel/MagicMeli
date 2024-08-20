@@ -2,13 +2,15 @@
   import type { UserLoginDto } from '@/models/user'
   import { login } from '@/scripts/requests/user'
   import { autoToast, jwtDecode } from '@/scripts/libs'
-  import { useUserStore } from '@/stores/store'
+  import { useTaskBarStore, useUserStore } from '@/stores/store'
   import { ref, type Ref } from 'vue'
-  import { useRouter } from 'vue-router'
+  import { useRoute, useRouter } from 'vue-router'
 
   const userLogin: Ref<UserLoginDto> = ref({ userId: '', password: '' })
   const userStore = useUserStore()
+  const taskBarStore = useTaskBarStore()
   const router = useRouter()
+  const route = useRoute()
 
   async function handleLogin(user: UserLoginDto) {
     try {
@@ -19,10 +21,18 @@
       userStore.isLoggedIn = true
       if (tokenInfo) userStore.userId = tokenInfo.payload.userId
       autoToast('登录成功', 'success')
+      taskBarStore.delFromTaskBar({
+        name: route.name,
+        path: route.path,
+        params: route.params,
+        query: route.query,
+        meta: route.meta
+      })
       setTimeout(() => router.replace({ name: 'userInfo', params: { userId: userStore.userId } }), 1500)
       return token
     } catch (error) {
-      autoToast('登录失败，请检查用户名或密码是否正确！', 'error')
+      if ((error as Error).message == 'Request failed with status code 401')
+        autoToast('登录失败，请检查用户名或密码是否正确！', 'error')
     }
   }
 </script>

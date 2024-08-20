@@ -4,6 +4,7 @@ import {
   ArticleDtoIn,
   ArticleDtoOut,
   ArticleEntity,
+  ArticleListContentAndLengthDtoOut,
   ArticleListDtoOut,
   ArticleListEntity,
   articleStatusHandles,
@@ -27,8 +28,8 @@ export class ArticleService {
     if (!article) return false
     return this.articleEntitytoDtoOut(article)
   }
-
-  getArticleList(mode: listQueryMode) {
+  getArticleList(mode: listQueryMode, page: number, searchPrompt?: string): ArticleListContentAndLengthDtoOut | false {
+    const articlesPerPage = 20
     let queryCondition = ''
     try {
       switch (mode) {
@@ -41,6 +42,9 @@ export class ArticleService {
         case listQueryMode.draft:
           queryCondition = `isDeleted == 0 AND isPublished == 0`
           break
+        case listQueryMode.search:
+          queryCondition = `title LIKE '%${searchPrompt}%' OR summary LIKE '%${searchPrompt}%' OR content LIKE '%${searchPrompt}%' AND (isDeleted == 0 AND isPublished == 1)`
+          break
         default:
           throw new Error('Invalid list status!')
       }
@@ -49,12 +53,13 @@ export class ArticleService {
       return false
     }
     const articleList = this.db
-      .query<ArticleListEntity, null>(
+      .query<ArticleListEntity, SQLQueryBindings>(
         `SELECT id,title,summary,author,category,isDeleted,isPublished,updateTime,permission 
         FROM article WHERE ${queryCondition} 
-        ORDER BY id `
+        ORDER BY id 
+        LIMIT $mount OFFSET $offset`
       )
-      .all(null)
+      .all({ $mount: articlesPerPage, $offset: (page - 1) * articlesPerPage })
     const articleListReturn: ArticleListDtoOut[] = []
 
     for (const article of articleList) {
@@ -71,7 +76,10 @@ export class ArticleService {
         permission: userLevelNumtoStr(article.permission)
       })
     }
-    return articleListReturn
+    const articleListLength = this.db
+      .query(`SELECT COUNT(*) FROM article WHERE ${queryCondition}`)
+      .values(null)[0][0] as number
+    return { articleList: articleListReturn, articleListLength }
   }
 
   getArticleMetaById(id: number) {
@@ -179,6 +187,12 @@ export class ArticleService {
 
   hardDelArticleById(id: number) {
     const echo = this.db.query<ArticleEntity, number>(`DELETE FROM article WHERE ID == $param RETURNING *`).get(id)
+    if (echo) this.updateAllTags(echo.id, this.getArticleTagsById(echo.id))
+    else return false
+  }
+
+  clearRecycleBin() {
+    const echo = this.db.query<ArticleEntity, null>(`DELETE FROM article WHERE isDeleted = 1 RETURNING *`).get(null)
     if (echo) this.updateAllTags(echo.id, this.getArticleTagsById(echo.id))
     else return false
   }

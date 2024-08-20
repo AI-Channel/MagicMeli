@@ -13,6 +13,8 @@
         return listQueryMode.deleted
       case 'draft':
         return listQueryMode.draft
+      case 'articleSearch':
+        return listQueryMode.search
       default:
         return listQueryMode.published
     }

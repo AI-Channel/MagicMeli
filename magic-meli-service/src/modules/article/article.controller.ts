@@ -105,12 +105,18 @@ export const ArticleController = new Elysia({ prefix: '/articles', detail: { tag
   )
   .get(
     '',
-    async ({ ArticleService, query: { queryMode }, bearer, jwt }) => {
-      const articleList = ArticleService.getArticleList(queryMode)
+    async ({ ArticleService, query: { queryMode, page, searchPrompt }, bearer, jwt }) => {
+      const articleListAndLength = ArticleService.getArticleList(queryMode, page, searchPrompt)
+      if (!articleListAndLength) return error(400, 'Bad Request')
       const tokenVerified = await jwt.verify(bearer)
-      if (queryMode == 'published') return articleList
+      if (queryMode == 'published' || queryMode == 'search') return articleListAndLength
       else if (queryMode == 'deleted' || queryMode == 'draft')
-        if (articleList && tokenVerified) return articleList.filter((item) => item.author == tokenVerified.userId)
+        if (tokenVerified) {
+          articleListAndLength.articleList = articleListAndLength.articleList.filter(
+            (item) => item.author == tokenVerified.userId
+          )
+          return articleListAndLength
+        }
     },
     {
       query: t.Object({
@@ -118,11 +124,13 @@ export const ArticleController = new Elysia({ prefix: '/articles', detail: { tag
           error: 'Invalid query status',
           description: 'Must in {published, deleted, draft}',
           default: 'published'
-        })
+        }),
+        page: t.Numeric({ minimum: 1, default: 1 }),
+        searchPrompt: t.Optional(t.String({ minLength: 0 }))
       }),
       detail: { description: 'Get articles as a list' },
       async beforeHandle({ query: { queryMode }, bearer, jwt }) {
-        if (queryMode != 'published' && (!bearer || !(await jwt.verify(bearer)))) {
+        if (!bearer || (!(await jwt.verify(bearer)) && queryMode != 'published' && queryMode != 'search')) {
           return error(401, 'Unauthorized')
         }
       }
@@ -144,6 +152,20 @@ export const ArticleController = new Elysia({ prefix: '/articles', detail: { tag
         }
         if (body.content.length < 1 && body.isPublished == true) return error(400, 'Bad Request')
         if (tokenVerified.userId != body.author) return error(403, 'Forbidden')
+      }
+    }
+  )
+  .delete(
+    '',
+    async ({ ArticleService }) => {
+      return ArticleService.clearRecycleBin()
+    },
+    {
+      detail: { description: 'Clear all articles tagged as "deleted"' },
+      async beforeHandle({ bearer, jwt }) {
+        if (!bearer || !(await jwt.verify(bearer))) {
+          return error(401, 'Unauthorized')
+        }
       }
     }
   )
