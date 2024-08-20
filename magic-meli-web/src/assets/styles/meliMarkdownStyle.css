@@ -1,0 +1,93 @@
+@tailwind components;
+
+@layer components {
+  .article {
+    @apply text-pretty;
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    blockquote,
+    hr,
+    table,
+    div {
+      @apply mb-4;
+    }
+    h1,
+    h2,
+    h3,
+    h4 {
+      a {
+        @apply opacity-0;
+      }
+    }
+    h1:hover,
+    h2:hover,
+    h3:hover,
+    h4:hover {
+      a {
+        @apply opacity-100;
+      }
+    }
+    h1 {
+      @apply text-4xl;
+    }
+    h2 {
+      @apply text-2xl;
+    }
+    h3 {
+      @apply text-xl font-bold;
+    }
+    h4 {
+      @apply font-bold;
+    }
+    th,
+    tr,
+    td {
+      @apply border border-themeViolet p-2 dark:border-darkViolet;
+    }
+    th,
+    blockquote {
+      @apply bg-themeFuchsia dark:bg-darkThemeFuchsia;
+    }
+    blockquote {
+      @apply m-4 border border-dashed border-themeViolet px-6 py-4;
+    }
+    hr {
+      @apply border-themeViolet dark:border-darkViolet;
+    }
+    a {
+      @apply text-activeFuchsia hover:underline hover:underline-offset-2 dark:text-indigo-400;
+    }
+    .header-anchor {
+      @apply float-left -ml-6 pr-2;
+    }
+    .line-numbers-mode {
+      @apply relative;
+      .line-numbers-wrapper {
+        @apply absolute top-0 m-auto w-14 select-none border-r bg-themeFuchsia p-[0.5em] text-center text-base leading-8 dark:bg-[#282a36];
+      }
+    }
+  }
+}
+.v-md-editor-preview {
+  h1,
+  h2,
+  h3,
+  h4 {
+    a {
+      @apply opacity-0;
+    }
+  }
+  h1:hover,
+  h2:hover,
+  h3:hover,
+  h4:hover {
+    a {
+      @apply opacity-100;
+    }
+  }
+}

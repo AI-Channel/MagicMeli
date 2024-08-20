@@ -1,0 +1,40 @@
+@import './base.css';
+@import './meliMarkdownStyle.css';
+@import './alucard.css';
+@import './swap.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-room dark:bg-synth;
+  }
+  ul {
+    a {
+      @apply text-activeFuchsia hover:underline hover:underline-offset-2 dark:text-indigo-400;
+    }
+  }
+  ol {
+    @apply list-decimal;
+    a {
+      @apply text-activeFuchsia hover:underline hover:underline-offset-2 dark:text-indigo-400;
+    }
+  }
+  hr {
+    @apply my-2 border-themeViolet dark:border-darkViolet;
+  }
+  #app {
+    @apply mx-0 my-auto h-screen max-h-screen max-w-screen-4k font-normal;
+  }
+}
+
+@layer components {
+  .taskBtn {
+    @apply my-1 flex h-full min-w-fit max-w-64 gap-x-1 border-2 border-b-themeViolet border-l-white border-r-themeViolet border-t-white bg-transparent px-2 active:border-b-white active:border-l-themeViolet active:border-r-white active:border-t-themeViolet dark:border-b-darkViolet dark:border-l-white dark:border-r-darkViolet dark:border-t-white dark:active:border-b-white dark:active:border-l-darkViolet dark:active:border-r-white dark:active:border-t-darkViolet;
+  }
+  .taskHr {
+    @apply mx-1 h-full w-1 border border-b-themeViolet border-l-white border-r-themeViolet border-t-white bg-transparent;
+  }
+}
