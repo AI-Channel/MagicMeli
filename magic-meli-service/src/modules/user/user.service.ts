@@ -1,5 +1,5 @@
 import Database, { SQLQueryBindings } from 'bun:sqlite'
-import { SHA3 } from 'crypto-js'
+import { SHA256 } from 'crypto-js'
 import { v4 as uuidv4 } from 'uuid'
 import {
   UserEntity,
@@ -48,7 +48,7 @@ export class UserService {
           $id: uuidv4(),
           $userId: newUser.userId,
           $username: newUser.username,
-          $password: SHA3(newUser.password).toString(),
+          $password: SHA256(newUser.password).toString(),
           $email: newUser.email,
           $level: userLevelStrtoNum(usersLevelStr.user)
         })
@@ -71,7 +71,7 @@ export class UserService {
       }
       if (
         user.userId.toLowerCase() === userInfo.userId.toLowerCase() &&
-        SHA3(user.password).toString() === userInfo.password
+        SHA256(user.password).toString() === userInfo.password
       ) {
         return this.getUserInfoById(user.userId, 'verify') as UserVerifyInfoDto
       } else {
