@@ -2,16 +2,17 @@
 
 A personal blog built as an independent full-stack learning project.
 
-The project combines a desktop-style interaction model with a visual design inspired by game "Needy Streamer Overload".
+The project combines a desktop-style interaction model with visual design inspired by the game *Needy Streamer Overload*.
 
 ## Features
 
 * Markdown-based article reading and editing
-* Authentication and author management
+* Authentication
 * Draft management
 * Article publishing, editing, and deletion
-* Tag filtering and search
-* Full-text and regular expression search
+* Tag filtering
+* Client-side search for title and summary
+* Full-text search
 * Light / dark mode
 * Desktop-style article windows
 
